@@ -10,31 +10,44 @@ import { ApolloServer } from "apollo-server-express";
 import { __prod__ } from "./constants";
 import { Context } from "./types";
 import UserResolver from "./resolvers/user";
+import { connect } from "mongoose";
 
 dotenv.config();
 
 const bootstrap = async () => {
-  const app = express();
+  try {
+    const app = express();
 
-  const apolloServer = new ApolloServer({
-    schema: await buildSchema({
+    const schema = await buildSchema({
       resolvers: [UserResolver],
-    }),
-    context: ({ req, res }): Context => ({ req, res }),
-    plugins: [
+    });
+
+    const plugins = [
       __prod__
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
-    ],
-  });
+    ];
 
-  await apolloServer.start();
+    const context = ({ req, res }: Context) => ({ req, res });
 
-  apolloServer.applyMiddleware({ app });
+    const apolloServer = new ApolloServer({
+      schema,
+      context,
+      plugins,
+    });
 
-  app.listen(process.env.PORT, () => {
-    console.log(`Server started on http://localhost:${process.env.PORT}`);
-  });
+    await apolloServer.start();
+
+    apolloServer.applyMiddleware({ app });
+
+    app.listen(process.env.PORT, () => {
+      console.log(`Server started on http://localhost:${process.env.PORT}`);
+    });
+
+    await connect("mongodb://localhost:27017/fitpose");
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 bootstrap();
