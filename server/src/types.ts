@@ -3,7 +3,7 @@ import { Session, SessionData } from "express-session";
 
 export type Context = {
   req: Request & {
-    session: Session & Partial<SessionData> & { userId?: number };
+    session: Session & Partial<SessionData> & { userId?: string };
   };
   res: Response;
 };
