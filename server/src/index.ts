@@ -1,4 +1,4 @@
-import { UserModel } from "./entities/User";
+// import { UserModel } from "./entities/User";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -25,16 +25,16 @@ const bootstrap = async () => {
 
     const RedisStore = connectRedis(session);
 
-    const redis = new Redis(process.env.REDIS_URl);
+    const redis = new Redis(process.env.REDIS_URl as string);
 
     app.set("trust proxy", 1);
 
-    const appCors = cors({
-      origin: process.env.CORS_ORIGIN,
+    const corsOptions = {
+      origin: process.env.CORS_ORIGIN as string,
       credentials: true,
-    });
+    };
 
-    const appSession = session({
+    const sessionOptions = {
       name: COOKIE_NAME,
       store: new RedisStore({
         client: redis,
@@ -42,15 +42,15 @@ const bootstrap = async () => {
       }),
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
-        sameSite: "lax",
+        sameSite: "lax" as const,
         secure: __prod__,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET as string,
       resave: false,
-    });
+    };
 
-    app.use(appCors, appSession);
+    app.use(cors(corsOptions), session(sessionOptions));
 
     const schema = await buildSchema({
       resolvers: [UserResolver],
