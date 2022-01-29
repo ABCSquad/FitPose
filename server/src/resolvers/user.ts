@@ -1,4 +1,4 @@
-import { User, RegisterInput, UserModel, LoginInput } from "../entities/User";
+import { User, RegisterInput, UserModel, LoginInput } from "../entities/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { Context } from "../types";

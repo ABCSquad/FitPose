@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/User";
+// import { UserModel } from "./entities/user";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
