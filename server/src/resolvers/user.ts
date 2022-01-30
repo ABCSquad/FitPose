@@ -14,7 +14,7 @@ export default class UserResolver {
   @Mutation(() => User)
   async register(@Arg("input") input: RegisterInput, @Ctx() { req }: Context) {
     const existingUser = await UserModel.findOne({ email: input.email });
-    if (existingUser) throw new ApolloError("User already exist");
+    if (existingUser) throw new ApolloError("User already exists");
     const hashedPassword = await argon2.hash(input.password);
     const user = await UserModel.create({ ...input, password: hashedPassword });
     req.session.userId = user._id.toString();

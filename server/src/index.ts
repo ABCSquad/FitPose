@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/user";
+import { UserModel } from "./entities/user";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -72,7 +72,7 @@ const bootstrap = async () => {
 
     await apolloServer.start();
 
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
 
     app.listen(parseInt(process.env.PORT as string), () => {
       console.log(`Server started on http://localhost:${process.env.PORT}`);
