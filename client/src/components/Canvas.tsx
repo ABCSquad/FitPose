@@ -16,9 +16,7 @@ const Canvas: FC = () => {
 	};
 
 	const onResults = (results: any) => {
-		console.log(results);
 		canvasCtx = canvasRef.current!.getContext("2d");
-		console.log(canvasCtx);
 
 		if (canvasCtx && canvasRef.current) {
 			canvasCtx.save();
@@ -86,9 +84,9 @@ const Canvas: FC = () => {
 					screenshotFormat="image/jpeg"
 					width={1280}
 					videoConstraints={videoConstraints}
-					onUserMedia={() => {
-						console.log("videoRef.current", videoRef.current);
-					}}
+					// onUserMedia={() => {
+					// 	console.log("videoRef.current", videoRef.current);
+					// }}
 				/>
 			</VisuallyHidden>
 
