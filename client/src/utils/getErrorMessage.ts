@@ -6,7 +6,9 @@ interface ErrorMessageType {
   password?: string;
 }
 
-export const getErrorMessage = (error: CombinedError): ErrorMessageType => {
+export const getErrorMessage = (
+  error: CombinedError
+): ErrorMessageType | undefined => {
   const exception: any = error.graphQLErrors[0].extensions.exception;
   if (exception.validationErrors) {
     const property: keyof ErrorMessageType =
@@ -18,6 +20,10 @@ export const getErrorMessage = (error: CombinedError): ErrorMessageType => {
     const errorMessage: ErrorMessageType = {};
     errorMessage[property] = constraint;
     return errorMessage;
-  }
-  return { email: error.graphQLErrors[0].message };
+  } else if (error.graphQLErrors[0].message.includes("password"))
+    return { password: error.graphQLErrors[0].message };
+  else if (error.graphQLErrors[0].message.includes("Account"))
+    return { email: error.graphQLErrors[0].message };
+  console.log(error);
+  return;
 };

@@ -3,24 +3,25 @@ import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import InputField from "../components/InputField";
-import { useRegisterMutation } from "../generated/graphql";
+import { useLoginMutation } from "../generated/graphql";
 import { getErrorMessage } from "../utils/getErrorMessage";
 
-const Register: FC = ({}) => {
+const Login: FC = ({}) => {
   const router = useRouter();
-  const [, register] = useRegisterMutation();
+  const [, login] = useLoginMutation();
 
   return (
     <Box mx="auto" maxW="1400px">
       <Box maxW="sm" borderWidth="1px" m="auto" mt={200} px={5} py={10}>
         <Formik
-          initialValues={{ email: "", name: "", password: "" }}
+          initialValues={{ email: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
-            const response = await register({ input: values });
+            const response = await login({ input: values });
+            console.log(response.error);
             if (response.error) {
               const errorMessage = getErrorMessage(response.error);
               if (errorMessage) setErrors(errorMessage);
-            } else if (response.data?.register._id) router.push("/");
+            } else if (response.data?.login._id) router.push("/");
           }}
         >
           {({ isSubmitting }) => (
@@ -30,13 +31,6 @@ const Register: FC = ({}) => {
                   name="email"
                   placeholder="e.g. johndoe@example.com"
                   label="Email"
-                />
-              </Box>
-              <Box m={3}>
-                <InputField
-                  name="name"
-                  placeholder="e.g. John Doe"
-                  label="Name"
                 />
               </Box>
               <Box m={3}>
@@ -54,7 +48,7 @@ const Register: FC = ({}) => {
                   isLoading={isSubmitting}
                   width="100%"
                 >
-                  Register
+                  Login
                 </Button>
               </Box>
             </Form>
@@ -65,4 +59,4 @@ const Register: FC = ({}) => {
   );
 };
 
-export default Register;
+export default Login;
