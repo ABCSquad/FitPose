@@ -56,13 +56,13 @@ const bootstrap = async () => {
       resolvers: [UserResolver],
     });
 
+    const context = ({ req, res }: Context) => ({ req, res });
+
     const plugins = [
       __prod__
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
     ];
-
-    const context = ({ req, res }: Context) => ({ req, res });
 
     const apolloServer = new ApolloServer({
       schema,

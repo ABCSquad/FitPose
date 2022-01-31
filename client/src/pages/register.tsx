@@ -4,10 +4,11 @@ import { useRouter } from "next/router";
 import { FC } from "react";
 import InputField from "../components/InputField";
 import { useRegisterMutation } from "../generated/graphql";
+import { getErrorMessage } from "../utils/getErrorMessage";
 
 const Register: FC = ({}) => {
   const router = useRouter();
-  const [{ error }, register] = useRegisterMutation();
+  const [, register] = useRegisterMutation();
 
   return (
     <Box mx="auto" maxW="1400px">
@@ -16,24 +17,25 @@ const Register: FC = ({}) => {
           initialValues={{ email: "", name: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
             const response = await register({ input: values });
-            if (error) console.log(error);
-            else if (response.data?.register._id) router.push("/");
+            if (response.error) {
+              setErrors(getErrorMessage(response.error));
+            } else if (response.data?.register._id) router.push("/");
           }}
         >
           {({ isSubmitting }) => (
             <Form>
               <Box m={3}>
                 <InputField
-                  name="name"
-                  placeholder="e.g. John Doe"
-                  label="Name"
+                  name="email"
+                  placeholder="e.g. johndoe@example.com"
+                  label="Email"
                 />
               </Box>
               <Box m={3}>
                 <InputField
-                  name="email"
-                  placeholder="e.g. johndoe@example.com"
-                  label="Email"
+                  name="name"
+                  placeholder="e.g. John Doe"
+                  label="Name"
                 />
               </Box>
               <Box m={3}>
