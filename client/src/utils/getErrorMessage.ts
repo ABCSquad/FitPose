@@ -24,6 +24,6 @@ export const getErrorMessage = (
     return { password: error.graphQLErrors[0].message };
   else if (error.graphQLErrors[0].message.includes("Account"))
     return { email: error.graphQLErrors[0].message };
-  console.log(error);
+  console.error(error);
   return;
 };

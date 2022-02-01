@@ -3,15 +3,16 @@ import { Formik, Form } from "formik";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import InputField from "../components/InputField";
+import Layout from "../components/Layout";
 import { useRegisterMutation } from "../generated/graphql";
 import { getErrorMessage } from "../utils/getErrorMessage";
 
-const Register: FC = ({}) => {
+const SignUp: FC = ({}) => {
   const router = useRouter();
   const [, register] = useRegisterMutation();
 
   return (
-    <Box mx="auto" maxW="1400px">
+    <Layout>
       <Box maxW="sm" borderWidth="1px" m="auto" mt={200} px={5} py={10}>
         <Formik
           initialValues={{ email: "", name: "", password: "" }}
@@ -50,19 +51,19 @@ const Register: FC = ({}) => {
               <Box mx={3} mt={5} mb={3}>
                 <Button
                   type="submit"
-                  colorScheme="blue"
+                  colorScheme="teal"
                   isLoading={isSubmitting}
                   width="100%"
                 >
-                  Register
+                  Sign Up
                 </Button>
               </Box>
             </Form>
           )}
         </Formik>
       </Box>
-    </Box>
+    </Layout>
   );
 };
 
-export default Register;
+export default SignUp;
