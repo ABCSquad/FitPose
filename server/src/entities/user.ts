@@ -1,5 +1,5 @@
 import { getModelForClass, prop } from "@typegoose/typegoose";
-import { IsEmail, MaxLength, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, Length } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 
 @ObjectType()
@@ -27,15 +27,11 @@ export class RegisterInput {
   @Field(() => String)
   email: string;
 
+  @IsNotEmpty()
   @Field(() => String)
   name: string;
 
-  @MinLength(8, {
-    message: "Password has to be at least 8 characters long",
-  })
-  @MaxLength(40, {
-    message: "Password cannot be longer than 40 characters",
-  })
+  @Length(8, 40)
   @Field(() => String)
   password: string;
 }

@@ -1,0 +1,5 @@
+fragment UserResponse on User {
+  _id
+  name
+  email
+}
