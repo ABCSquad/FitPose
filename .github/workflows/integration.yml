@@ -31,5 +31,8 @@ jobs:
       - name: Test client
         run: (cd client && npm run build --if-present && npm test &)
 
+      - name: Test server
+        run: (cd server && npm run build --if-present &)
+
       - name: Start React app in the background
         run: (cd client && npm start &)
