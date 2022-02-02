@@ -44,6 +44,7 @@ const bootstrap = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
         sameSite: "lax" as const,
         secure: __prod__,
+        domain: __prod__ ? ".fitpose.tech" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET as string,

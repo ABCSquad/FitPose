@@ -4,7 +4,7 @@ import { FC } from "react";
 
 const NavBar: FC = ({}) => {
   return (
-    <Box bg="brand" h="80px">
+    <Box h="80px">
       <Flex maxW="1400px" align="center" mx="auto">
         <Center h="80px">
           <NextLink href="/">
