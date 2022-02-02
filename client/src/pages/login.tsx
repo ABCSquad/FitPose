@@ -1,10 +1,12 @@
 import { Box, Button } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
+import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { FC } from "react";
 import InputField from "../components/InputField";
 import Layout from "../components/Layout";
 import { useLoginMutation } from "../generated/graphql";
+import createUrqlClient from "../utils/createUrqlClient";
 import { getErrorMessage } from "../utils/getErrorMessage";
 
 const Login: FC = ({}) => {
@@ -60,4 +62,4 @@ const Login: FC = ({}) => {
   );
 };
 
-export default Login;
+export default withUrqlClient(createUrqlClient)(Login);

@@ -1,6 +1,5 @@
 import {
   Box,
-  Center,
   Text,
   Grid,
   GridItem,
@@ -10,6 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Layout from "../components/Layout";
+import { withUrqlClient } from "next-urql";
+import createUrqlClient from "../utils/createUrqlClient";
 
 const Index = () => {
   useEffect(() => {
@@ -57,4 +58,4 @@ const Index = () => {
   );
 };
 
-export default Index;
+export default withUrqlClient(createUrqlClient, { ssr: true })(Index);
