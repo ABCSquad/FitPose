@@ -22,7 +22,9 @@ jobs:
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         
     - name: Docker image build
+      working-directory: server
       run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USER}}/fitpose:$(date +%s)
       
     - name: Docker push
+      working-directory: server
       run: docker push ${{secrets.DOCKER_USER}}/fitpose
