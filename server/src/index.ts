@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/User";
+import { UserModel } from "./entities/user";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -25,7 +25,7 @@ const bootstrap = async () => {
 
     const RedisStore = connectRedis(session);
 
-    const redis = new Redis(process.env.REDIS_URl as string);
+    const redis = new Redis(process.env.REDIS_URL as string);
 
     app.set("trust proxy", 1);
 
@@ -44,6 +44,7 @@ const bootstrap = async () => {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
         sameSite: "lax" as const,
         secure: __prod__,
+        domain: __prod__ ? ".fitpose.tech" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET as string,
@@ -56,13 +57,13 @@ const bootstrap = async () => {
       resolvers: [UserResolver],
     });
 
+    const context = ({ req, res }: Context) => ({ req, res });
+
     const plugins = [
       __prod__
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
     ];
-
-    const context = ({ req, res }: Context) => ({ req, res });
 
     const apolloServer = new ApolloServer({
       schema,
@@ -72,7 +73,7 @@ const bootstrap = async () => {
 
     await apolloServer.start();
 
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
 
     app.listen(parseInt(process.env.PORT as string), () => {
       console.log(`Server started on http://localhost:${process.env.PORT}`);
