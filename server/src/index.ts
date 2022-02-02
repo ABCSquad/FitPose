@@ -25,7 +25,7 @@ const bootstrap = async () => {
 
     const RedisStore = connectRedis(session);
 
-    const redis = new Redis(process.env.REDIS_URl as string);
+    const redis = new Redis(process.env.REDIS_URL as string);
 
     app.set("trust proxy", 1);
 

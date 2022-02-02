@@ -13,7 +13,7 @@ const breakpoints = createBreakpoints({
 const theme = extendTheme({
   colors: {
     black: "#16161D",
-    brand: "#ABEDD8",
+    brand: "#BBECE3",
   },
   fonts,
   breakpoints,

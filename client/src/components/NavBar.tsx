@@ -5,11 +5,11 @@ import { FC } from "react";
 const NavBar: FC = ({}) => {
   return (
     <Box h="80px">
-      <Flex maxW="1400px" align="center" mx="auto">
+      <Flex maxW="1500px" align="center" mx="auto" px="50px">
         <Center h="80px">
           <NextLink href="/">
             <Link>
-              <Img src="logo.svg" alt="Logo" h="40px" />
+              <Img src="./svgs/logo.svg" alt="Logo" h="32px" />
             </Link>
           </NextLink>
         </Center>

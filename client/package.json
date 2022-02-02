@@ -12,6 +12,7 @@
     "@chakra-ui/theme-tools": "1.1.2",
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
+    "@lottiefiles/lottie-player": "^1.5.4",
     "dotenv": "^14.3.2",
     "formik": "^2.2.9",
     "framer-motion": "^4.0.3",

@@ -6,7 +6,7 @@ const Layout: FC = ({ children }) => {
   return (
     <>
       <NavBar />
-      <Box mx="auto" maxW="1400px">
+      <Box mx="auto" maxW="1500px" px="50px">
         {children}
       </Box>
     </>
