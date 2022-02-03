@@ -1,5 +1,5 @@
 import NextLink from "next/link";
-import { Box, Button, Center, Flex, Img, Link } from "@chakra-ui/react";
+import { Box, Button, Center, Flex, HStack, Img, Link } from "@chakra-ui/react";
 import { FC } from "react";
 
 const NavBar: FC = ({}) => {
@@ -13,7 +13,7 @@ const NavBar: FC = ({}) => {
             </Link>
           </NextLink>
         </Center>
-        <Box ml="auto">
+        <HStack ml="auto">
           <NextLink href="/login">
             <Link mx={3}>Login</Link>
           </NextLink>
@@ -22,7 +22,7 @@ const NavBar: FC = ({}) => {
               Sign Up
             </Button>
           </NextLink>
-        </Box>
+        </HStack>
       </Flex>
     </Box>
   );

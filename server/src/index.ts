@@ -21,19 +21,14 @@ dotenv.config();
 
 const bootstrap = async () => {
   try {
-    const app = express();
-
     const RedisStore = connectRedis(session);
-
     const redis = new Redis(process.env.REDIS_URL as string);
 
-    app.set("trust proxy", 1);
-
+    const app = express();
     const corsOptions = {
       origin: process.env.CORS_ORIGIN as string,
       credentials: true,
     };
-
     const sessionOptions = {
       name: COOKIE_NAME,
       store: new RedisStore({
@@ -50,29 +45,24 @@ const bootstrap = async () => {
       secret: process.env.SESSION_SECRET as string,
       resave: false,
     };
-
     app.use(cors(corsOptions), session(sessionOptions));
+    app.set("trust proxy", 1);
 
     const schema = await buildSchema({
       resolvers: [UserResolver],
     });
-
     const context = ({ req, res }: Context) => ({ req, res });
-
     const plugins = [
       __prod__
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
     ];
-
     const apolloServer = new ApolloServer({
       schema,
       context,
       plugins,
     });
-
     await apolloServer.start();
-
     apolloServer.applyMiddleware({ app, cors: false });
 
     app.listen(parseInt(process.env.PORT as string), () => {
@@ -80,8 +70,7 @@ const bootstrap = async () => {
     });
 
     await connect(process.env.DATABASE_URL as string);
-    // await UserModel.deleteMany({});
-    console.log("Connected to database");
+    await UserModel.deleteMany({});
   } catch (err) {
     console.error(err);
   }
