@@ -10,6 +10,8 @@ export const getErrorMessage = (
   error: CombinedError
 ): ErrorMessageType | undefined => {
   const exception: any = error.graphQLErrors[0].extensions.exception;
+
+  //Property validation errors
   if (exception.validationErrors) {
     const property: keyof ErrorMessageType =
       exception.validationErrors[0].property;
@@ -20,10 +22,16 @@ export const getErrorMessage = (
     const errorMessage: ErrorMessageType = {};
     errorMessage[property] = constraint;
     return errorMessage;
+
+    //Incorrect password
   } else if (error.graphQLErrors[0].message.includes("password"))
     return { password: error.graphQLErrors[0].message };
+
+  //Account already exists while registering or account does not exist while logging in
   else if (error.graphQLErrors[0].message.includes("Account"))
     return { email: error.graphQLErrors[0].message };
+
+  //Unknown error
   console.error(error);
   return;
 };
