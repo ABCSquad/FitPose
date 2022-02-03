@@ -1,8 +1,6 @@
 name: FitPose CI
 
 on:
-#   push:
-#     branches: [main]
   pull_request:
     branches: [main]
 
@@ -12,7 +10,7 @@ jobs:
     environment: Production
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
+        node-version: [12.x, 14.x, 16.x]
       max-parallel: 1
 
     steps:
