@@ -70,7 +70,7 @@ const bootstrap = async () => {
     });
 
     await connect(process.env.DATABASE_URL as string);
-    await UserModel.deleteMany({});
+    // await UserModel.deleteMany({});
   } catch (err) {
     console.error(err);
   }
