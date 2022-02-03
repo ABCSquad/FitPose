@@ -1,0 +1,36 @@
+name: FitPose CI
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Production
+    strategy:
+      matrix:
+        node-version: [12.x, 14.x, 16.x]
+      max-parallel: 1
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Install server npm packages
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: server
+
+      - name: Install client npm packages
+        uses: bahmutov/npm-install@v1
+        with:
+          working-directory: client
+
+      - name: Test client
+        run: (cd client && npm run build --if-present && npm test &)
+
+      - name: Test server
+        run: (cd server && npm run build --if-present &)
+
+      - name: Start React app in the background
+        run: (cd client && npm start &)
