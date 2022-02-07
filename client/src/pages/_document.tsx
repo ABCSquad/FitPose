@@ -4,9 +4,9 @@ import { ColorModeScript } from "@chakra-ui/react";
 export default class Document extends NextDocument {
   render() {
     return (
-      <Html>
+      <Html style={{ overflowX: "hidden" }}>
         <Head />
-        <body>
+        <body style={{ overflowX: "hidden" }}>
           {/* Make Color mode to persists when you refresh the page. */}
           <ColorModeScript />
           <Main />
