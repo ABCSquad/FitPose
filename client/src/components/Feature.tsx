@@ -17,9 +17,9 @@ type FeatureProps = {
 
 const Feature: FC<FeatureProps> = ({ icon, heading, body }) => {
   return (
-    <GridItem colSpan={1}>
-      <Box bg="brand." p="40px" mt="20px">
-        <Circle bg="brand.darkpink" size="80px" mb={4}>
+    <GridItem colSpan={1} rowSpan={1}>
+      <Box p={10} m={5} h="90%" bg="white" boxShadow="md" rounded="xl">
+        <Circle bg="teal.500" size="80px" mb={4}>
           <Img src={`./svgs/${icon}.svg`} h="50%" />
         </Circle>
         <Text fontSize="2rem" mb={2}>

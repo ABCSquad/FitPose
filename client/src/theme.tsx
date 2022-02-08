@@ -17,6 +17,8 @@ const theme = extendTheme({
       teal: "#BBECE3",
       lightpink: "#fbdce2",
       darkpink: "#ff9fb2",
+      lightgrey: "#F7FAFC",
+      darkgrey: "#666666",
     },
   },
   fonts,
