@@ -18,18 +18,16 @@ type FeatureProps = {
 const Feature: FC<FeatureProps> = ({ icon, heading, body }) => {
   return (
     <GridItem colSpan={1} rowSpan={1}>
-      <Box p={10} m={5} h="90%" bg="white" boxShadow="md" rounded="xl">
+      <Box p={10} m={6} h="90%" bg="white" boxShadow="md" rounded="xl">
         <Circle bg="teal.500" size="80px" mb={4}>
-          <Img src={`./svgs/${icon}.svg`} h="50%" />
+          <Img src={`./svgs/features/${icon}.svg`} h="50%" />
         </Circle>
-        <Text fontSize="2rem" mb={2}>
+        <Text fontSize="1.8rem" mb={2}>
           <b>{heading}</b>
         </Text>
-        <UnorderedList spacing={1}>
+        <UnorderedList spacing={1} fontSize="1.3rem" color="grey">
           {body.map((x) => (
-            <ListItem fontSize="1.5rem" color="grey">
-              {x}
-            </ListItem>
+            <ListItem>{x}</ListItem>
           ))}
         </UnorderedList>
       </Box>

@@ -16,6 +16,7 @@ import Layout from "../components/Layout";
 import { withUrqlClient } from "next-urql";
 import createUrqlClient from "../utils/createUrqlClient";
 import Feature from "../components/Feature";
+import Footer from "../components/Footer";
 
 const Index = () => {
   useEffect(() => {
@@ -24,6 +25,7 @@ const Index = () => {
 
   return (
     <>
+      {/* Landing segment */}
       <Box minH="100vh" bg="brand.teal">
         <Layout nav>
           <Grid
@@ -65,8 +67,9 @@ const Index = () => {
         </Layout>
       </Box>
 
-      <Img src="./svgs/wave1.svg" width="100%" />
+      <Img src="./svgs/waves/wave1.svg" width="100%" />
 
+      {/* Features segment */}
       <Flex minH="100vh" bg="brand.lightgrey" align="center">
         <Layout>
           <Heading fontSize="4rem" mb={2}>
@@ -74,7 +77,7 @@ const Index = () => {
           </Heading>
           <Text fontSize="1.25rem" mb={6} color="grey">
             The power of AI comes with great responsibility. We aren't looking
-            to deploy the terminator; we are just attempting to take care of
+            to deploy some terminator; we are just attempting to take care of
             you!
           </Text>
           <Grid
@@ -117,8 +120,9 @@ const Index = () => {
         </Layout>
       </Flex>
 
-      <Img src="./svgs/wave2.svg" width="100%" />
+      <Img src="./svgs/waves/wave2.svg" width="100%" />
 
+      {/* Signup segment */}
       <Box bg="brand.lightpink">
         <Layout>
           <Grid
@@ -133,38 +137,48 @@ const Index = () => {
               ></lottie-player>
             </GridItem>
             <GridItem colSpan={3} py={20} px={10}>
-              <Box>
-                <Heading fontSize="2.5rem">
-                  Sign up for free to get additional benefits.
-                </Heading>
-                <UnorderedList spacing={3} my={5}>
-                  <ListItem fontSize="1.2rem" color="brand.darkgrey">
-                    User created custom playlists to easily access your
-                    frequented exercises.
-                  </ListItem>
-                  <ListItem fontSize="1.2rem" color="brand.darkgrey">
-                    Access to all past workouts to review any session.
-                  </ListItem>
-                  <ListItem fontSize="1.2rem" color="brand.darkgrey">
-                    Over-the-time progress feedback to see how far you've come!
-                  </ListItem>
-                </UnorderedList>
-                <Flex align="center">
-                  <NextLink href="/signup">
-                    <Button colorScheme="pink" size="lg">
-                      Sign Up For Free
-                    </Button>
-                  </NextLink>
-                  <Text mx={5}>or</Text>
-                  <Button size="lg">Get Started Anyway</Button>
-                </Flex>
-              </Box>
+              <Flex align="center" h="100%">
+                <Box>
+                  <Heading fontSize="2.5rem">
+                    Sign up for free to get additional benefits.
+                  </Heading>
+                  <UnorderedList
+                    spacing={3}
+                    my={5}
+                    fontSize="1.2rem"
+                    color="brand.darkgrey"
+                  >
+                    <ListItem>
+                      User created custom playlists to easily access your
+                      frequented exercises.
+                    </ListItem>
+                    <ListItem>
+                      Access to all past workouts to review any session.
+                    </ListItem>
+                    <ListItem>
+                      Over-the-time progress feedback to see how far you've
+                      come!
+                    </ListItem>
+                  </UnorderedList>
+                  <Flex align="center">
+                    <NextLink href="/signup">
+                      <Button colorScheme="pink" size="lg">
+                        Sign Up For Free
+                      </Button>
+                    </NextLink>
+                    <Text mx={5}>or</Text>
+                    <Button size="lg">Get Started Anyway</Button>
+                  </Flex>
+                </Box>
+              </Flex>
             </GridItem>
           </Grid>
         </Layout>
       </Box>
 
-      {/* <Img src="./svgs/wave3.svg" width="100%" /> */}
+      <Img src="./svgs/waves/wave3.svg" width="100%" />
+
+      <Footer />
     </>
   );
 };

@@ -19,6 +19,7 @@ const theme = extendTheme({
       darkpink: "#ff9fb2",
       lightgrey: "#F7FAFC",
       darkgrey: "#666666",
+      lavender: "#685f74"
     },
   },
   fonts,
