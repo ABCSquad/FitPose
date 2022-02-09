@@ -10,6 +10,7 @@ import {
   Img,
   ListItem,
   UnorderedList,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Layout from "../components/Layout";
@@ -23,44 +24,80 @@ const Index = () => {
     import("@lottiefiles/lottie-player");
   });
 
+  const headingFont = {
+    fontSize: { base: "4rem", md: "6.3rem" },
+  };
+  const textAlign = {
+    textAlign: { base: "center" as const, md: "left" as const },
+  };
+  const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
+
   return (
     <>
       {/* Landing segment */}
       <Box minH="100vh" bg="brand.teal">
         <Layout nav>
           <Grid
-            templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
           >
             <GridItem colSpan={1}>
               <Flex align="center" h="100%">
                 <Box>
-                  <Heading fontSize="100px" mt={5}>
+                  <Heading
+                    {...headingFont}
+                    {...textAlign}
+                    mt={{ base: 20, md: 5 }}
+                  >
                     Train.
                   </Heading>
-                  <Heading fontSize="100px">Reflect.</Heading>
-                  <Heading fontSize="100px" mb={5}>
+                  <Heading {...textAlign} {...headingFont}>
+                    Reflect.
+                  </Heading>
+                  <Heading
+                    {...headingFont}
+                    {...textAlign}
+                    color="pink.400"
+                    mb={{ md: 5 }}
+                  >
                     Master.
                   </Heading>
-                  <Text fontSize="22px" my={5}>
+                  <Text
+                    {...textAlign}
+                    fontSize={{ md: "1.35rem" }}
+                    my={{ md: 5 }}
+                  >
                     FitPose uses AI to guide you in your workouts so that you
                     can achieve your fitness goals.
                   </Text>
-                  <Button colorScheme="teal" size="lg" my="20px">
-                    Get Started For Free
-                  </Button>
+                  <Flex>
+                    <Button
+                      colorScheme="teal"
+                      size="lg"
+                      my={{ base: 4, md: 5 }}
+                      mx={{ base: "auto", md: 0 }}
+                    >
+                      Get Started For Free
+                    </Button>
+                  </Flex>
                 </Box>
               </Flex>
             </GridItem>
             <GridItem colSpan={2}>
-              <Flex align="center" h="100%">
-                <Img src="./svgs/blobs.svg" position="absolute" />
-                <lottie-player
-                  autoplay
-                  loop
-                  mode="normal"
-                  src="./lotties/runner.json"
-                  style={{ height: "840px" }}
-                ></lottie-player>
+              <Flex align="center">
+                <Box h={{ base: "300px", md: "840px" }} mx="auto">
+                  <Img
+                    src="./svgs/blobs.svg"
+                    position="absolute"
+                    h={{ base: "240px", md: "auto" }}
+                  />
+                  <lottie-player
+                    autoplay
+                    loop
+                    mode="normal"
+                    src="./lotties/runner.json"
+                    style={{ height: "100%" }}
+                  ></lottie-player>
+                </Box>
               </Flex>
             </GridItem>
           </Grid>
@@ -70,19 +107,33 @@ const Index = () => {
       <Img src="./svgs/waves/wave1.svg" width="100%" />
 
       {/* Features segment */}
-      <Flex minH="100vh" bg="brand.lightgrey" align="center">
+      <Flex
+        minH="100vh"
+        bg="brand.lightgrey"
+        align="center"
+        py={{ base: 10, md: 0 }}
+      >
         <Layout>
-          <Heading fontSize="4rem" mb={2}>
+          <Heading
+            fontSize={{ base: "2.2rem", md: "4rem" }}
+            {...textAlign}
+            mb={2}
+          >
             Push your fitness game to the next level.
           </Heading>
-          <Text fontSize="1.25rem" mb={6} color="grey">
+          <Text
+            fontSize={{ base: "0.9rem", md: "1.25rem" }}
+            {...textAlign}
+            mb={4}
+            color="grey"
+          >
             The power of AI comes with great responsibility. We aren't looking
             to deploy some terminator; we are just attempting to take care of
             you!
           </Text>
           <Grid
-            templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
-            templateRows={{ sm: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
           >
             <Feature
               icon="application"
@@ -123,10 +174,10 @@ const Index = () => {
       <Img src="./svgs/waves/wave2.svg" width="100%" />
 
       {/* Signup segment */}
-      <Box bg="brand.lightpink">
+      <Box bg="brand.lightpink" pb={{ base: 10, md: 0 }}>
         <Layout>
           <Grid
-            templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}
           >
             <GridItem colSpan={2} p={10}>
               <lottie-player
@@ -136,16 +187,19 @@ const Index = () => {
                 src="./lotties/login.json"
               ></lottie-player>
             </GridItem>
-            <GridItem colSpan={3} py={20} px={10}>
+            <GridItem colSpan={3} py={{ md: 20 }} px={{ md: 10 }}>
               <Flex align="center" h="100%">
                 <Box>
-                  <Heading fontSize="2.5rem">
+                  <Heading
+                    {...textAlign}
+                    fontSize={{ base: "1.8rem", md: "2.5rem" }}
+                  >
                     Sign up for free to get additional benefits.
                   </Heading>
                   <UnorderedList
                     spacing={3}
                     my={5}
-                    fontSize="1.2rem"
+                    fontSize={{ base: "0.9rem", md: "1.2rem" }}
                     color="brand.darkgrey"
                   >
                     <ListItem>
@@ -162,12 +216,23 @@ const Index = () => {
                   </UnorderedList>
                   <Flex align="center">
                     <NextLink href="/signup">
-                      <Button colorScheme="pink" size="lg">
+                      <Button
+                        colorScheme="pink"
+                        size={buttonSize}
+                        ml={{ base: "auto", md: 0 }}
+                      >
                         Sign Up For Free
                       </Button>
                     </NextLink>
-                    <Text mx={5}>or</Text>
-                    <Button size="lg">Get Started Anyway</Button>
+                    <Text
+                      mx={{ base: 2, md: 5 }}
+                      fontSize={{ base: "0.7rem", md: "1rem" }}
+                    >
+                      or
+                    </Text>
+                    <Button size={buttonSize} mr={{ base: "auto", md: 0 }}>
+                      Get Started Anyway
+                    </Button>
                   </Flex>
                 </Box>
               </Flex>

@@ -10,7 +10,7 @@ const Layout: FC<LayoutProps> = ({ children, nav }) => {
   return (
     <>
       {nav && <NavBar />}
-      <Box mx="auto" maxW="1500px" px="50px">
+      <Box mx="auto" maxW="1400px" px={6}>
         {children}
       </Box>
     </>
