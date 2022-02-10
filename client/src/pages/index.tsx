@@ -18,6 +18,7 @@ import { withUrqlClient } from "next-urql";
 import createUrqlClient from "../utils/createUrqlClient";
 import Feature from "../components/Feature";
 import Footer from "../components/Footer";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const Index = () => {
   useEffect(() => {
@@ -75,6 +76,7 @@ const Index = () => {
                       size="lg"
                       my={{ base: 4, md: 5 }}
                       mx={{ base: "auto", md: 0 }}
+                      rightIcon={<ArrowForwardIcon />}
                     >
                       Get Started For Free
                     </Button>
@@ -115,18 +117,13 @@ const Index = () => {
       >
         <Layout>
           <Heading
-            fontSize={{ base: "2.2rem", md: "4rem" }}
+            fontSize={{ base: "2.2rem", md: "3.9rem" }}
             {...textAlign}
             mb={2}
           >
             Push your fitness game to the next level.
           </Heading>
-          <Text
-            fontSize={{ base: "0.9rem", md: "1.25rem" }}
-            {...textAlign}
-            mb={4}
-            color="grey"
-          >
+          <Text fontSize={{ md: "1.25rem" }} {...textAlign} mb={4} color="grey">
             The power of AI comes with great responsibility. We aren't looking
             to deploy some terminator; we are just attempting to take care of
             you!
@@ -197,9 +194,9 @@ const Index = () => {
                     Sign up for free to get additional benefits.
                   </Heading>
                   <UnorderedList
-                    spacing={3}
-                    my={5}
-                    fontSize={{ base: "0.9rem", md: "1.2rem" }}
+                    spacing={4}
+                    my={6}
+                    fontSize={{ md: "1.2rem" }}
                     color="brand.darkgrey"
                   >
                     <ListItem>

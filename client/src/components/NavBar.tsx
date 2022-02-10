@@ -26,12 +26,12 @@ const NavBar: FC = ({}) => {
         </Center>
         <HStack ml="auto">
           <NextLink href="/login">
-            <Link mx={3} fontSize={{ base: "0.8rem", md: "1rem" }}>
+            <Link mr={3} fontSize={{ base: "0.8rem", md: "1rem" }}>
               Login
             </Link>
           </NextLink>
           <NextLink href="/signup">
-            <Button colorScheme="teal" mx={3} size={buttonSize}>
+            <Button colorScheme="teal" ml={3} size={buttonSize}>
               Sign Up
             </Button>
           </NextLink>
