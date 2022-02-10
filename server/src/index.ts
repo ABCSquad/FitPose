@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/User";
+// import { UserModel } from "./entities/user";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -21,19 +21,14 @@ dotenv.config();
 
 const bootstrap = async () => {
   try {
-    const app = express();
-
     const RedisStore = connectRedis(session);
+    const redis = new Redis(process.env.REDIS_URL as string);
 
-    const redis = new Redis(process.env.REDIS_URl as string);
-
-    app.set("trust proxy", 1);
-
+    const app = express();
     const corsOptions = {
       origin: process.env.CORS_ORIGIN as string,
       credentials: true,
     };
-
     const sessionOptions = {
       name: COOKIE_NAME,
       store: new RedisStore({
@@ -42,37 +37,34 @@ const bootstrap = async () => {
       }),
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        httpOnly: true,
         sameSite: "lax" as const,
         secure: __prod__,
+        domain: __prod__ ? ".fitpose.tech" : undefined,
       },
       saveUninitialized: false,
       secret: process.env.SESSION_SECRET as string,
       resave: false,
     };
-
     app.use(cors(corsOptions), session(sessionOptions));
+    app.set("trust proxy", 1);
 
     const schema = await buildSchema({
       resolvers: [UserResolver],
     });
-
+    const context = ({ req, res }: Context) => ({ req, res });
     const plugins = [
       __prod__
         ? ApolloServerPluginLandingPageProductionDefault()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
     ];
-
-    const context = ({ req, res }: Context) => ({ req, res });
-
     const apolloServer = new ApolloServer({
       schema,
       context,
       plugins,
     });
-
     await apolloServer.start();
-
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({ app, cors: false });
 
     app.listen(parseInt(process.env.PORT as string), () => {
       console.log(`Server started on http://localhost:${process.env.PORT}`);
@@ -80,7 +72,6 @@ const bootstrap = async () => {
 
     await connect(process.env.DATABASE_URL as string);
     // await UserModel.deleteMany({});
-    console.log("Connected to database");
   } catch (err) {
     console.error(err);
   }
