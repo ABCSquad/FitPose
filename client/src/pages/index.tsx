@@ -33,6 +33,8 @@ const Index = () => {
   };
   const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
 
+  console.log(process.env.NODE_ENV);
+
   return (
     <>
       {/* Landing segment */}
