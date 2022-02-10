@@ -1,10 +1,10 @@
 import { FC } from "react";
-import Canvas from "../components/Canvas";
+import { Layout } from "../components/Layout";
 
 const App: FC = () => {
 	return (
 		<>
-			<Canvas />
+			<Layout />
 		</>
 	);
 };

@@ -91,7 +91,6 @@ const Canvas: FC = () => {
 					}}
 				/>
 			</VisuallyHidden>
-
 			<canvas
 				ref={canvasRef}
 				style={{
