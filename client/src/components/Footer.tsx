@@ -13,17 +13,33 @@ const Footer: FC = () => {
       <Flex align="center">
         <Box mx="auto">
           <Center h={{ base: 6, md: 10 }} mb={2}>
-            <Img src="./svgs/logo.svg" {...sizeProps} filter={filter} />
+            <Img
+              src="./svgs/logo.svg"
+              alt="logo"
+              {...sizeProps}
+              filter={filter}
+            />
             <Divider orientation="vertical" />
             <a target="_blank" href="https://github.com/ABCSquad/fitpose">
-              <Img src={`${path}github.svg`} {...sizeProps} filter={filter} />
+              <Img
+                src={`${path}github.svg`}
+                alt="github"
+                {...sizeProps}
+                filter={filter}
+              />
             </a>
             <a target="_blank" href="https://www.linkedin.com/">
-              <Img src={`${path}linkedin.svg`} {...sizeProps} filter={filter} />
+              <Img
+                src={`${path}linkedin.svg`}
+                alt="linkedin"
+                {...sizeProps}
+                filter={filter}
+              />
             </a>
             <a target="_blank" href="https://www.instagram.com/">
               <Img
                 src={`${path}instagram.svg`}
+                alt="instagram"
                 {...sizeProps}
                 filter={filter}
               />

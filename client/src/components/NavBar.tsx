@@ -10,8 +10,12 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { FC } from "react";
+import { useMeQuery } from "../generated/graphql";
+import isServer from "../utils/isServer";
 
 const NavBar: FC = ({}) => {
+  const [{ data }] = useMeQuery({ pause: isServer() });
+  if (data) console.log(data);
   const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
 
   return (
@@ -20,7 +24,7 @@ const NavBar: FC = ({}) => {
         <Center h={{ base: "60px", md: 20 }}>
           <NextLink href="/">
             <Link>
-              <Img src="./svgs/logo.svg" alt="Logo" h={{ base: 6, md: 8 }} />
+              <Img src="./svgs/logo.svg" alt="logo" h={{ base: 6, md: 8 }} />
             </Link>
           </NextLink>
         </Center>

@@ -27,14 +27,14 @@ const Feature: FC<FeatureProps> = ({ icon, heading, body }) => {
         rounded="xl"
       >
         <Circle bg="teal.500" size={{ base: "50px", md: 20 }} mb={4}>
-          <Img src={`./svgs/features/${icon}.svg`} h="50%" />
+          <Img src={`./svgs/features/${icon}.svg`} alt={icon} h="50%" />
         </Circle>
         <Text fontSize={{ base: "1.4rem", md: "1.8rem" }} mb={2}>
           <b>{heading}</b>
         </Text>
         <UnorderedList spacing={1} fontSize={{ md: "1.3rem" }} color="grey">
-          {body.map((x) => (
-            <ListItem>{x}</ListItem>
+          {body.map((x, i) => (
+            <ListItem key={i}>{x}</ListItem>
           ))}
         </UnorderedList>
       </Box>

@@ -33,8 +33,6 @@ const Index = () => {
   };
   const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
 
-  console.log(process.env.NODE_ENV);
-
   return (
     <>
       {/* Landing segment */}
@@ -91,6 +89,7 @@ const Index = () => {
                 <Box h={{ base: "300px", md: "840px" }} mx="auto">
                   <Img
                     src="./svgs/blobs.svg"
+                    alt="blobs"
                     position="absolute"
                     h={{ base: "240px", md: "auto" }}
                   />
@@ -108,7 +107,7 @@ const Index = () => {
         </Layout>
       </Box>
 
-      <Img src="./svgs/waves/wave1.svg" width="100%" />
+      <Img src="./svgs/waves/wave1.svg" alt="wave" width="100%" />
 
       {/* Features segment */}
       <Flex
@@ -170,7 +169,7 @@ const Index = () => {
         </Layout>
       </Flex>
 
-      <Img src="./svgs/waves/wave2.svg" width="100%" />
+      <Img src="./svgs/waves/wave2.svg" alt="wave" width="100%" />
 
       {/* Signup segment */}
       <Box bg="brand.lightpink" pb={{ base: 10, md: 0 }}>
@@ -240,7 +239,7 @@ const Index = () => {
         </Layout>
       </Box>
 
-      <Img src="./svgs/waves/wave3.svg" width="100%" />
+      <Img src="./svgs/waves/wave3.svg" alt="wave" width="100%" />
 
       <Footer />
     </>
