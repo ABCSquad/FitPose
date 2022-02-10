@@ -1,10 +1,10 @@
 import { FC } from "react";
-import { Layout } from "../components/Layout";
+import { MainAppLayout } from "../components/MainAppLayout";
 
 const App: FC = () => {
 	return (
 		<>
-			<Layout />
+			<MainAppLayout />
 		</>
 	);
 };

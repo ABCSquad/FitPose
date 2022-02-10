@@ -2,7 +2,7 @@ import { Grid, GridItem } from "@chakra-ui/react";
 import React, { FC } from "react";
 import Canvas from "./Canvas";
 
-export const Layout: FC = () => {
+export const MainAppLayout: FC = () => {
 	return (
 		<Grid
 			h="100vh"
