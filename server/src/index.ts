@@ -37,6 +37,7 @@ const bootstrap = async () => {
       }),
       cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 365 * 10,
+        httpOnly: true,
         sameSite: "lax" as const,
         secure: __prod__,
         domain: __prod__ ? ".fitpose.tech" : undefined,

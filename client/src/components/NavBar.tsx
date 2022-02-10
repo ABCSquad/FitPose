@@ -1,24 +1,37 @@
 import NextLink from "next/link";
-import { Box, Button, Center, Flex, HStack, Img, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  HStack,
+  Img,
+  Link,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { FC } from "react";
 
 const NavBar: FC = ({}) => {
+  const buttonSize = useBreakpointValue({ base: "sm", md: "md" });
+
   return (
-    <Box h="80px">
-      <Flex maxW="1500px" align="center" mx="auto" px="50px">
-        <Center h="80px">
+    <Box h={{ base: 8, md: 20 }}>
+      <Flex maxW="1400px" align="center" mx="auto" px={6}>
+        <Center h={{ base: "60px", md: 20 }}>
           <NextLink href="/">
             <Link>
-              <Img src="./svgs/logo.svg" alt="Logo" h="32px" />
+              <Img src="./svgs/logo.svg" alt="Logo" h={{ base: 6, md: 8 }} />
             </Link>
           </NextLink>
         </Center>
         <HStack ml="auto">
           <NextLink href="/login">
-            <Link mx={3}>Login</Link>
+            <Link mr={3} fontSize={{ base: "0.8rem", md: "1rem" }}>
+              Login
+            </Link>
           </NextLink>
           <NextLink href="/signup">
-            <Button colorScheme="teal" mx={3}>
+            <Button colorScheme="teal" ml={3} size={buttonSize}>
               Sign Up
             </Button>
           </NextLink>

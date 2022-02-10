@@ -11,7 +11,7 @@ import { getErrorMessage } from "../utils/getErrorMessage";
 
 const Login: FC = ({}) => {
   const router = useRouter();
-  const [{ error }, login] = useLoginMutation();
+  const [, login] = useLoginMutation();
 
   return (
     <Layout>
@@ -20,7 +20,6 @@ const Login: FC = ({}) => {
           initialValues={{ email: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
             const response = await login({ input: values });
-            console.log(error);
             if (response.error) {
               const errorMessage = getErrorMessage(response.error);
               if (errorMessage) setErrors(errorMessage);

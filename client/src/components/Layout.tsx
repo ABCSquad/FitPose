@@ -2,11 +2,15 @@ import { Box } from "@chakra-ui/react";
 import { FC } from "react";
 import NavBar from "./NavBar";
 
-const Layout: FC = ({ children }) => {
+type LayoutProps = {
+  nav?: boolean;
+};
+
+const Layout: FC<LayoutProps> = ({ children, nav }) => {
   return (
     <>
-      <NavBar />
-      <Box mx="auto" maxW="1500px" px="50px">
+      {nav && <NavBar />}
+      <Box mx="auto" maxW="1400px" px={6}>
         {children}
       </Box>
     </>

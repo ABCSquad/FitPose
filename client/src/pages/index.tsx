@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import {
   Box,
   Text,
@@ -6,54 +7,240 @@ import {
   Heading,
   Flex,
   Button,
+  Img,
+  ListItem,
+  UnorderedList,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
 import Layout from "../components/Layout";
 import { withUrqlClient } from "next-urql";
 import createUrqlClient from "../utils/createUrqlClient";
+import Feature from "../components/Feature";
+import Footer from "../components/Footer";
+import { ArrowForwardIcon } from "@chakra-ui/icons";
 
 const Index = () => {
   useEffect(() => {
     import("@lottiefiles/lottie-player");
   });
 
+  const headingFont = {
+    fontSize: { base: "4rem", md: "6.3rem" },
+  };
+  const textAlign = {
+    textAlign: { base: "center" as const, md: "left" as const },
+  };
+  const buttonSize = useBreakpointValue({ base: "md", md: "lg" });
+
   return (
     <>
-      <Box minH="100vh" bg="brand">
-        <Layout>
+      {/* Landing segment */}
+      <Box minH="100vh" bg="brand.teal">
+        <Layout nav>
           <Grid
-            templateColumns={{ sm: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
           >
             <GridItem colSpan={1}>
               <Flex align="center" h="100%">
                 <Box>
-                  <Heading fontSize="100px" my="20px">
-                    Train. Reflect. Master.
+                  <Heading
+                    {...headingFont}
+                    {...textAlign}
+                    mt={{ base: 20, md: 5 }}
+                  >
+                    Train.
                   </Heading>
-                  <Text fontSize="22px" my="20px">
+                  <Heading {...textAlign} {...headingFont}>
+                    Reflect.
+                  </Heading>
+                  <Heading
+                    {...headingFont}
+                    {...textAlign}
+                    color="pink.400"
+                    mb={{ md: 5 }}
+                  >
+                    Master.
+                  </Heading>
+                  <Text
+                    {...textAlign}
+                    fontSize={{ md: "1.35rem" }}
+                    my={{ md: 5 }}
+                  >
                     FitPose uses AI to guide you in your workouts so that you
                     can achieve your fitness goals.
                   </Text>
-                  <Button colorScheme="teal" size="lg" my="20px">
-                    Get Started
-                  </Button>
+                  <Flex>
+                    <Button
+                      colorScheme="teal"
+                      size="lg"
+                      my={{ base: 4, md: 5 }}
+                      mx={{ base: "auto", md: 0 }}
+                      rightIcon={<ArrowForwardIcon />}
+                    >
+                      Get Started For Free
+                    </Button>
+                  </Flex>
                 </Box>
               </Flex>
             </GridItem>
             <GridItem colSpan={2}>
-              <Flex align="center" h="100%">
-                <lottie-player
-                  autoplay
-                  loop
-                  mode="normal"
-                  src="./lotties/runner.json"
-                  style={{ height: "840px" }}
-                ></lottie-player>
+              <Flex align="center">
+                <Box h={{ base: "300px", md: "840px" }} mx="auto">
+                  <Img
+                    src="./svgs/blobs.svg"
+                    position="absolute"
+                    h={{ base: "240px", md: "auto" }}
+                  />
+                  <lottie-player
+                    autoplay
+                    loop
+                    mode="normal"
+                    src="./lotties/runner.json"
+                    style={{ height: "100%" }}
+                  ></lottie-player>
+                </Box>
               </Flex>
             </GridItem>
           </Grid>
         </Layout>
       </Box>
+
+      <Img src="./svgs/waves/wave1.svg" width="100%" />
+
+      {/* Features segment */}
+      <Flex
+        minH="100vh"
+        bg="brand.lightgrey"
+        align="center"
+        py={{ base: 10, md: 0 }}
+      >
+        <Layout>
+          <Heading
+            fontSize={{ base: "2.2rem", md: "3.9rem" }}
+            {...textAlign}
+            mb={2}
+          >
+            Push your fitness game to the next level.
+          </Heading>
+          <Text fontSize={{ md: "1.25rem" }} {...textAlign} mb={4} color="grey">
+            The power of AI comes with great responsibility. We aren't looking
+            to deploy some terminator; we are just attempting to take care of
+            you!
+          </Text>
+          <Grid
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+          >
+            <Feature
+              icon="application"
+              heading="Choose your workout"
+              body={[
+                "Wide range of exercises to select from.",
+                "Shortlist your favourite exercises for easy access.",
+              ]}
+            />
+            <Feature
+              icon="exercise"
+              heading="Prepare for the exercise"
+              body={[
+                "Breaking down of exercises into simple steps.",
+                "Demonstrative videos for complete understanding.",
+              ]}
+            />
+            <Feature
+              icon="play"
+              heading="Get real-time assistance"
+              body={[
+                "AI powered pose estimation - along with helpful feedback - to guide you continuously.",
+                "Video guides to follow along as you work out.",
+              ]}
+            />
+            <Feature
+              icon="review"
+              heading="Review your performance"
+              body={[
+                "Data visualization in the form of distinctive charts.",
+                "Long-time progress assessment over the sessions.",
+              ]}
+            />
+          </Grid>
+        </Layout>
+      </Flex>
+
+      <Img src="./svgs/waves/wave2.svg" width="100%" />
+
+      {/* Signup segment */}
+      <Box bg="brand.lightpink" pb={{ base: 10, md: 0 }}>
+        <Layout>
+          <Grid
+            templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}
+          >
+            <GridItem colSpan={2} p={10}>
+              <lottie-player
+                autoplay
+                loop
+                mode="normal"
+                src="./lotties/login.json"
+              ></lottie-player>
+            </GridItem>
+            <GridItem colSpan={3} py={{ md: 20 }} px={{ md: 10 }}>
+              <Flex align="center" h="100%">
+                <Box>
+                  <Heading
+                    {...textAlign}
+                    fontSize={{ base: "1.8rem", md: "2.5rem" }}
+                  >
+                    Sign up for free to get additional benefits.
+                  </Heading>
+                  <UnorderedList
+                    spacing={4}
+                    my={6}
+                    fontSize={{ md: "1.2rem" }}
+                    color="brand.darkgrey"
+                  >
+                    <ListItem>
+                      User created custom playlists to easily access your
+                      frequented exercises.
+                    </ListItem>
+                    <ListItem>
+                      Access to all past workouts to review any session.
+                    </ListItem>
+                    <ListItem>
+                      Over-the-time progress feedback to see how far you've
+                      come!
+                    </ListItem>
+                  </UnorderedList>
+                  <Flex align="center">
+                    <NextLink href="/signup">
+                      <Button
+                        colorScheme="pink"
+                        size={buttonSize}
+                        ml={{ base: "auto", md: 0 }}
+                      >
+                        Sign Up For Free
+                      </Button>
+                    </NextLink>
+                    <Text
+                      mx={{ base: 2, md: 5 }}
+                      fontSize={{ base: "0.7rem", md: "1rem" }}
+                    >
+                      or
+                    </Text>
+                    <Button size={buttonSize} mr={{ base: "auto", md: 0 }}>
+                      Get Started Anyway
+                    </Button>
+                  </Flex>
+                </Box>
+              </Flex>
+            </GridItem>
+          </Grid>
+        </Layout>
+      </Box>
+
+      <Img src="./svgs/waves/wave3.svg" width="100%" />
+
+      <Footer />
     </>
   );
 };
