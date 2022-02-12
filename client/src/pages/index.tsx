@@ -13,12 +13,13 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect } from "react";
-import Layout from "../components/Layout";
+import Wrapper from "../components/Wrapper";
 import { withUrqlClient } from "next-urql";
 import createUrqlClient from "../utils/createUrqlClient";
 import Feature from "../components/Feature";
 import Footer from "../components/Footer";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
+import NavBar from "../components/NavBar";
 
 const Index = () => {
   useEffect(() => {
@@ -37,7 +38,9 @@ const Index = () => {
     <>
       {/* Landing segment */}
       <Box minH="100vh" bg="brand.teal">
-        <Layout nav>
+        <NavBar />
+
+        <Wrapper>
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
           >
@@ -104,7 +107,7 @@ const Index = () => {
               </Flex>
             </GridItem>
           </Grid>
-        </Layout>
+        </Wrapper>
       </Box>
 
       <Img src="./svgs/waves/wave1.svg" alt="wave" width="100%" />
@@ -116,7 +119,7 @@ const Index = () => {
         align="center"
         py={{ base: 10, md: 0 }}
       >
-        <Layout>
+        <Wrapper>
           <Heading
             fontSize={{ base: "2.2rem", md: "3.9rem" }}
             {...textAlign}
@@ -166,14 +169,14 @@ const Index = () => {
               ]}
             />
           </Grid>
-        </Layout>
+        </Wrapper>
       </Flex>
 
       <Img src="./svgs/waves/wave2.svg" alt="wave" width="100%" />
 
       {/* Signup segment */}
       <Box bg="brand.lightpink" pb={{ base: 10, md: 0 }}>
-        <Layout>
+        <Wrapper>
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(5, 1fr)" }}
           >
@@ -236,7 +239,7 @@ const Index = () => {
               </Flex>
             </GridItem>
           </Grid>
-        </Layout>
+        </Wrapper>
       </Box>
 
       <Img src="./svgs/waves/wave3.svg" alt="wave" width="100%" />
