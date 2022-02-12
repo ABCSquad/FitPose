@@ -49,7 +49,7 @@ const Login: FC = ({}) => {
             <Box mx={3} mt={5} mb={3}>
               <Button
                 type="submit"
-                colorScheme="teal"
+                colorScheme="pink"
                 isLoading={isSubmitting}
                 width="100%"
               >

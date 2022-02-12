@@ -9,7 +9,14 @@ const AuthLayout: FC = ({ children }) => {
 
   return (
     <Flex minH="100vh" bg="brand.lightpink" p={6}>
-      <Box bg="white" boxShadow="md" rounded="xl" m="auto" p={10}>
+      <Box
+        bg="white"
+        boxShadow="md"
+        rounded="xl"
+        m="auto"
+        p={10}
+        w={{ md: 1000 }}
+      >
         <Center h={{ base: "60px", md: 20 }}>
           <NextLink href="/">
             <Img src="./svgs/logo.svg" alt="logo" h={10} cursor="pointer" />

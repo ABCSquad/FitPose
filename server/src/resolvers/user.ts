@@ -3,6 +3,7 @@ import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import argon2 from "argon2";
 import { Context } from "../types";
 import { ApolloError } from "apollo-server";
+import { COOKIE_NAME } from "../constants";
 
 @Resolver()
 export default class UserResolver {
@@ -35,5 +36,20 @@ export default class UserResolver {
     if (!authenticated) throw new ApolloError("Incorrect password");
     req.session.userId = user._id.toString();
     return user;
+  }
+
+  @Mutation(() => Boolean)
+  logout(@Ctx() { req, res }: Context) {
+    return new Promise((resolve) =>
+      req.session.destroy((err) => {
+        if (err) {
+          console.error(err);
+          resolve(false);
+          return;
+        }
+        res.clearCookie(COOKIE_NAME);
+        resolve(true);
+      })
+    );
   }
 }

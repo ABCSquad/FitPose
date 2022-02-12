@@ -38,9 +38,11 @@ export class RegisterInput {
 
 @InputType()
 export class LoginInput {
+  @IsNotEmpty()
   @Field(() => String)
   email: string;
 
+  @IsNotEmpty()
   @Field(() => String)
   password: string;
 }
