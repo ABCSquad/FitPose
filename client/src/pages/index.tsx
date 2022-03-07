@@ -20,8 +20,11 @@ import Feature from "../components/Feature";
 import Footer from "../components/Footer";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import NavBar from "../components/NavBar";
+import { useMeQuery } from "../generated/graphql";
 
 const Index = () => {
+  const [{ data }] = useMeQuery();
+
   useEffect(() => {
     import("@lottiefiles/lottie-player");
   });
@@ -74,15 +77,17 @@ const Index = () => {
                     can achieve your fitness goals.
                   </Text>
                   <Flex>
-                    <Button
-                      colorScheme="teal"
-                      size="lg"
-                      my={{ base: 4, md: 5 }}
-                      mx={{ base: "auto", md: 0 }}
-                      rightIcon={<ArrowForwardIcon />}
-                    >
-                      Get Started For Free
-                    </Button>
+                    <NextLink href="/exercises">
+                      <Button
+                        colorScheme="teal"
+                        size="lg"
+                        my={{ base: 4, md: 5 }}
+                        mx={{ base: "auto", md: 0 }}
+                        rightIcon={<ArrowForwardIcon />}
+                      >
+                        Get Started For Free
+                      </Button>
+                    </NextLink>
                   </Flex>
                 </Box>
               </Flex>
@@ -195,7 +200,9 @@ const Index = () => {
                     {...textAlign}
                     fontSize={{ base: "1.8rem", md: "2.5rem" }}
                   >
-                    Sign up for free to get additional benefits.
+                    {data?.me
+                      ? "Membership benefits that you have availed~"
+                      : "Sign up for free to get additional benefits."}
                   </Heading>
                   <UnorderedList
                     spacing={4}
@@ -216,24 +223,35 @@ const Index = () => {
                     </ListItem>
                   </UnorderedList>
                   <Flex align="center">
-                    <NextLink href="/signup">
+                    {!data?.me && (
+                      <>
+                        <NextLink href="/signup">
+                          <Button
+                            colorScheme="pink"
+                            size={buttonSize}
+                            ml={{ base: "auto", md: 0 }}
+                          >
+                            Sign Up For Free
+                          </Button>
+                        </NextLink>
+                        <Text
+                          mx={{ base: 2, md: 5 }}
+                          fontSize={{ base: "0.7rem", md: "1rem" }}
+                        >
+                          or
+                        </Text>
+                      </>
+                    )}
+                    <NextLink href={data?.me ? "/dashboard" : "/exercises"}>
                       <Button
-                        colorScheme="pink"
+                        colorScheme={data?.me ? "pink" : "gray"}
                         size={buttonSize}
+                        mr={{ base: "auto", md: 0 }}
                         ml={{ base: "auto", md: 0 }}
                       >
-                        Sign Up For Free
+                        {data?.me ? "Go To Dashboard" : "Get Started Anyway"}
                       </Button>
                     </NextLink>
-                    <Text
-                      mx={{ base: 2, md: 5 }}
-                      fontSize={{ base: "0.7rem", md: "1rem" }}
-                    >
-                      or
-                    </Text>
-                    <Button size={buttonSize} mr={{ base: "auto", md: 0 }}>
-                      Get Started Anyway
-                    </Button>
                   </Flex>
                 </Box>
               </Flex>
