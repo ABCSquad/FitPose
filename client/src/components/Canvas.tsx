@@ -4,6 +4,7 @@ import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
+import Core from "../core/core"
 
 const Canvas: FC = () => {
 	const videoRef = useRef<Webcam | null>(null);
@@ -15,7 +16,8 @@ const Canvas: FC = () => {
 		height: 720,
 	};
 
-	const onResults = (results: any) => {
+	const onResults = (results: any) => {	
+		new Core(results)	
 		canvasCtx = canvasRef.current!.getContext("2d");
 
 		if (canvasCtx && canvasRef.current) {
