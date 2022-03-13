@@ -39,10 +39,10 @@ const Index = () => {
 
   return (
     <>
-      {/* Landing segment */}
-      <Box minH="100vh" bg="brand.teal">
-        <NavBar />
+      <NavBar bg="brand.teal" />
 
+      {/* Landing segment */}
+      <Box minH="92vh" bg="brand.teal">
         <Wrapper>
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
