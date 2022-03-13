@@ -1,16 +1,14 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
-import Core from "../core/core"
-import { PoseResult } from "../core/types";
+import Core from "../core/core";
 
 const Canvas: FC = () => {
 	const videoRef = useRef<Webcam | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
-	const [coreInstance, setCoreInstance] = useState<Core | undefined>(undefined)
 	let canvasCtx: CanvasRenderingContext2D | null;
 
 	const videoConstraints = {
@@ -18,12 +16,11 @@ const Canvas: FC = () => {
 		height: 720,
 	};
 
-	const onResults = (results: PoseResult) => {	
-		console.log(results);
-		
-		coreInstance?.update(results)
+	const onResults = (results: any) => {
+		const current = "hello";
 		canvasCtx = canvasRef.current!.getContext("2d");
-		
+		const core = Core.getInstance(current, canvasRef);
+
 		if (canvasCtx && canvasRef.current) {
 			canvasCtx.save();
 			canvasCtx.clearRect(
@@ -31,55 +28,52 @@ const Canvas: FC = () => {
 				0,
 				canvasRef.current.width,
 				canvasRef.current.height
-				);
-				canvasCtx.drawImage(
-					results.image,
-					0,
-					0,
-					canvasRef.current.width,
-					canvasRef.current.height
-					);
-					if (results.poseLandmarks) {
-						drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-							color: "#00FF00",
-							lineWidth: 2,
-						});
-						drawLandmarks(canvasCtx, results.poseLandmarks, {
-							color: "#FF0000",
-							lineWidth: 1,
-						});
-					}
-					canvasCtx.restore();
-				}
-			};
-			
-			useEffect(() => {
-				const currentExercise = 'ohp'
-				const core1 = new Core(currentExercise)
-				setCoreInstance(core1)
-				const pose = new Pose({
-					locateFile: (file) => {
-						return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-					},
+			);
+			canvasCtx.drawImage(
+				results.image,
+				0,
+				0,
+				canvasRef.current.width,
+				canvasRef.current.height
+			);
+			if (results.poseLandmarks) {
+				drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
+					color: "#00FF00",
+					lineWidth: 2,
 				});
-				pose.setOptions({
-					modelComplexity: 1,
-					smoothLandmarks: true,
-					enableSegmentation: false,
-					smoothSegmentation: true,
-					minDetectionConfidence: 0.6,
-					minTrackingConfidence: 0.3,
+				drawLandmarks(canvasCtx, results.poseLandmarks, {
+					color: "#FF0000",
+					lineWidth: 1,
 				});
-				pose.onResults(onResults);
-				if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
-					const camera = new Camera(videoRef.current.video!, {
-						onFrame: async () => {
-							await pose.send({ image: videoRef.current!.video! });
-						},
-						width: 1280,
-						height: 720,
-					});
-					camera.start();	
+			}
+			canvasCtx.restore();
+		}
+	};
+
+	useEffect(() => {
+		const pose = new Pose({
+			locateFile: (file) => {
+				return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
+			},
+		});
+		pose.setOptions({
+			modelComplexity: 1,
+			smoothLandmarks: true,
+			enableSegmentation: false,
+			smoothSegmentation: true,
+			minDetectionConfidence: 0.6,
+			minTrackingConfidence: 0.3,
+		});
+		pose.onResults(onResults);
+		if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
+			const camera = new Camera(videoRef.current.video!, {
+				onFrame: async () => {
+					await pose.send({ image: videoRef.current!.video! });
+				},
+				width: 1280,
+				height: 720,
+			});
+			camera.start();
 		}
 	}, []);
 

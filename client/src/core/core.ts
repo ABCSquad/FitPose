@@ -1,28 +1,35 @@
-import { PoseResult } from "./types";
+export default class Core {
+	static _instance: Core;
 
-	class Core {
 	image: any | undefined;
 	keypoints: object | undefined;
 	currentExercise: string;
-	exercise: object;
+	canvas: object;
+	// exercise: object;
 
-	constructor(currentExercise: string){
+	// Defined Singleton : will give only one instance of Core.
+	static getInstance(currentExercise: string, canvas: object) {
+		if (!Core._instance) {
+			Core._instance = new Core(currentExercise, canvas);
+			console.log("same instance");
+		}
+		return Core._instance;
+	}
+
+	constructor(currentExercise: string, canvas: object) {
+		// Definitions
+		this.canvas = canvas;
 		this.currentExercise = currentExercise;
-		this.exercise = import(`./exercises/${this.currentExercise}`);
-		console.log(this.exercise);
+		// this.keypoints = new Keypoints();
+
+		// TODO: to get keypoints define seperate class and instantiate in constructor
 	}
 
-	update(result: PoseResult) {
-		// Defaults
-		this.image = result.image;
-		this.keypoints = result.poseLandmarks;
+	start() {
+		console.log(this.canvas);
 	}
-
-	start() {}
 
 	end() {}
 
 	next() {}
 }
-
-export default Core;
