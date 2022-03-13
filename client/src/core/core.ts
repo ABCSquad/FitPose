@@ -1,25 +1,21 @@
-type Result = {
-	image: HTMLCanvasElement;
-	poseLandmarks: object;
-	currentExercise: string;
-};
+import { PoseResult } from "./types";
 
-class Core {
-	image: any;
-	keypoints: object;
+	class Core {
+	image: any | undefined;
+	keypoints: object | undefined;
 	currentExercise: string;
 	exercise: object;
 
-	constructor(result: Result) {
+	constructor(currentExercise: string){
+		this.currentExercise = currentExercise;
+		this.exercise = import(`./exercises/${this.currentExercise}`);
+		console.log(this.exercise);
+	}
+
+	update(result: PoseResult) {
 		// Defaults
 		this.image = result.image;
 		this.keypoints = result.poseLandmarks;
-		this.currentExercise = result.currentExercise;
-
-		// Setup
-		// --import--
-		this.exercise = import(`./exercises/${this.currentExercise}`);
-		console.log(this.exercise);
 	}
 
 	start() {}
