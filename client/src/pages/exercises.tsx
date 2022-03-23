@@ -33,6 +33,11 @@ const Exercises: FC = ({}) => {
     setGroup(e.currentTarget.value);
   };
 
+  const [difficulty, setDifficulty] = useState("All difficulties");
+  const handleDifficulty = (e: MouseEvent<HTMLButtonElement>) => {
+    setDifficulty(e.currentTarget.value);
+  };
+
   return (
     <>
       <NavBar bg="brand.teal" />
@@ -46,8 +51,9 @@ const Exercises: FC = ({}) => {
               />
               <Input
                 placeholder="Search for an exercise"
-                w={1000}
                 onChange={handleSearch}
+                w={1000}
+                mr={4}
               />
               <Menu>
                 <MenuButton
@@ -57,7 +63,6 @@ const Exercises: FC = ({}) => {
                   _focus={{ bg: "inherit" }}
                   _active={{ bg: "inherit" }}
                   rightIcon={<ChevronDownIcon />}
-                  mx={2}
                 >
                   {group}
                 </MenuButton>
@@ -113,6 +118,32 @@ const Exercises: FC = ({}) => {
                   <MenuDivider />
                   <MenuItem value="Abdominals" onClick={handleGroup}>
                     <b>Abdominals</b>
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  variant="ghost"
+                  _hover={{ bg: "inherit" }}
+                  _focus={{ bg: "inherit" }}
+                  _active={{ bg: "inherit" }}
+                  rightIcon={<ChevronDownIcon />}
+                >
+                  {difficulty}
+                </MenuButton>
+                <MenuList>
+                  <MenuItem value="All difficulties" onClick={handleDifficulty}>
+                    All difficulties
+                  </MenuItem>
+                  <MenuItem value="Beginner" onClick={handleDifficulty}>
+                    Beginner
+                  </MenuItem>
+                  <MenuItem value="Intermediate" onClick={handleDifficulty}>
+                    Intermediate
+                  </MenuItem>
+                  <MenuItem value="Advanced" onClick={handleDifficulty}>
+                    Advanced
                   </MenuItem>
                 </MenuList>
               </Menu>
