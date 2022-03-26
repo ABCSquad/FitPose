@@ -77,7 +77,7 @@ const Index = () => {
                     can achieve your fitness goals.
                   </Text>
                   <Flex>
-                    <NextLink href="/exercises">
+                    <NextLink href="/all-exercises">
                       <Button
                         colorScheme="teal"
                         size="lg"
@@ -140,6 +140,7 @@ const Index = () => {
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
             templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            mx={-6}
           >
             <Feature
               icon="application"
@@ -242,7 +243,7 @@ const Index = () => {
                         </Text>
                       </>
                     )}
-                    <NextLink href={data?.me ? "/dashboard" : "/exercises"}>
+                    <NextLink href={data?.me ? "/dashboard" : "/all-exercises"}>
                       <Button
                         colorScheme={data?.me ? "pink" : "gray"}
                         size={buttonSize}

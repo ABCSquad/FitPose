@@ -1,0 +1,9 @@
+query Exercises {
+  exercises {
+    _id
+    name
+    difficulty
+    tags
+    steps
+  }
+}

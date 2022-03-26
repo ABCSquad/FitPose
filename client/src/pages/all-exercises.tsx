@@ -7,6 +7,7 @@ import {
 import {
   Box,
   Button,
+  Grid,
   Input,
   InputGroup,
   InputLeftElement,
@@ -21,29 +22,39 @@ import { ChangeEvent, MouseEvent, FC, useState } from "react";
 import NavBar from "../components/NavBar";
 import Wrapper from "../components/Wrapper";
 import createUrqlClient from "../utils/createUrqlClient";
+import { useExercisesQuery } from "../generated/graphql";
+import ExerciseCard from "../components/ExerciseCard";
 
 const Exercises: FC = ({}) => {
+  const [{ data }] = useExercisesQuery();
+
   const [search, setSearch] = useState("");
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
 
-  const [group, setGroup] = useState("All groups");
+  const [group, setGroup] = useState("");
   const handleGroup = (e: MouseEvent<HTMLButtonElement>) => {
     setGroup(e.currentTarget.value);
   };
 
-  const [difficulty, setDifficulty] = useState("All difficulties");
+  const [difficulty, setDifficulty] = useState("");
   const handleDifficulty = (e: MouseEvent<HTMLButtonElement>) => {
     setDifficulty(e.currentTarget.value);
   };
 
+  //For menu items
+  const pushMuscles = ["Chest", "Shoulders", "Triceps"];
+  const pullMuscles = ["Lats", "Traps", "Lower back", "Biceps"];
+  const legsMuscles = ["Quads", "Hamstrings", "Glutes"];
+  const difficulties = ["Beginner", "Intermediate", "Advanced"];
+
   return (
     <>
       <NavBar bg="brand.teal" />
-      <Box minH="92vh">
-        <Box py={6}>
-          <Wrapper>
+      <Box minH="92vh" bg="brand.lightgrey">
+        <Wrapper>
+          <Box py={6}>
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
@@ -64,57 +75,39 @@ const Exercises: FC = ({}) => {
                   _active={{ bg: "inherit" }}
                   rightIcon={<ChevronDownIcon />}
                 >
-                  {group}
+                  {group || "All groups"}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem value="All groups" onClick={handleGroup}>
+                  <MenuItem value="" onClick={handleGroup}>
                     <b>All groups</b>
                   </MenuItem>
                   <MenuDivider />
                   <MenuItem value="Push" onClick={handleGroup}>
                     <b>Push</b>
                   </MenuItem>
-                  <MenuItem value="Chest" onClick={handleGroup}>
-                    Chest
-                  </MenuItem>
-                  <MenuItem value="Shoulders" onClick={handleGroup}>
-                    Shoulders
-                  </MenuItem>
-                  <MenuItem value="Triceps" onClick={handleGroup}>
-                    Triceps
-                  </MenuItem>
+                  {pushMuscles.map((x) => (
+                    <MenuItem value={x} onClick={handleGroup}>
+                      {x}
+                    </MenuItem>
+                  ))}
                   <MenuDivider />
                   <MenuItem value="Pull" onClick={handleGroup}>
                     <b>Pull</b>
                   </MenuItem>
-                  <MenuItem value="Lats" onClick={handleGroup}>
-                    Lats
-                  </MenuItem>
-                  <MenuItem value="Traps" onClick={handleGroup}>
-                    Traps
-                  </MenuItem>
-                  <MenuItem value="Lower back" onClick={handleGroup}>
-                    Lower back
-                  </MenuItem>
-                  <MenuItem value="Biceps" onClick={handleGroup}>
-                    Biceps
-                  </MenuItem>
+                  {pullMuscles.map((x) => (
+                    <MenuItem value={x} onClick={handleGroup}>
+                      {x}
+                    </MenuItem>
+                  ))}
                   <MenuDivider />
                   <MenuItem value="Legs" onClick={handleGroup}>
                     <b>Legs</b>
                   </MenuItem>
-                  <MenuItem value="Quads" onClick={handleGroup}>
-                    Quads
-                  </MenuItem>
-                  <MenuItem value="Hamstrings" onClick={handleGroup}>
-                    Hamstrings
-                  </MenuItem>
-                  <MenuItem value="Glutes" onClick={handleGroup}>
-                    Glutes
-                  </MenuItem>
-                  <MenuItem value="Calves" onClick={handleGroup}>
-                    Calves
-                  </MenuItem>
+                  {legsMuscles.map((x) => (
+                    <MenuItem value={x} onClick={handleGroup}>
+                      {x}
+                    </MenuItem>
+                  ))}
                   <MenuDivider />
                   <MenuItem value="Abdominals" onClick={handleGroup}>
                     <b>Abdominals</b>
@@ -130,21 +123,18 @@ const Exercises: FC = ({}) => {
                   _active={{ bg: "inherit" }}
                   rightIcon={<ChevronDownIcon />}
                 >
-                  {difficulty}
+                  {difficulty || "All difficulties"}
                 </MenuButton>
                 <MenuList>
-                  <MenuItem value="All difficulties" onClick={handleDifficulty}>
-                    All difficulties
+                  <MenuItem value="" onClick={handleDifficulty}>
+                    <b>All difficulties</b>
                   </MenuItem>
-                  <MenuItem value="Beginner" onClick={handleDifficulty}>
-                    Beginner
-                  </MenuItem>
-                  <MenuItem value="Intermediate" onClick={handleDifficulty}>
-                    Intermediate
-                  </MenuItem>
-                  <MenuItem value="Advanced" onClick={handleDifficulty}>
-                    Advanced
-                  </MenuItem>
+                  <MenuDivider />
+                  {difficulties.map((x) => (
+                    <MenuItem value={x} onClick={handleDifficulty}>
+                      {x}
+                    </MenuItem>
+                  ))}
                 </MenuList>
               </Menu>
               <NextLink href="/favourites">
@@ -158,8 +148,29 @@ const Exercises: FC = ({}) => {
                 </Button>
               </NextLink>
             </InputGroup>
-          </Wrapper>
-        </Box>
+          </Box>
+          <Box>
+            <Grid
+              templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+              templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+              mx={-6}
+            >
+              {data
+                ? data.exercises
+                    // To apply search, group and difficulty filters
+                    .filter(
+                      (exercise) =>
+                        exercise.difficulty.includes(difficulty) &&
+                        exercise.tags.some((tag) => tag.includes(group)) &&
+                        exercise.name
+                          .toLowerCase()
+                          .includes(search.toLowerCase())
+                    )
+                    .map((exercise) => <ExerciseCard {...exercise} />)
+                : null}
+            </Grid>
+          </Box>
+        </Wrapper>
       </Box>
     </>
   );
