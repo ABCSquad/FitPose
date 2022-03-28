@@ -9,6 +9,8 @@ interface ErrorMessageType {
 export const getErrorMessage = (
   error: CombinedError
 ): ErrorMessageType | undefined => {
+  console.log(error);
+  
   const exception: any = error.graphQLErrors[0].extensions.exception;
 
   //Property validation errors

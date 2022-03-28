@@ -1,21 +1,29 @@
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Text, Link, Center, Heading } from "@chakra-ui/react";
 import { Formik, Form } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { FC } from "react";
+import AuthLayout from "../components/AuthLayout";
 import InputField from "../components/InputField";
-import Layout from "../components/Layout";
 import { useRegisterMutation } from "../generated/graphql";
 import createUrqlClient from "../utils/createUrqlClient";
 import { getErrorMessage } from "../utils/getErrorMessage";
+import NextLink from "next/link";
+import { useMeQuery } from "../generated/graphql";
 
 const SignUp: FC = ({}) => {
   const router = useRouter();
+  const [{ data, fetching }] = useMeQuery();
+  if (data?.me) router.replace("/");
+
   const [, register] = useRegisterMutation();
 
-  return (
-    <Layout>
-      <Box maxW="sm" borderWidth="1px" m="auto" mt={200} px={5} py={10}>
+  if (!fetching && !data?.me)
+    return (
+      <AuthLayout>
+        <Center h={{ base: "60px", md: 20 }}>
+          <Heading>Sign Up</Heading>
+        </Center>
         <Formik
           initialValues={{ email: "", name: "", password: "" }}
           onSubmit={async (values, { setErrors }) => {
@@ -33,6 +41,7 @@ const SignUp: FC = ({}) => {
                   name="email"
                   placeholder="e.g. johndoe@example.com"
                   label="Email"
+                  type="email"
                 />
               </Box>
               <Box m={3}>
@@ -48,12 +57,13 @@ const SignUp: FC = ({}) => {
                   placeholder="********"
                   label="Password"
                   type="password"
+                  autoComplete="on"
                 />
               </Box>
               <Box mx={3} mt={5} mb={3}>
                 <Button
                   type="submit"
-                  colorScheme="teal"
+                  colorScheme="pink"
                   isLoading={isSubmitting}
                   width="100%"
                 >
@@ -63,9 +73,17 @@ const SignUp: FC = ({}) => {
             </Form>
           )}
         </Formik>
-      </Box>
-    </Layout>
-  );
+        <Box mx={3}>
+          <Text>
+            Already have an account?{" "}
+            <NextLink href="/login">
+              <Link color="blue.600">Log in.</Link>
+            </NextLink>
+          </Text>
+        </Box>
+      </AuthLayout>
+    );
+  return null;
 };
 
 export default withUrqlClient(createUrqlClient)(SignUp);
