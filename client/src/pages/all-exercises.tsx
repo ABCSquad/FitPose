@@ -54,7 +54,7 @@ const Exercises: FC = ({}) => {
       <NavBar bg="brand.teal" />
       <Box minH="92vh" bg="brand.lightgrey">
         <Wrapper>
-          <Box py={6}>
+          <Box pb={6} pt={10}>
             <InputGroup>
               <InputLeftElement
                 pointerEvents="none"
@@ -63,9 +63,9 @@ const Exercises: FC = ({}) => {
               <Input
                 placeholder="Search for an exercise"
                 onChange={handleSearch}
-                w={1000}
+                w={800}
                 mr={4}
-              />
+              ></Input>
               <Menu>
                 <MenuButton
                   as={Button}
@@ -151,9 +151,10 @@ const Exercises: FC = ({}) => {
           </Box>
           <Box>
             <Grid
-              templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
+              templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }}
               templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
-              mx={-6}
+              mx={-5}
+              pb={5}
             >
               {data
                 ? data.exercises

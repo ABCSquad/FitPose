@@ -4,7 +4,7 @@ import { FC } from "react";
 const Wrapper: FC<BoxProps> = ({ children, ...boxProps }) => {
   return (
     <>
-      <Box mx="auto" maxW={{ base: 1400, lg: 1600 }} px={6} {...boxProps}>
+      <Box mx="auto" maxW={{ base: 1400 }} px={6} {...boxProps}>
         {children}
       </Box>
     </>
