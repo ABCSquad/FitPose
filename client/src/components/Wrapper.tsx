@@ -1,10 +1,10 @@
-import { Box } from "@chakra-ui/react";
+import { Box, BoxProps } from "@chakra-ui/react";
 import { FC } from "react";
 
-const Wrapper: FC = ({ children }) => {
+const Wrapper: FC<BoxProps> = ({ children, ...boxProps }) => {
   return (
     <>
-      <Box mx="auto" maxW={{ base: "1400px", lg: "1600px" }} px={6}>
+      <Box mx="auto" maxW={{ base: 1400 }} px={6} {...boxProps}>
         {children}
       </Box>
     </>

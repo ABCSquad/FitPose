@@ -1,0 +1,9 @@
+query Exercise($name: String!) {
+  exercise(name: $name) {
+    _id
+    name
+    difficulty
+    tags
+    steps
+  }
+}
