@@ -3,6 +3,11 @@ import { Resolver, Query, Mutation, Arg } from "type-graphql";
 
 @Resolver()
 export default class ExerciseResolver {
+  @Query(() => Exercise)
+  async exercise(@Arg("name") name: string): Promise<Exercise | null> {
+    return await ExerciseModel.findOne({ name }).exec();
+  }
+
   @Query(() => [Exercise])
   async exercises(): Promise<Exercise[]> {
     return await ExerciseModel.find();

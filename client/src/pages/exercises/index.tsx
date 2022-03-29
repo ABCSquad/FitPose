@@ -19,11 +19,11 @@ import {
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { ChangeEvent, MouseEvent, FC, useState } from "react";
-import NavBar from "../components/NavBar";
-import Wrapper from "../components/Wrapper";
-import createUrqlClient from "../utils/createUrqlClient";
-import { useExercisesQuery } from "../generated/graphql";
-import ExerciseCard from "../components/ExerciseCard";
+import NavBar from "../../components/NavBar";
+import Wrapper from "../../components/Wrapper";
+import createUrqlClient from "../../utils/createUrqlClient";
+import { useExercisesQuery } from "../../generated/graphql";
+import ExerciseCard from "../../components/ExerciseCard";
 
 const Exercises: FC = ({}) => {
   const [{ data }] = useExercisesQuery();
@@ -137,14 +137,14 @@ const Exercises: FC = ({}) => {
                   ))}
                 </MenuList>
               </Menu>
-              <NextLink href="/favourites">
+              <NextLink href="/playlists">
                 <Button
                   rightIcon={<ArrowForwardIcon />}
                   colorScheme="teal"
                   variant="outline"
                   ml="auto"
                 >
-                  Go to Favourites
+                  Go to Playlists
                 </Button>
               </NextLink>
             </InputGroup>
@@ -166,6 +166,10 @@ const Exercises: FC = ({}) => {
                         exercise.name
                           .toLowerCase()
                           .includes(search.toLowerCase())
+                    )
+                    // Sort in alphabetical order
+                    .sort((a, b) =>
+                      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                     )
                     .map((exercise) => <ExerciseCard {...exercise} />)
                 : null}

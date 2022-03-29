@@ -77,7 +77,7 @@ const Index = () => {
                     can achieve your fitness goals.
                   </Text>
                   <Flex>
-                    <NextLink href="/all-exercises">
+                    <NextLink href="/exercises">
                       <Button
                         colorScheme="teal"
                         size="lg"
@@ -224,28 +224,24 @@ const Index = () => {
                     </ListItem>
                   </UnorderedList>
                   <Flex align="center">
-                    {!data?.me && (
-                      <>
-                        <NextLink href="/signup">
-                          <Button
-                            colorScheme="pink"
-                            size={buttonSize}
-                            ml={{ base: "auto", md: 0 }}
-                          >
-                            Sign Up For Free
-                          </Button>
-                        </NextLink>
-                        <Text
-                          mx={{ base: 2, md: 5 }}
-                          fontSize={{ base: "0.7rem", md: "1rem" }}
-                        >
-                          or
-                        </Text>
-                      </>
-                    )}
-                    <NextLink href={data?.me ? "/dashboard" : "/all-exercises"}>
+                    <NextLink href={data?.me ? "/playlists" : "/signup"}>
                       <Button
-                        colorScheme={data?.me ? "pink" : "gray"}
+                        colorScheme="pink"
+                        size={buttonSize}
+                        ml={{ base: "auto", md: 0 }}
+                      >
+                        {data?.me ? "View Playlists" : "Sign Up For Free"}
+                      </Button>
+                    </NextLink>
+                    <Text
+                      mx={{ base: 2, md: 5 }}
+                      fontSize={{ base: "0.7rem", md: "1rem" }}
+                    >
+                      or
+                    </Text>
+                    <NextLink href={data?.me ? "/dashboard" : "/exercises"}>
+                      <Button
+                        colorScheme="gray"
                         size={buttonSize}
                         mr={{ base: "auto", md: 0 }}
                         ml={{ base: "auto", md: 0 }}

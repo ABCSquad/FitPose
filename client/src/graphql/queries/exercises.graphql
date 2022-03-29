@@ -4,6 +4,5 @@ query Exercises {
     name
     difficulty
     tags
-    steps
   }
 }
