@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef, useState } from "react";
+import React, { FC, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
@@ -28,7 +28,7 @@ const Canvas: FC = () => {
 		canvasCtx = canvasRef.current!.getContext("2d");
 		setBlurState(coreInstance.blur());
 		const getValue: any = coreInstance.update(results.poseLandmarks);
-		if (getValue.repObj.count) setRepCounter(getValue.repObj.count);
+		if (getValue!=undefined) setRepCounter(getValue.repObj.count);
 		setMetaData(getValue);
 
 		if (canvasCtx && canvasRef.current) {

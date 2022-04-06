@@ -26,37 +26,37 @@ export const MainAppLayout: FC = () => {
 				<Center>
 					<VStack>
 						{blurState ? (
-							<Text fontSize="4xl" color="red.400">
+							<Text fontSize="3xl" color="red.400">
 								NO KEYPOINTS DETECTED
 							</Text>
 						) : (
-							<Text fontSize="4xl" color="green.400">
+							<Text fontSize="3xl" color="green.400">
 								KEYPOINTS DETECTED
 							</Text>
 						)}
 						<Text fontSize="4xl" color="orange.400">
 							REPS:
 						</Text>
-						<Text fontSize="8xl">{repCounter}</Text>
+						<Text fontSize="8xl" color="black">{repCounter}</Text>
 						<HStack>
 							{" "}
-							<Text fontSize="md">
+							<Text fontSize="md" color="black">
 								Shoulder:{" "}
-								{metaData.deviationObj
+								{metaData && metaData.deviationObj
 									? Math.round(metaData.deviationObj.shoulder)
 									: null}{" "}
 								°
 							</Text>
-							<Text fontSize="md">
+							<Text fontSize="md" color="black">
 								Elbow(r):{" "}
-								{metaData.deviationObj
+								{metaData && metaData.deviationObj
 									? Math.round(metaData.deviationObj.leftElbow)
 									: null}{" "}
 								°
 							</Text>
-							<Text fontSize="md">
+							<Text fontSize="md" color="black">
 								Elbow(l):{" "}
-								{metaData.deviationObj
+								{metaData && metaData.deviationObj
 									? Math.round(metaData.deviationObj.rightElbow)
 									: null}{" "}
 								°
@@ -72,8 +72,8 @@ export const MainAppLayout: FC = () => {
 			>
 				{" "}
 				<Center mt="3">
-					<Text fontSize="6xl">
-						{metaData.message ? metaData.message.toUpperCase() : null}
+					<Text fontSize="6xl" color="black">
+						{metaData && metaData.message ? metaData.message.toUpperCase() : null}
 					</Text>
 				</Center>
 			</GridItem>

@@ -14,12 +14,12 @@ let message: string;
 
 const repObj: Rep = {
 	count: 0,
-	flag: 0,
+	flag: 1,
 };
 
 const timer = new Timer();
 
-export const ohp = (keypoints: any, reps: number) => {
+export const ohp = (keypoints: any) => {
 	/* 
 	Deviations:
 	- Left/Right shoulder
@@ -45,36 +45,35 @@ export const ohp = (keypoints: any, reps: number) => {
 	// Timer
 
 	if (
-		deviationObj.shoulder > 10 ||
-		deviationObj.rightElbow > 10 ||
-		deviationObj.leftElbow > 10
+		Math.abs(deviationObj.shoulder) > 10 ||
+		Math.abs(deviationObj.rightElbow) > 10 ||
+		Math.abs(deviationObj.leftElbow) > 10
 	) {
 		timer.start();
 		// console.log(timer.getTimeValues().seconds);
-		if (timer.getTimeValues().seconds > 1) {
+		if (timer.getTimeValues().seconds > 0.4) {
 			if (deviationObj.shoulder > 10) {
 				message = messages.ohp.shoulder;
-			} else if (deviationObj.rightElbow > 10) {
-				if (deviationObj.leftElbow < 10) {
-					message = messages.ohp.rightElbow;
-				} else {
-					message = messages.ohp.wrong;
-				}
-			} else if (deviationObj.leftElbow > 10) {
-				if (deviationObj.rightElbow < 10) {
+			} else if (Math.abs(deviationObj.rightElbow) > 10) {
+				if (Math.abs(deviationObj.leftElbow) < 10) {
 					message = messages.ohp.leftElbow;
 				} else {
 					message = messages.ohp.wrong;
 				}
+			} else if (Math.abs(deviationObj.leftElbow) > 10) {
+				if (Math.abs(deviationObj.rightElbow) < 10) {
+					message = messages.ohp.rightElbow;
+				} else {
+					message = messages.ohp.wrong;
+				}
 			}
-			// console.log("u are violating the law");
 		}
 	} else {
 		// console.log("position is fine");
 		message = messages.ohp.correct;
 		timer.reset();
 	}
-
+	
 	// Reps
 	if (
 		deviationObj.shoulder < 15 &&

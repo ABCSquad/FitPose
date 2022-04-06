@@ -21,6 +21,7 @@ export default class Core {
 		if (!this.blur()) {
 			return this.start();
 		}
+		return undefined
 	}
 
 	start() {
