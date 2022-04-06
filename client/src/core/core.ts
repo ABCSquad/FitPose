@@ -1,35 +1,37 @@
-export default class Core {
-	static _instance: Core;
+import Exercise from "./exercise";
+import { ExerciseObj } from "./types";
 
-	image: any | undefined;
+export default class Core {
 	keypoints: object | undefined;
-	currentExercise: string;
-	canvas: object;
+	exerciseArray: Array<ExerciseObj>;
+	currentExercise: ExerciseObj;
+	exerciseInstance: Exercise;
+	getValue: object | undefined;
 	// exercise: object;
 
-	// Defined Singleton : will give only one instance of Core.
-	static getInstance(currentExercise: string, canvas: object) {
-		if (!Core._instance) {
-			Core._instance = new Core(currentExercise, canvas);
-			console.log("same instance");
-		}
-		return Core._instance;
+	constructor(exerciseArray: Array<ExerciseObj>) {
+		// Definitions
+		this.exerciseArray = exerciseArray;
+		this.currentExercise = this.exerciseArray[0];
+		this.exerciseInstance = new Exercise();
 	}
 
-	constructor(currentExercise: string, canvas: object) {
-		// Definitions
-		this.canvas = canvas;
-		this.currentExercise = currentExercise;
-		// this.keypoints = new Keypoints();
-
-		// TODO: to get keypoints define seperate class and instantiate in constructor
+	update(keypoints: object) {
+		this.keypoints = keypoints;
+		if (!this.blur()) {
+			return this.start();
+		}
 	}
 
 	start() {
-		console.log(this.canvas);
+		return this.exerciseInstance.start(this.currentExercise, this.keypoints!);
 	}
 
-	end() {}
-
-	next() {}
+	blur() {
+		if (this.keypoints === undefined) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

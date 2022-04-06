@@ -1,25 +1,35 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { Pose, POSE_CONNECTIONS } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
+import { useApp } from "../contexts/AppContext";
 
 const Canvas: FC = () => {
+	const { blurState, setBlurState, setMetaData, setRepCounter }: any = useApp();
+
 	const videoRef = useRef<Webcam | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
 	let canvasCtx: CanvasRenderingContext2D | null;
+	let coreInstance: Core;
 
 	const videoConstraints = {
 		width: 1280,
 		height: 720,
 	};
 
+	useEffect(() => {
+		console.log(blurState);
+	}, [blurState]);
+
 	const onResults = (results: any) => {
-		const current = "hello";
 		canvasCtx = canvasRef.current!.getContext("2d");
-		const core = Core.getInstance(current, canvasRef);
+		setBlurState(coreInstance.blur());
+		const getValue: any = coreInstance.update(results.poseLandmarks);
+		if (getValue.repObj.count) setRepCounter(getValue.repObj.count);
+		setMetaData(getValue);
 
 		if (canvasCtx && canvasRef.current) {
 			canvasCtx.save();
@@ -51,6 +61,11 @@ const Canvas: FC = () => {
 	};
 
 	useEffect(() => {
+		const exerciseArray = [
+			{ name: "ohp", keypoints: [23, 24, 11, 12, 13, 14, 15, 16], reps: 10 },
+		];
+		coreInstance = new Core(exerciseArray);
+
 		const pose = new Pose({
 			locateFile: (file) => {
 				return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
@@ -58,6 +73,7 @@ const Canvas: FC = () => {
 		});
 		pose.setOptions({
 			modelComplexity: 1,
+			selfieMode: true,
 			smoothLandmarks: true,
 			enableSegmentation: false,
 			smoothSegmentation: true,
