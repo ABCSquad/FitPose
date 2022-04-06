@@ -20,8 +20,11 @@ import Feature from "../components/Feature";
 import Footer from "../components/Footer";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import NavBar from "../components/NavBar";
+import { useMeQuery } from "../generated/graphql";
 
 const Index = () => {
+  const [{ data }] = useMeQuery();
+
   useEffect(() => {
     import("@lottiefiles/lottie-player");
   });
@@ -36,10 +39,10 @@ const Index = () => {
 
   return (
     <>
-      {/* Landing segment */}
-      <Box minH="100vh" bg="brand.teal">
-        <NavBar />
+      <NavBar bg="brand.teal" />
 
+      {/* Landing segment */}
+      <Box minH="92vh" bg="brand.teal">
         <Wrapper>
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(3, 1fr)" }}
@@ -74,15 +77,17 @@ const Index = () => {
                     can achieve your fitness goals.
                   </Text>
                   <Flex>
-                    <Button
-                      colorScheme="teal"
-                      size="lg"
-                      my={{ base: 4, md: 5 }}
-                      mx={{ base: "auto", md: 0 }}
-                      rightIcon={<ArrowForwardIcon />}
-                    >
-                      Get Started For Free
-                    </Button>
+                    <NextLink href="/exercises">
+                      <Button
+                        colorScheme="teal"
+                        size="lg"
+                        my={{ base: 4, md: 5 }}
+                        mx={{ base: "auto", md: 0 }}
+                        rightIcon={<ArrowForwardIcon />}
+                      >
+                        Get Started For Free
+                      </Button>
+                    </NextLink>
                   </Flex>
                 </Box>
               </Flex>
@@ -135,6 +140,7 @@ const Index = () => {
           <Grid
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
             templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+            mx={-6}
           >
             <Feature
               icon="application"
@@ -195,7 +201,9 @@ const Index = () => {
                     {...textAlign}
                     fontSize={{ base: "1.8rem", md: "2.5rem" }}
                   >
-                    Sign up for free to get additional benefits.
+                    {data?.me
+                      ? "Membership benefits that you have availed~"
+                      : "Sign up for free to get additional benefits."}
                   </Heading>
                   <UnorderedList
                     spacing={4}
@@ -216,13 +224,13 @@ const Index = () => {
                     </ListItem>
                   </UnorderedList>
                   <Flex align="center">
-                    <NextLink href="/signup">
+                    <NextLink href={data?.me ? "/playlists" : "/signup"}>
                       <Button
                         colorScheme="pink"
                         size={buttonSize}
                         ml={{ base: "auto", md: 0 }}
                       >
-                        Sign Up For Free
+                        {data?.me ? "View Playlists" : "Sign Up For Free"}
                       </Button>
                     </NextLink>
                     <Text
@@ -231,9 +239,16 @@ const Index = () => {
                     >
                       or
                     </Text>
-                    <Button size={buttonSize} mr={{ base: "auto", md: 0 }}>
-                      Get Started Anyway
-                    </Button>
+                    <NextLink href={data?.me ? "/dashboard" : "/exercises"}>
+                      <Button
+                        colorScheme="gray"
+                        size={buttonSize}
+                        mr={{ base: "auto", md: 0 }}
+                        ml={{ base: "auto", md: 0 }}
+                      >
+                        {data?.me ? "Go To Dashboard" : "Get Started Anyway"}
+                      </Button>
+                    </NextLink>
                   </Flex>
                 </Box>
               </Flex>
