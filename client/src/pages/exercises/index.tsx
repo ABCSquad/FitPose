@@ -26,7 +26,7 @@ import { useExercisesQuery } from "../../generated/graphql";
 import ExerciseCard from "../../components/ExerciseCard";
 
 const Exercises: FC = ({}) => {
-  const [{ data }] = useExercisesQuery();
+  const [{ data, fetching }] = useExercisesQuery();
 
   const [search, setSearch] = useState("");
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
@@ -150,30 +150,37 @@ const Exercises: FC = ({}) => {
             </InputGroup>
           </Box>
           <Box>
-            <Grid
-              templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(4, 1fr)" }}
-              templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
-              mx={-5}
-              pb={5}
-            >
-              {data
-                ? data.exercises
-                    // To apply search, group and difficulty filters
-                    .filter(
-                      (exercise) =>
-                        exercise.difficulty.includes(difficulty) &&
-                        exercise.tags.some((tag) => tag.includes(group)) &&
-                        exercise.name
-                          .toLowerCase()
-                          .includes(search.toLowerCase())
-                    )
-                    // Sort in alphabetical order
-                    .sort((a, b) =>
-                      a.name > b.name ? 1 : b.name > a.name ? -1 : 0
-                    )
-                    .map((exercise) => <ExerciseCard {...exercise} />)
-                : null}
-            </Grid>
+            {fetching ? (
+              <h1>hello</h1>
+            ) : (
+              <Grid
+                templateColumns={{
+                  base: "repeat(1, 1fr)",
+                  md: "repeat(4, 1fr)",
+                }}
+                templateRows={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
+                mx={-5}
+                pb={5}
+              >
+                {data
+                  ? data.exercises
+                      // To apply search, group and difficulty filters
+                      .filter(
+                        (exercise) =>
+                          exercise.difficulty.includes(difficulty) &&
+                          exercise.tags.some((tag) => tag.includes(group)) &&
+                          exercise.name
+                            .toLowerCase()
+                            .includes(search.toLowerCase())
+                      )
+                      // Sort in alphabetical order
+                      .sort((a, b) =>
+                        a.name > b.name ? 1 : b.name > a.name ? -1 : 0
+                      )
+                      .map((exercise) => <ExerciseCard {...exercise} />)
+                  : null}
+              </Grid>
+            )}
           </Box>
         </Wrapper>
       </Box>

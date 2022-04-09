@@ -73,7 +73,7 @@ const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
           <Center h={{ base: "70px", md: 20 }}>
             <NextLink href="/">
               <Img
-                src="./svgs/logo.svg"
+                src="/svgs/logo.svg"
                 alt="logo"
                 h={{ base: 6, md: 8 }}
                 cursor="pointer"

@@ -27,7 +27,7 @@ const Feature: FC<FeatureProps> = ({ icon, heading, body }) => {
         rounded="xl"
       >
         <Circle bg="teal.500" size={{ base: "50px", md: 20 }} mb={4}>
-          <Img src={`./svgs/features/${icon}.svg`} alt={icon} h="50%" />
+          <Img src={`/svgs/features/${icon}.svg`} alt={icon} h="50%" />
         </Circle>
         <Text fontSize={{ base: "1.4rem", md: "1.8rem" }} mb={2}>
           <b>{heading}</b>

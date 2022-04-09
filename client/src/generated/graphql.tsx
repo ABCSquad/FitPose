@@ -19,6 +19,8 @@ export type Exercise = {
   __typename?: 'Exercise';
   _id: Scalars['String'];
   difficulty: Scalars['String'];
+  gif1: Scalars['String'];
+  gif2: Scalars['String'];
   name: Scalars['String'];
   steps: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
@@ -110,7 +112,7 @@ export type ExerciseQueryVariables = Exact<{
 }>;
 
 
-export type ExerciseQuery = { __typename?: 'Query', exercise: { __typename?: 'Exercise', _id: string, name: string, difficulty: string, tags: Array<string>, steps: Array<string> } };
+export type ExerciseQuery = { __typename?: 'Query', exercise: { __typename?: 'Exercise', _id: string, name: string, difficulty: string, tags: Array<string>, steps: Array<string>, gif1: string, gif2: string } };
 
 export type ExercisesQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -168,6 +170,8 @@ export const ExerciseDocument = gql`
     difficulty
     tags
     steps
+    gif1
+    gif2
   }
 }
     `;

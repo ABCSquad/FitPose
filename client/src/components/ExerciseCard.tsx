@@ -48,7 +48,7 @@ const ExerciseCard: FC<ExerciseProps> = ({ name, difficulty, tags }) => {
           _hover={{ transform: "scale(1.04)", boxShadow: "lg" }}
         >
           <Img
-            src={`./svgs/exercises/${tags[0].toLowerCase()}.svg`}
+            src={`/svgs/exercises/${tags[0].toLowerCase()}.svg`}
             alt={tags[0]}
             h={250}
             mx="auto"
