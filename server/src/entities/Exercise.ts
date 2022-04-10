@@ -23,6 +23,14 @@ export class Exercise {
   @Field(() => [String])
   @prop({ required: true })
   steps!: string[];
+
+  @Field(() => String)
+  @prop()
+  gif1!: string;
+
+  @Field(() => String)
+  @prop()
+  gif2!: string;
 }
 
 export const ExerciseModel = getModelForClass(Exercise);

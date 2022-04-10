@@ -5,5 +5,7 @@ query Exercise($name: String!) {
     difficulty
     tags
     steps
+    gif1
+    gif2
   }
 }
