@@ -24,7 +24,7 @@ import {
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import { ChangeEvent, FC, useState } from "react";
+import { FC, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
 import { useExerciseQuery } from "../../generated/graphql";
