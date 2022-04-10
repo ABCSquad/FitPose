@@ -1,21 +1,35 @@
+import { ArrowForwardIcon, ArrowRightIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Heading,
-  Img,
-  Text,
+  Button,
   Grid,
   GridItem,
-  Icon,
+  Heading,
   HStack,
+  Icon,
+  Img,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  NumberDecrementStepper,
+  NumberIncrementStepper,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
-import { FC } from "react";
+import { ChangeEvent, FC, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
 import { useExerciseQuery } from "../../generated/graphql";
 import createUrqlClient from "../../utils/createUrqlClient";
-import { CheckCircleIcon, ArrowRightIcon } from "@chakra-ui/icons";
 
 const Exercise: FC = () => {
   const router = useRouter();
@@ -31,10 +45,19 @@ const Exercise: FC = () => {
       : "";
   const [{ data }] = useExerciseQuery({ variables: { name: exerciseName } });
 
+  //For modal
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [reps, setReps] = useState(10);
+  const handleReps = (newReps: string) => {
+    const newRepsNum = parseInt(newReps);
+    if (!isNaN(newRepsNum)) setReps(newRepsNum);
+  };
+
   return (
     <>
       <NavBar bg="brand.teal" />
-      <Box bg="brand.lightgrey" minH="92vh" pt={8}>
+      <Box bg="brand.lightgrey" minH="92vh" py={8}>
         <Wrapper>
           <Heading my={4} color="teal">
             {data?.exercise.name}
@@ -43,6 +66,14 @@ const Exercise: FC = () => {
             <b>Difficulty: </b>
             {data?.exercise.difficulty}
           </Text>
+          <Button
+            colorScheme="teal"
+            size="lg"
+            rightIcon={<ArrowForwardIcon />}
+            onClick={onOpen}
+          >
+            Start Exercise
+          </Button>
           <Grid
             my={10}
             templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)" }}
@@ -53,7 +84,7 @@ const Exercise: FC = () => {
                 alt="Gif1"
                 w="90%"
                 rounded="lg"
-                mx={{ base: "auto", md: 6 }}
+                mx={{ base: "auto", md: 4 }}
                 mr="auto"
               />
             </GridItem>
@@ -63,18 +94,51 @@ const Exercise: FC = () => {
                 alt="Gif2"
                 w="90%"
                 rounded="lg"
-                mx={{ base: "auto", md: 6 }}
+                mx={{ base: "auto", md: 4 }}
                 ml="auto"
               />
             </GridItem>
           </Grid>
           {data?.exercise.steps.map((step) => (
             <HStack bg="white" rounded="lg" borderWidth={1} p={3} mb={3}>
-              <Icon as={CheckCircleIcon} color="teal" boxSize={6} mx={1} />
+              <Icon as={ArrowRightIcon} color="teal" boxSize={5} mx={1} />
               <Text fontSize="1.3rem">{step}</Text>
             </HStack>
           ))}
         </Wrapper>
+        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent bg="brand.lightgrey">
+            <ModalHeader>Enter Maximum Reps</ModalHeader>
+            <ModalBody>
+              <NumberInput
+                defaultValue={10}
+                min={1}
+                max={100}
+                onChange={handleReps}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button
+                colorScheme="teal"
+                onClick={() => {
+                  console.log(reps);
+                }}
+              >
+                I'm Ready
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
     </>
   );
