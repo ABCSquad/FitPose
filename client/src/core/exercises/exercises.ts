@@ -73,7 +73,7 @@ export const ohp = (keypoints: any) => {
 		message = messages.ohp.correct;
 		timer.reset();
 	}
-	
+
 	// Reps
 	if (
 		deviationObj.shoulder < 15 &&
