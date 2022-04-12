@@ -27,11 +27,14 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
+import { useApp } from "../../contexts/AppContext";
 import { useExerciseQuery } from "../../generated/graphql";
 import createUrqlClient from "../../utils/createUrqlClient";
 
 const Exercise: FC = () => {
   const router = useRouter();
+
+  const { setExercises }: any = useApp();
 
   //Getting exercise from url
   const exerciseName =
@@ -51,6 +54,11 @@ const Exercise: FC = () => {
   const handleReps = (newReps: string) => {
     const newRepsNum = parseInt(newReps);
     if (!isNaN(newRepsNum)) setReps(newRepsNum);
+  };
+
+  const startApp = () => {
+    setExercises([data]);
+    router.push("/app");
   };
 
   return (
@@ -127,12 +135,7 @@ const Exercise: FC = () => {
               <Button variant="outline" mr={3} onClick={onClose}>
                 Close
               </Button>
-              <Button
-                colorScheme="teal"
-                onClick={() => {
-                  console.log(reps);
-                }}
-              >
+              <Button colorScheme="teal" onClick={startApp}>
                 I'm Ready
               </Button>
             </ModalFooter>
