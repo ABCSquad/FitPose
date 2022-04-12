@@ -15,6 +15,24 @@ export type Scalars = {
   Float: number;
 };
 
+export type Exercise = {
+  __typename?: 'Exercise';
+  _id: Scalars['String'];
+  difficulty: Scalars['String'];
+  gif1: Scalars['String'];
+  gif2: Scalars['String'];
+  name: Scalars['String'];
+  steps: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
+};
+
+export type ExerciseInput = {
+  difficulty: Scalars['String'];
+  name: Scalars['String'];
+  steps: Array<Scalars['String']>;
+  tags: Array<Scalars['String']>;
+};
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -22,9 +40,15 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createExercise: Exercise;
   login: User;
   logout: Scalars['Boolean'];
   register: User;
+};
+
+
+export type MutationCreateExerciseArgs = {
+  input: ExerciseInput;
 };
 
 
@@ -39,7 +63,14 @@ export type MutationRegisterArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  exercise: Exercise;
+  exercises: Array<Exercise>;
   me?: Maybe<User>;
+};
+
+
+export type QueryExerciseArgs = {
+  name: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -75,6 +106,18 @@ export type RegisterMutationVariables = Exact<{
 
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, name: string, email: string } };
+
+export type ExerciseQueryVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type ExerciseQuery = { __typename?: 'Query', exercise: { __typename?: 'Exercise', _id: string, name: string, difficulty: string, tags: Array<string>, steps: Array<string>, gif1: string, gif2: string } };
+
+export type ExercisesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ExercisesQuery = { __typename?: 'Query', exercises: Array<{ __typename?: 'Exercise', _id: string, name: string, difficulty: string, tags: Array<string> }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -118,6 +161,37 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const ExerciseDocument = gql`
+    query Exercise($name: String!) {
+  exercise(name: $name) {
+    _id
+    name
+    difficulty
+    tags
+    steps
+    gif1
+    gif2
+  }
+}
+    `;
+
+export function useExerciseQuery(options: Omit<Urql.UseQueryArgs<ExerciseQueryVariables>, 'query'>) {
+  return Urql.useQuery<ExerciseQuery>({ query: ExerciseDocument, ...options });
+};
+export const ExercisesDocument = gql`
+    query Exercises {
+  exercises {
+    _id
+    name
+    difficulty
+    tags
+  }
+}
+    `;
+
+export function useExercisesQuery(options?: Omit<Urql.UseQueryArgs<ExercisesQueryVariables>, 'query'>) {
+  return Urql.useQuery<ExercisesQuery>({ query: ExercisesDocument, ...options });
 };
 export const MeDocument = gql`
     query Me {

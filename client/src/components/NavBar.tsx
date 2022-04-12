@@ -1,6 +1,7 @@
 import NextLink from "next/link";
 import {
   Box,
+  BoxProps,
   Button,
   Center,
   Flex,
@@ -15,7 +16,7 @@ import { useLogoutMutation, useMeQuery } from "../generated/graphql";
 import { IoLogOutOutline } from "react-icons/io5";
 import { useRouter } from "next/router";
 
-const NavBar: FC = ({}) => {
+const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
   const router = useRouter();
   const [{ data }] = useMeQuery();
   const [{ fetching }, logout] = useLogoutMutation();
@@ -66,13 +67,13 @@ const NavBar: FC = ({}) => {
   }
 
   return (
-    <Box h={{ base: 8, md: 20 }}>
+    <Box minH="8vh" {...boxProps}>
       <Wrapper>
         <Flex align="center">
-          <Center h={{ base: "60px", md: 20 }}>
+          <Center h={{ base: "70px", md: 20 }}>
             <NextLink href="/">
               <Img
-                src="./svgs/logo.svg"
+                src="/svgs/logo.svg"
                 alt="logo"
                 h={{ base: 6, md: 8 }}
                 cursor="pointer"

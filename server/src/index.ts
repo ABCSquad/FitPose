@@ -16,6 +16,7 @@ import session from "express-session";
 import connectRedis from "connect-redis";
 import Redis from "ioredis";
 import cors from "cors";
+import ExerciseResolver from "./resolvers/exercise";
 
 dotenv.config();
 
@@ -50,7 +51,7 @@ const bootstrap = async () => {
     app.set("trust proxy", 1);
 
     const schema = await buildSchema({
-      resolvers: [UserResolver],
+      resolvers: [UserResolver, ExerciseResolver],
     });
     const context = ({ req, res }: Context) => ({ req, res });
     const plugins = [
