@@ -16,6 +16,8 @@ interface MetaDataType {
 }
 
 type AppContextValueType = {
+	exercises: Array<Object | undefined>;
+	setExercises: React.Dispatch<React.SetStateAction<Array<Object | undefined>>>;
 	blurState: Boolean;
 	setBlurState: React.Dispatch<React.SetStateAction<Boolean>>;
 	repCounter: Number;
@@ -35,12 +37,15 @@ export default function AppContextProvider({
 	children,
 }: AppContextProviderProps) {
 	/* Context Internal States. */
+	const [exercises, setExercises] = useState<Array<Object | undefined>>([]);
 	const [blurState, setBlurState] = useState<Boolean>(true);
 	const [repCounter, setRepCounter] = useState<Number>(0);
 	const [metaData, setMetaData] = useState<MetaDataType | null>(null);
 
 	/* Value object to pass into the Provider. */
 	const value = {
+		exercises,
+		setExercises,
 		blurState,
 		setBlurState,
 		repCounter,
@@ -49,5 +54,5 @@ export default function AppContextProvider({
 		setMetaData,
 	};
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

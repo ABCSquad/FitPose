@@ -4,8 +4,8 @@ import Canvas from "./Canvas";
 import { useApp } from "../contexts/AppContext";
 
 export const MainAppLayout: FC = () => {
-	const { blurState, repCounter, metaData } = useApp();
-	console.log(metaData);
+	const { blurState, repCounter, metaData, exercises } = useApp();
+	console.log("App started with exercises: ", exercises);
 
 	return (
 		<Grid
