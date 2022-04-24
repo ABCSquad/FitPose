@@ -49,5 +49,5 @@ export default function AppContextProvider({
 		setMetaData,
 	};
 
-	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }
