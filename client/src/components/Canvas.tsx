@@ -8,7 +8,7 @@ import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
 
 const Canvas: FC = () => {
-	const { blurState, setBlurState, setMetaData, setRepCounter }: any = useApp();
+	const { blurState, setBlurState, setMetaData, setRepCounter } = useApp();
 
 	const videoRef = useRef<Webcam | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -28,7 +28,7 @@ const Canvas: FC = () => {
 		canvasCtx = canvasRef.current!.getContext("2d");
 		setBlurState(coreInstance.blur());
 		const getValue: any = coreInstance.update(results.poseLandmarks);
-		if (getValue!=undefined) setRepCounter(getValue.repObj.count);
+		if (getValue != undefined) setRepCounter(getValue.repObj.count);
 		setMetaData(getValue);
 
 		if (canvasCtx && canvasRef.current) {

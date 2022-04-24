@@ -4,7 +4,8 @@ import Canvas from "./Canvas";
 import { useApp } from "../contexts/AppContext";
 
 export const MainAppLayout: FC = () => {
-	const { blurState, repCounter, metaData }: any = useApp();
+	const { blurState, repCounter, metaData } = useApp();
+	console.log(metaData);
 
 	return (
 		<Grid
@@ -37,7 +38,9 @@ export const MainAppLayout: FC = () => {
 						<Text fontSize="4xl" color="orange.400">
 							REPS:
 						</Text>
-						<Text fontSize="8xl" color="black">{repCounter}</Text>
+						<Text fontSize="8xl" color="black">
+							{repCounter}
+						</Text>
 						<HStack>
 							{" "}
 							<Text fontSize="md" color="black">
@@ -73,7 +76,9 @@ export const MainAppLayout: FC = () => {
 				{" "}
 				<Center mt="3">
 					<Text fontSize="6xl" color="black">
-						{metaData && metaData.message ? metaData.message.toUpperCase() : null}
+						{metaData && metaData.message
+							? metaData.message.toUpperCase()
+							: null}
 					</Text>
 				</Center>
 			</GridItem>
