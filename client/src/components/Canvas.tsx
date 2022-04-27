@@ -9,7 +9,13 @@ import {
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
-import { AspectRatio, VisuallyHidden } from "@chakra-ui/react";
+import {
+	AspectRatio,
+	Badge,
+	HStack,
+	Text,
+	VisuallyHidden,
+} from "@chakra-ui/react";
 import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
 import { LandmarkGrid } from "@mediapipe/control_utils_3d";
@@ -20,8 +26,6 @@ const Canvas: FC = () => {
 
 	const videoRef = useRef<Webcam | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
-
-	let scale: number;
 
 	if (canvasRef.current) {
 		canvasRef.current.height = 720;
@@ -53,22 +57,23 @@ const Canvas: FC = () => {
 		height: 720,
 	};
 
-	const scaleToFill = (ctx: CanvasRenderingContext2D) => {
-		let canvasDim = {
-			w: canvasRef.current!.width,
-			h: canvasRef.current!.height,
-		};
-		// getting the scale
-		scale = Math.max(
-			window.innerWidth / canvasDim.w,
-			window.innerHeight / canvasDim.h
-		);
-		// get top left pos of window
-		let x = window.innerWidth / 2 - (canvasDim.w / 2) * scale;
-		let y = window.innerHeight / 2 - (canvasDim.h / 2) * scale;
+	/* Scale to fill with aspect ratio */
+	// const scaleToFill = (ctx: CanvasRenderingContext2D) => {
+	// 	let canvasDim = {
+	// 		w: canvasRef.current!.width,
+	// 		h: canvasRef.current!.height,
+	// 	};
+	// 	// getting the scale
+	// 	scale = Math.max(
+	// 		window.innerWidth / canvasDim.w,
+	// 		window.innerHeight / canvasDim.h
+	// 	);
+	// 	// get top left pos of window
+	// 	let x = window.innerWidth / 2 - (canvasDim.w / 2) * scale;
+	// 	let y = window.innerHeight / 2 - (canvasDim.h / 2) * scale;
 
-		ctx.setTransform(scale, 0, 0, scale, x, y);
-	};
+	// 	ctx.setTransform(scale, 0, 0, scale, x, y);
+	// };
 
 	// useEffect(() => {
 	//   console.log(blurState);
@@ -78,7 +83,7 @@ const Canvas: FC = () => {
 		setFPS(1 / ((performance.now() - lastFrameTime) / 1000));
 		lastFrameTime = performance.now();
 		canvasCtx = canvasRef.current!.getContext("2d");
-		scaleToFill(canvasCtx!);
+		// scaleToFill(canvasCtx!);
 		setBlurState(coreInstance.blur());
 		const getValue: any = coreInstance.update(results.poseLandmarks);
 		if (getValue != undefined) setRepCounter(getValue.repObj.count);
@@ -179,7 +184,14 @@ const Canvas: FC = () => {
 				/>
 			</VisuallyHidden>
 			<div className="overlay-fps">
-				{FPS != 0 ? `FPS: ${FPS.toPrecision(2)}` : null}
+				<Badge colorScheme="purple" w={16}>
+					<HStack color="green">
+						<Text>FPS :</Text>
+						<Text color="green" fontSize="lg">
+							{FPS != 0 ? ` ${FPS.toPrecision(2)}` : null}
+						</Text>
+					</HStack>
+				</Badge>
 			</div>
 			<canvas
 				className="content"

@@ -93,7 +93,7 @@ export const ohp = (keypoints: any) => {
 			repObj.flag = 0;
 		}
 	}
-	console.log(repObj);
+	// console.log(repObj);
 
 	return { deviationObj, repObj, message };
 };
