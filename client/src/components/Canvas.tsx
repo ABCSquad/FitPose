@@ -160,7 +160,6 @@ const Canvas: FC = () => {
       { name: "ohp", keypoints: [23, 24, 11, 12, 13, 14, 15, 16], reps: 10 },
     ];
     coreInstance = new Core(exerciseArray);
-
     const pose = new Pose({
       locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
@@ -187,7 +186,6 @@ const Canvas: FC = () => {
       camera.start();
     }
   }, []);
-
   return (
     <div className="container">
       <VisuallyHidden>
@@ -203,16 +201,16 @@ const Canvas: FC = () => {
           // }}
         />
       </VisuallyHidden>
-      <div className="overlay-fps">
-        <Badge colorScheme="purple" w={16}>
-          <HStack color="green">
-            <Text>FPS :</Text>
-            <Text color="green" fontSize="lg">
-              {FPS != 0 ? ` ${FPS.toPrecision(2)}` : null}
-            </Text>
-          </HStack>
-        </Badge>
-      </div>
+      {/* <div className="overlay-fps">
+				<Badge colorScheme="purple" w={16}>
+					<HStack color="green">
+						<Text>FPS :</Text>
+						<Text color="green" fontSize="lg">
+							{FPS != 0 ? ` ${FPS.toPrecision(2)}` : null}
+						</Text>
+					</HStack>
+				</Badge>
+			</div> */}
       <canvas
         className="content"
         ref={canvasRef}
