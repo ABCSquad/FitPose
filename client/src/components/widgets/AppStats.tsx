@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useApp } from "../../contexts/AppContext";
 
@@ -15,9 +15,9 @@ const AppStats: FC = () => {
 			borderColor="InactiveBorder"
 			bg="white"
 		>
-			<Flex dir="row" justify="center" alignContent="center">
-				BIG BOI FRAMES{FPS != 0 ? ` ${FPS.toPrecision(2)}` : null}
-			</Flex>
+			<Grid>
+				<GridItem></GridItem>
+			</Grid>
 		</Box>
 	);
 };

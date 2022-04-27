@@ -10,6 +10,7 @@ import {
 	Legend,
 	ResponsiveContainer,
 } from "recharts";
+import { useApp } from "../../contexts/AppContext";
 
 const data = [
 	{
@@ -57,6 +58,10 @@ const data = [
 ];
 
 const RTGraph: FC = () => {
+	const { metaData } = useApp();
+
+	const setData = () => {};
+
 	return (
 		<Box
 			mb={3}
@@ -81,11 +86,7 @@ const RTGraph: FC = () => {
 							bottom: 5,
 						}}
 					>
-						<CartesianGrid strokeDasharray="3 3" />
-						<XAxis dataKey="name" />
-						<YAxis />
 						<Tooltip />
-						<Legend />
 						<Line
 							type="monotone"
 							dataKey="pv"
