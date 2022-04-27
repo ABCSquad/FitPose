@@ -183,7 +183,7 @@ const Canvas: FC = () => {
 					// }}
 				/>
 			</VisuallyHidden>
-			<div className="overlay-fps">
+			{/* <div className="overlay-fps">
 				<Badge colorScheme="purple" w={16}>
 					<HStack color="green">
 						<Text>FPS :</Text>
@@ -192,7 +192,7 @@ const Canvas: FC = () => {
 						</Text>
 					</HStack>
 				</Badge>
-			</div>
+			</div> */}
 			<canvas
 				className="content"
 				ref={canvasRef}

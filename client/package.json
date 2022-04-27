@@ -26,7 +26,7 @@
     "easytimer": "^1.1.3",
     "easytimer.js": "^4.5.3",
     "formik": "^2.2.9",
-    "framer-motion": "^4.0.3",
+    "framer-motion": "^4.1.17",
     "graphql": "^16.3.0",
     "next": "latest",
     "next-urql": "^3.3.2",
