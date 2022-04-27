@@ -74,7 +74,7 @@ export const MainAppLayout: FC = () => {
 									<motion.div
 										initial={{ width: 0 }}
 										animate={{
-											width: 400,
+											width: 500,
 										}}
 										exit={{ width: "0px" }}
 										transition={{ type: "spring", bounce: 0, duration: 0.4 }}

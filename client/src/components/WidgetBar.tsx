@@ -8,6 +8,7 @@ const WidgetBar = () => {
 				<Flex
 					pos="sticky"
 					right={5}
+					m={2}
 					h="95vh"
 					marginTop="2.5vh"
 					boxShadow="0 4px 12px 0 rgba(0,0,0,0,05)"
