@@ -9,11 +9,16 @@ import {
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
-
+import {
+	AspectRatio,
+	Badge,
+	HStack,
+	Text,
+	VisuallyHidden,
+} from "@chakra-ui/react";
 import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
 import { LandmarkGrid } from "@mediapipe/control_utils_3d";
-import { VisuallyHidden } from "@chakra-ui/react";
 
 const Canvas: FC = () => {
 	const { blurState, FPS, setBlurState, setMetaData, setRepCounter, setFPS } =
@@ -21,6 +26,19 @@ const Canvas: FC = () => {
 
 	const videoRef = useRef<Webcam | null>(null);
 	const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+	const excludedLandmarkSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	const excludedConnectionSet = [
+		[0, 1],
+		[1, 2],
+		[2, 3],
+		[3, 7],
+		[0, 4],
+		[4, 5],
+		[5, 6],
+		[6, 8],
+		[9, 10],
+	];
 
 	if (canvasRef.current) {
 		canvasRef.current.height = 720;
@@ -100,31 +118,38 @@ const Canvas: FC = () => {
 				canvasRef.current.height
 			);
 			if (results.poseLandmarks) {
-				drawConnectors(canvasCtx, results.poseLandmarks, POSE_CONNECTIONS, {
-					visibilityMin: 0.65,
-					color: "white",
-				});
+				drawConnectors(
+					canvasCtx,
+					results.poseLandmarks,
+					POSE_CONNECTIONS.filter((n) => !excludedConnectionSet.includes(n)),
+					{
+						visibilityMin: 0.65,
+						color: "white",
+					}
+				);
 				drawLandmarks(
 					canvasCtx,
-					Object.values(POSE_LANDMARKS_LEFT).map(
-						(index) => results.poseLandmarks[index]
-					),
+					Object.values(POSE_LANDMARKS_LEFT).map((index) => {
+						if (!excludedLandmarkSet.includes(index))
+							return results.poseLandmarks[index];
+					}),
 					{ visibilityMin: 0.65, color: "white", fillColor: "rgb(255,138,0)" }
 				);
 				drawLandmarks(
 					canvasCtx,
-					Object.values(POSE_LANDMARKS_RIGHT).map(
-						(index) => results.poseLandmarks[index]
-					),
+					Object.values(POSE_LANDMARKS_RIGHT).map((index) => {
+						if (!excludedLandmarkSet.includes(index))
+							return results.poseLandmarks[index];
+					}),
 					{ visibilityMin: 0.65, color: "white", fillColor: "rgb(0,217,231)" }
 				);
-				drawLandmarks(
-					canvasCtx,
-					Object.values(POSE_LANDMARKS_NEUTRAL).map(
-						(index) => results.poseLandmarks[index]
-					),
-					{ visibilityMin: 0.65, color: "white", fillColor: "white" }
-				);
+				// drawLandmarks(
+				//   canvasCtx,
+				//   Object.values(POSE_LANDMARKS_NEUTRAL).map(
+				//     (index) => results.poseLandmarks[index]
+				//   ),
+				//   { visibilityMin: 0.65, color: "white", fillColor: "white" }
+				// );
 			}
 			canvasCtx.restore();
 		}
@@ -135,7 +160,6 @@ const Canvas: FC = () => {
 			{ name: "ohp", keypoints: [23, 24, 11, 12, 13, 14, 15, 16], reps: 10 },
 		];
 		coreInstance = new Core(exerciseArray);
-
 		const pose = new Pose({
 			locateFile: (file) => {
 				return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
@@ -162,7 +186,6 @@ const Canvas: FC = () => {
 			camera.start();
 		}
 	}, []);
-
 	return (
 		<div className="container">
 			<VisuallyHidden>
