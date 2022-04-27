@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import { FC, memo, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 import {
 	Pose,
@@ -9,16 +9,11 @@ import {
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
-import {
-	AspectRatio,
-	Badge,
-	HStack,
-	Text,
-	VisuallyHidden,
-} from "@chakra-ui/react";
+
 import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
 import { LandmarkGrid } from "@mediapipe/control_utils_3d";
+import { VisuallyHidden } from "@chakra-ui/react";
 
 const Canvas: FC = () => {
 	const { blurState, FPS, setBlurState, setMetaData, setRepCounter, setFPS } =
@@ -206,4 +201,4 @@ const Canvas: FC = () => {
 	);
 };
 
-export default Canvas;
+export default memo(Canvas);

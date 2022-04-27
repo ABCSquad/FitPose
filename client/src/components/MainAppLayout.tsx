@@ -25,50 +25,50 @@ export const MainAppLayout: FC = () => {
 					align="center"
 				>
 					{" "}
-					<AnimatePresence>
-						<Flex direction="row" justify="flex-start" alignItems="center">
+					<Flex direction="row" justify="flex-start" alignItems="center">
+						<AnimatePresence>
 							{openInfo && (
 								<>
 									<motion.div
+										key="info-window"
 										initial={{ width: 0 }}
 										animate={{
-											width: 400,
+											width: "400px",
 										}}
-										exit={{ width: "0px" }}
-										transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+										exit={{ width: 0 }}
+										transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
 										className="info-window"
 									>
 										<InfoBar />
 									</motion.div>
 								</>
 							)}
-
-							<IconButton
-								m={2}
-								variant="solid"
-								colorScheme="teal"
-								aria-label="Call Sage"
-								fontSize="20px"
-								icon={!openInfo ? <FiArrowRight /> : <FiArrowLeft />}
-								onClick={() => {
-									setOpenInfo(!openInfo);
-								}}
-							/>
-						</Flex>
-					</AnimatePresence>
-					<AnimatePresence>
-						<Flex direction="row" justify="flex-start" alignItems="center">
-							<IconButton
-								m={2}
-								variant="solid"
-								colorScheme="teal"
-								aria-label="Call Sage"
-								fontSize="20px"
-								icon={openWidget ? <FiArrowRight /> : <FiArrowLeft />}
-								onClick={() => {
-									setOpenWidget(!openWidget);
-								}}
-							/>
+						</AnimatePresence>
+						<IconButton
+							m={2}
+							variant="solid"
+							colorScheme="teal"
+							aria-label="Call Sage"
+							fontSize="20px"
+							icon={!openInfo ? <FiArrowRight /> : <FiArrowLeft />}
+							onClick={() => {
+								setOpenInfo(!openInfo);
+							}}
+						/>
+					</Flex>
+					<Flex direction="row" justify="flex-start" alignItems="center">
+						<IconButton
+							m={2}
+							variant="solid"
+							colorScheme="teal"
+							aria-label="Call Sage"
+							fontSize="20px"
+							icon={openWidget ? <FiArrowRight /> : <FiArrowLeft />}
+							onClick={() => {
+								setOpenWidget(!openWidget);
+							}}
+						/>
+						<AnimatePresence>
 							{openWidget && (
 								<>
 									<motion.div
@@ -84,8 +84,8 @@ export const MainAppLayout: FC = () => {
 									</motion.div>
 								</>
 							)}
-						</Flex>
-					</AnimatePresence>
+						</AnimatePresence>
+					</Flex>
 				</Flex>
 			</div>
 		</div>
