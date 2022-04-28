@@ -5,7 +5,6 @@ import {
   POSE_CONNECTIONS,
   POSE_LANDMARKS_LEFT,
   POSE_LANDMARKS_RIGHT,
-  POSE_LANDMARKS_NEUTRAL,
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
@@ -48,7 +47,7 @@ const Canvas: FC = () => {
   const landmarkRef = useRef<HTMLDivElement | null>(null);
   let coreInstance: Core;
   let canvasCtx: CanvasRenderingContext2D | null;
-  let lastFrameTime = performance.now();
+  let lastFrameTime: number = performance.now();
 
   // const grid = new LandmarkGrid(landmarkRef.current!, {
   //   connectionColor: 0xcccccc,
@@ -156,9 +155,7 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [
-      { name: "ohp", keypoints: [23, 24, 11, 12, 13, 14, 15, 16], reps: 10 },
-    ];
+    const exerciseArray = [{ name: "ohp", reps: 10 }];
     coreInstance = new Core(exerciseArray);
     const pose = new Pose({
       locateFile: (file) => {
@@ -175,10 +172,11 @@ const Canvas: FC = () => {
       minTrackingConfidence: 0.3,
     });
     pose.onResults(onResults);
-    if (typeof videoRef.current !== "undefined" && videoRef.current !== null) {
-      const camera = new Camera(videoRef.current.video!, {
+    if (videoRef.current != null && videoRef.current.video !== null) {
+      const camera = new Camera(videoRef.current.video, {
         onFrame: async () => {
-          await pose.send({ image: videoRef.current!.video! });
+          if (videoRef.current != null)
+            await pose.send({ image: videoRef.current.video! });
         },
         width: 1280,
         height: 720,

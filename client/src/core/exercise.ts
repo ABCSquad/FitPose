@@ -6,7 +6,7 @@ export default class Exercise {
 		let values = {};
 		switch (currentExercise.name) {
 			case "ohp":
-				values = exerciseFunc.ohp(keypoints, currentExercise.reps);
+				values = exerciseFunc.ohp(keypoints);
 		}
 		return values;
 	}

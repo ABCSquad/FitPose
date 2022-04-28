@@ -50,7 +50,7 @@ export const ohp = (keypoints: any) => {
 		Math.abs(deviationObj.leftElbow) > 10
 	) {
 		timer.start();
-		// console.log(timer.getTimeValues().seconds);
+		console.log(repObj.count);
 		if (timer.getTimeValues().seconds > 0.4) {
 			if (deviationObj.shoulder > 10) {
 				message = messages.ohp.shoulder;

@@ -16,7 +16,7 @@ export type Rep = {
 
 export type ExerciseObj = {
 	name: string;
-	keypoints: Array<number>;
+	// keypoints: Array<number>;
 	reps: number;
 };
 
