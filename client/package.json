@@ -20,6 +20,7 @@
     "@mediapipe/control_utils_3d": "^0.3.1635987963",
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/pose": "^0.5.1635988162",
+    "@next/swc-darwin-arm64": "^12.0.10",
     "@types/three": "^0.139.0",
     "@urql/exchange-graphcache": "^4.3.6",
     "dotenv": "^14.3.2",
