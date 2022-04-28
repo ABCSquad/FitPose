@@ -1,5 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
+import AppHuman from "./widgets/AppHuman";
+import AppStats from "./widgets/AppStats";
 
 const InfoBar = () => {
 	return (
@@ -12,10 +14,14 @@ const InfoBar = () => {
 				marginTop="2.5vh"
 				boxShadow="0 4px 12px 0 rgba(0,0,0,0,0.5)"
 				borderRadius="30px"
-				dir="column"
+				flexDir="column"
 				justifyContent="space-between"
-				bg="red.200"
-			></Flex>
+				bg="whiteAlpha.200"
+				p={3}
+			>
+				<AppStats />
+				<AppHuman />
+			</Flex>
 		</div>
 	);
 };

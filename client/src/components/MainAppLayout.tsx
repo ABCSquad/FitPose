@@ -1,5 +1,5 @@
 import { Flex, IconButton, Text } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Canvas from "./Canvas";
 import { FiArrowRight } from "react-icons/fi";
 import { FiArrowLeft } from "react-icons/fi";
@@ -10,6 +10,20 @@ import { AnimatePresence, motion } from "framer-motion";
 export const MainAppLayout: FC = () => {
 	const [openWidget, setOpenWidget] = useState<boolean>(false);
 	const [openInfo, setOpenInfo] = useState<boolean>(false);
+
+	const handleResize = () => {
+		if (window.innerWidth < 1000) {
+			setOpenInfo(false);
+			setOpenWidget(false);
+		} else {
+			setOpenInfo(true);
+			setOpenWidget(true);
+		}
+	};
+
+	useEffect(() => {
+		window.addEventListener("resize", handleResize);
+	});
 
 	return (
 		<div style={{ position: "absolute" }}>
@@ -35,7 +49,7 @@ export const MainAppLayout: FC = () => {
 										animate={{
 											width: "400px",
 										}}
-										exit={{ width: 0 }}
+										exit={{ width: 0, opacity: 0 }}
 										transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
 										className="info-window"
 									>
@@ -77,7 +91,7 @@ export const MainAppLayout: FC = () => {
 											width: 500,
 										}}
 										exit={{ width: "0px" }}
-										transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+										transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
 										className="widget-window"
 									>
 										<WidgetBar />
