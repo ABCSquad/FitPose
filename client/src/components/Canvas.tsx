@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from "react";
+import { FC, memo, useEffect, useRef } from "react";
 import Webcam from "react-webcam";
 import {
   Pose,
@@ -222,4 +222,4 @@ const Canvas: FC = () => {
   );
 };
 
-export default Canvas;
+export default memo(Canvas);
