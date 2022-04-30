@@ -47,7 +47,7 @@ const AppStats: FC = () => {
 				{/* FPS MODULE */}
 				<GridItem rowSpan={6} colSpan={6}>
 					<Box {...BoxStyles}>
-						<VStack p={5}>
+						<VStack p={5} h="100%">
 							<Text fontSize="6xl" fontWeight="extrabold" fontFamily="mono">
 								{FPS ? Math.ceil(FPS) : 0}
 							</Text>

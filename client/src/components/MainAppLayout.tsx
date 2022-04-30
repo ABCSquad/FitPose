@@ -15,6 +15,12 @@ export const MainAppLayout: FC = () => {
 		if (window.innerWidth < 1000) {
 			setOpenInfo(false);
 			setOpenWidget(false);
+		} else if ((window.innerWidth < 1000 && openInfo) || openWidget) {
+			if (openInfo) {
+				setOpenWidget(false);
+			} else {
+				setOpenInfo(false);
+			}
 		} else {
 			setOpenInfo(true);
 			setOpenWidget(true);
