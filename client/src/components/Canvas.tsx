@@ -25,6 +25,7 @@ const Canvas: FC = () => {
 
   const videoRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  let camera: Camera;
 
   const excludedLandmarkSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   const excludedConnectionSet = [
@@ -45,7 +46,7 @@ const Canvas: FC = () => {
   }
 
   const landmarkRef = useRef<HTMLDivElement | null>(null);
-  let coreInstance: Core;
+  let coreInstance: Core | null;
   let canvasCtx: CanvasRenderingContext2D | null;
   let lastFrameTime: number = performance.now();
 
@@ -95,11 +96,12 @@ const Canvas: FC = () => {
     setFPS(1 / ((performance.now() - lastFrameTime) / 1000));
     lastFrameTime = performance.now();
     canvasCtx = canvasRef.current!.getContext("2d");
-    // scaleToFill(canvasCtx!);
-    setBlurState(coreInstance.blur());
-    const getValue: any = coreInstance.update(results.poseLandmarks);
-    if (getValue != undefined) setRepCounter(getValue.repObj.count);
-    setMetaData(getValue);
+    if (coreInstance) {
+      setBlurState(coreInstance!.blur());
+      const getValue: any = coreInstance!.update(results.poseLandmarks);
+      if (getValue != undefined) setRepCounter(getValue.repObj.count);
+      setMetaData(getValue);
+    }
 
     if (canvasCtx && canvasRef.current) {
       canvasCtx.save();
@@ -155,7 +157,11 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [{ name: "ohp", reps: 10 }];
+    const exerciseArray = [
+      { name: "ohp", reps: 2 },
+      { name: "ohp", reps: 3 },
+    ];
+    console.log("New instance");
     coreInstance = new Core(exerciseArray);
     const pose = new Pose({
       locateFile: (file) => {
@@ -173,7 +179,7 @@ const Canvas: FC = () => {
     });
     pose.onResults(onResults);
     if (videoRef.current != null && videoRef.current.video !== null) {
-      const camera = new Camera(videoRef.current.video, {
+      camera = new Camera(videoRef.current.video, {
         onFrame: async () => {
           if (videoRef.current != null)
             await pose.send({ image: videoRef.current.video! });
@@ -183,7 +189,15 @@ const Canvas: FC = () => {
       });
       camera.start();
     }
+
+    return () => {
+      console.log("Destroying camera and core instance");
+      camera.stop();
+      coreInstance = null;
+      console.log(coreInstance);
+    };
   }, []);
+
   return (
     <div className="container">
       <VisuallyHidden>
