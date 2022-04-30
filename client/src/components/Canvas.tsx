@@ -99,8 +99,9 @@ const Canvas: FC = () => {
     if (coreInstance) {
       setBlurState(coreInstance!.blur());
       const getValue: any = coreInstance!.update(results.poseLandmarks);
-      if (getValue != undefined) setRepCounter(getValue.repObj.count);
+      if (getValue != undefined) setRepCounter(getValue.repsData.count);
       setMetaData(getValue);
+      console.log(getValue);
     }
 
     if (canvasCtx && canvasRef.current) {
@@ -157,10 +158,7 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [
-      { name: "ohp", reps: 2 },
-      { name: "ohp", reps: 3 },
-    ];
+    const exerciseArray = [{ name: "ohp", reps: 50 }];
     console.log("New instance");
     coreInstance = new Core(exerciseArray);
     const pose = new Pose({

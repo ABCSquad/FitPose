@@ -38,7 +38,9 @@ export default class Core {
       this.keypoints!,
       initFlag
     );
-    this.repCount = meta.repObj.count;
+    if (meta) {
+      this.repCount = meta.repsData.count;
+    }
     return meta;
   }
 
@@ -66,7 +68,7 @@ export default class Core {
           count: 0,
           flag: 1,
         },
-        message: "Starting next exercise...",
+        message: "Ending session...",
       };
     }
   }
