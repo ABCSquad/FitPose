@@ -1,6 +1,5 @@
 import { angle } from "../utils";
 import { RepsData, MessageData, ExerciseData, AngleData } from "../types";
-// import Timer from "easytimer.js";
 
 let exerciseData: ExerciseData = [
   {
@@ -8,18 +7,21 @@ let exerciseData: ExerciseData = [
     deviation: 0,
     keypoints: [11, 12],
     range: [-10, 10],
+    maxDeviation: 5,
   },
   {
     partName: "rightElbow",
     deviation: 0,
     keypoints: [13, 15],
     range: [-10, 10],
+    maxDeviation: 5,
   },
   {
     partName: "leftElbow",
     deviation: 0,
     keypoints: [14, 16],
     range: [-10, 10],
+    maxDeviation: 5,
   },
 ];
 
@@ -30,10 +32,8 @@ let messageData: MessageData = {
 };
 
 let repsData: RepsData = {
-  flag: false, //True - going upwards
   partName: 11,
-  range: [70, 170], //Degrees of motion for a rep
-  count: 0,
+  range: [20, 170], //Degrees of motion for a rep
 };
 
 let angleData: AngleData = {
@@ -42,8 +42,6 @@ let angleData: AngleData = {
   rightElbow: 0,
   leftElbow: 0,
 };
-
-// const timer = new Timer();
 
 export const ohp = (keypoints: any, initFlag: boolean) => {
   /* 
@@ -58,8 +56,6 @@ export const ohp = (keypoints: any, initFlag: boolean) => {
     exerciseData = exerciseData.map((e) => {
       return { ...e, deviation: (e.deviation = 1) };
     });
-    repsData.flag = false;
-    repsData.count = 0;
     angleData = {
       rightShoulder: 0,
       leftShoulder: 0,
@@ -139,5 +135,5 @@ export const ohp = (keypoints: any, initFlag: boolean) => {
   //     }
   //   }
 
-  return { exerciseData, repsData, messageData };
+  return { exerciseData, repsData, messageData, angleData };
 };

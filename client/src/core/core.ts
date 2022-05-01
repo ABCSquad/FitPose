@@ -38,8 +38,8 @@ export default class Core {
       this.keypoints!,
       initFlag
     );
-    if (meta) {
-      this.repCount = meta.repsData.count;
+    if (meta.compoundData) {
+      this.repCount = meta.finalData.repCount;
     }
     return meta;
   }

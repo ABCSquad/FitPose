@@ -10,6 +10,7 @@ export type ExerciseDataObj = {
   deviation: number;
   keypoints: number[];
   range: number[];
+  maxDeviation: number;
 };
 
 export type ExerciseData = Array<ExerciseDataObj>;
@@ -19,23 +20,30 @@ export type MessageData = {
 };
 
 export type RepsData = {
-  flag: boolean;
   partName: number;
   range: Array<number>;
-  count: number;
 };
 
 export interface AngleData {
   [key: string]: number;
 }
 
-export interface Deviation {
-  [key: string]: number;
-}
+export type CompoundData =
+  | {
+      exerciseData: ExerciseData;
+      repsData: RepsData;
+      messageData: MessageData;
+      angleData: AngleData;
+    }
+  | undefined;
 
-export type Rep = {
-  count: number;
-  flag: number;
+export type FinalData = {
+  deviatingPart: string;
+  message: string;
+  deviationTimeObj: { [key: number]: string } | {};
+  repFlag: boolean;
+  repCount: number;
+  repTimeObj: { [key: number]: string } | {};
 };
 
 export type ExerciseObj = {
