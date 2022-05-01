@@ -20,7 +20,7 @@ export type MessageData = {
 };
 
 export type RepsData = {
-  partName: number;
+  partName: string;
   range: Array<number>;
 };
 

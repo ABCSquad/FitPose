@@ -44,13 +44,15 @@ export default class Exercise {
       finalData.message = "";
       //Check reps as posture correct
       if (
-        compoundData.angleData.leftShoulder < compoundData.repsData.range[0] &&
+        compoundData.angleData[compoundData.repsData.partName] <
+          compoundData.repsData.range[0] &&
         !finalData.repFlag
       ) {
         finalData.repFlag = true;
         finalData.repCount += 1;
       } else if (
-        compoundData.angleData.leftShoulder > compoundData.repsData.range[1] &&
+        compoundData.angleData[compoundData.repsData.partName] >
+          compoundData.repsData.range[1] &&
         finalData.repFlag
       ) {
         finalData.repFlag = false;

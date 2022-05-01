@@ -32,7 +32,7 @@ let messageData: MessageData = {
 };
 
 let repsData: RepsData = {
-  partName: 11,
+  partName: "leftElbow",
   range: [20, 170], //Degrees of motion for a rep
 };
 
