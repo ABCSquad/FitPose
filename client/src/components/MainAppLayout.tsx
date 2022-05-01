@@ -12,15 +12,9 @@ export const MainAppLayout: FC = () => {
 	const [openInfo, setOpenInfo] = useState<boolean>(false);
 
 	const handleResize = () => {
-		if (window.innerWidth < 1000) {
+		if (window.innerWidth < 2000) {
 			setOpenInfo(false);
 			setOpenWidget(false);
-		} else if ((window.innerWidth < 1000 && openInfo) || openWidget) {
-			if (openInfo) {
-				setOpenWidget(false);
-			} else {
-				setOpenInfo(false);
-			}
 		} else {
 			setOpenInfo(true);
 			setOpenWidget(true);
@@ -73,6 +67,9 @@ export const MainAppLayout: FC = () => {
 							icon={!openInfo ? <FiArrowRight /> : <FiArrowLeft />}
 							onClick={() => {
 								setOpenInfo(!openInfo);
+								if (window.innerWidth < 1000 && openWidget) {
+									setOpenWidget(false);
+								}
 							}}
 						/>
 					</Flex>
@@ -86,6 +83,9 @@ export const MainAppLayout: FC = () => {
 							icon={openWidget ? <FiArrowRight /> : <FiArrowLeft />}
 							onClick={() => {
 								setOpenWidget(!openWidget);
+								if (window.innerWidth < 1000 && openInfo) {
+									setOpenInfo(false);
+								}
 							}}
 						/>
 						<AnimatePresence>

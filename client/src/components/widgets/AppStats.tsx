@@ -62,19 +62,19 @@ const AppStats: FC = () => {
 							<Flex dir="row" w="100%" justifyContent="space-between">
 								<Text fontSize="2xl">Left</Text>
 								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									{metaData ? Math.ceil(metaData?.deviationObj.leftElbow) : 0}
+									0
 								</Text>
 							</Flex>
 							<Flex dir="row" w="100%" justifyContent="space-between">
 								<Text fontSize="2xl">Right</Text>
 								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									{metaData ? Math.ceil(metaData?.deviationObj.rightElbow) : 0}
+									0
 								</Text>
 							</Flex>
 							<Flex dir="row" w="100%" justifyContent="space-between">
 								<Text fontSize="2xl">Center</Text>
 								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									{metaData ? Math.ceil(metaData?.deviationObj.shoulder) : 0}
+									0
 								</Text>
 							</Flex>
 						</VStack>
