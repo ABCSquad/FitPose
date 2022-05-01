@@ -60,6 +60,8 @@ const data = [
 const RTGraph: FC = () => {
 	const { metaData } = useApp();
 
+	
+
 	const setData = () => {};
 
 	return (

@@ -12,7 +12,7 @@ export const MainAppLayout: FC = () => {
 	const [openInfo, setOpenInfo] = useState<boolean>(false);
 
 	const handleResize = () => {
-		if (window.innerWidth < 2000) {
+		if (window.innerWidth < 1000) {
 			setOpenInfo(false);
 			setOpenWidget(false);
 		} else {

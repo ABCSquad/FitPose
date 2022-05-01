@@ -1,19 +1,10 @@
-import {
-	Badge,
-	Box,
-	Flex,
-	Grid,
-	GridItem,
-	HStack,
-	Text,
-	VStack,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, HStack, Stack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useApp } from "../../contexts/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 
 const AppStats: FC = () => {
-	const { FPS, metaData, repCounter } = useApp();
+	const { FPS, repCounter } = useApp();
 
 	const BoxStyles = {
 		w: "100%",
@@ -45,45 +36,30 @@ const AppStats: FC = () => {
 				gap={2}
 			>
 				{/* FPS MODULE */}
-				<GridItem rowSpan={6} colSpan={6}>
+				<GridItem rowSpan={{ sm: 4, lg: 6 }} colSpan={{ sm: 12, lg: 6 }}>
 					<Box {...BoxStyles}>
-						<VStack p={5} h="100%">
+						<Stack
+							direction={{ sm: "row", lg: "column" }}
+							justifyContent="space-evenly"
+							alignItems="center"
+							p={5}
+							h="100%"
+						>
 							<Text fontSize="6xl" fontWeight="extrabold" fontFamily="mono">
 								{FPS ? Math.ceil(FPS) : 0}
 							</Text>
 							<Text>Webcam FPS</Text>
-						</VStack>
+						</Stack>
 					</Box>
 				</GridItem>
 				{/* MORE STATS */}
-				<GridItem rowSpan={6} colSpan={6}>
-					<Box {...BoxStyles}>
-						<VStack p={5}>
-							<Flex dir="row" w="100%" justifyContent="space-between">
-								<Text fontSize="2xl">Left</Text>
-								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									0
-								</Text>
-							</Flex>
-							<Flex dir="row" w="100%" justifyContent="space-between">
-								<Text fontSize="2xl">Right</Text>
-								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									0
-								</Text>
-							</Flex>
-							<Flex dir="row" w="100%" justifyContent="space-between">
-								<Text fontSize="2xl">Center</Text>
-								<Text fontSize="2xl" fontWeight="extrabold" fontFamily="mono">
-									0
-								</Text>
-							</Flex>
-						</VStack>
-					</Box>
+				<GridItem rowSpan={{ sm: 4, lg: 6 }} colSpan={{ sm: 12, lg: 6 }}>
+					<Box {...BoxStyles}></Box>
 				</GridItem>
 				{/*  */}
 				<GridItem rowSpan={6} colSpan={12}>
 					<Box {...BoxStyles} bgGradient="linear(to-l, #7928CA, #FF0080)">
-						<HStack p={8} justifyContent="space-evenly">
+						<HStack justifyContent="space-evenly" alignItems="center" h="100%">
 							<Text fontSize="5xl" fontWeight="extrabold" fontFamily="mono">
 								REPS
 							</Text>
