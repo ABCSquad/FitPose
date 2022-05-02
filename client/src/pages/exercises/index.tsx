@@ -141,7 +141,6 @@ const Exercises: FC = ({}) => {
                 <Button
                   rightIcon={<ArrowForwardIcon />}
                   colorScheme="teal"
-                  variant="outline"
                   ml="auto"
                 >
                   Go to Playlists

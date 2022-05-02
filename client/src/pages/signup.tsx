@@ -14,7 +14,7 @@ import { useMeQuery } from "../generated/graphql";
 const SignUp: FC = ({}) => {
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
-  if (data?.me) router.replace("/");
+  if (data?.me) router.back();
 
   const [, register] = useRegisterMutation();
 
@@ -31,7 +31,7 @@ const SignUp: FC = ({}) => {
             if (response.error) {
               const errorMessage = getErrorMessage(response.error);
               if (errorMessage) setErrors(errorMessage);
-            } else if (response.data?.register._id) router.push("/");
+            } else if (response.data?.register._id) router.replace("/");
           }}
         >
           {({ isSubmitting }) => (
