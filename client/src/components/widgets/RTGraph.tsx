@@ -1,15 +1,6 @@
 import { Box } from "@chakra-ui/react";
-import React, { FC } from "react";
-import {
-	LineChart,
-	Line,
-	XAxis,
-	YAxis,
-	CartesianGrid,
-	Tooltip,
-	Legend,
-	ResponsiveContainer,
-} from "recharts";
+import React, { FC, useEffect, useState } from "react";
+import { LineChart, Line, ResponsiveContainer } from "recharts";
 import { useApp } from "../../contexts/AppContext";
 
 const data = [
@@ -59,10 +50,41 @@ const data = [
 
 const RTGraph: FC = () => {
 	const { metaData } = useApp();
+	const [graphData, setGraphData] = useState<Array<object>>([]);
+	const [repMode, setRepMode] = useState(false);
 
-	
+	const setData = () => {
+		const shortHand = metaData?.compoundData;
+		const repFinal = metaData?.finalData;
+		const getMin = shortHand?.repsData.range[0];
+		const getMax = shortHand?.repsData.range[1];
+		const currentAngle = shortHand?.angleData[shortHand.repsData.partName];
+		const returnObj = {
+			amt: Math.abs(currentAngle!),
+		};
+		if (repFinal?.repCount === -1) {
+			if (repFinal?.repFlag === false) {
+				setGraphData([...graphData, returnObj]);
+			} else if (repFinal?.repFlag === true) {
+				setGraphData([...graphData, returnObj]);
+			}
+		}
+		removeOldData();
+	};
 
-	const setData = () => {};
+	const removeOldData = () => {
+		if (graphData.length >= 50) {
+			const array = [...graphData];
+			array.shift();
+			setGraphData(array);
+		}
+	};
+
+	useEffect(() => {
+		console.log(metaData?.finalData.repCount);
+
+		setData();
+	}, [metaData]);
 
 	return (
 		<Box
@@ -80,7 +102,7 @@ const RTGraph: FC = () => {
 			>
 				<ResponsiveContainer>
 					<LineChart
-						data={data}
+						data={graphData}
 						margin={{
 							top: 25,
 							right: 25,
@@ -88,14 +110,9 @@ const RTGraph: FC = () => {
 							bottom: 5,
 						}}
 					>
-						<Tooltip />
-						<Line
-							type="monotone"
-							dataKey="pv"
-							stroke="#8884d8"
-							activeDot={{ r: 8 }}
-						/>
-						<Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+						{/* <Tooltip /> */}
+						{/* <YAxis /> */}
+						<Line type="monotone" dataKey="amt" stroke="#82ca9d" />
 					</LineChart>
 				</ResponsiveContainer>
 			</div>

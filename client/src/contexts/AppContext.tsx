@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { CompoundData, FinalData } from "../core/types";
 
 /* Setting the types */
 type AppContextProviderProps = {
@@ -6,13 +7,8 @@ type AppContextProviderProps = {
 };
 
 interface MetaDataType {
-	deviationObj: {
-		leftElbow: number;
-		rightElbow: number;
-		shoulder: number;
-	};
-	repObj: Object;
-	message: String;
+	compoundData: CompoundData;
+	finalData: FinalData;
 }
 
 type AppContextValueType = {
