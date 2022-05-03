@@ -42,6 +42,7 @@ export default class Exercise {
     ) {
       timer.reset();
       finalData.message = "";
+      finalData.deviatingPart = "";
       //Check reps as posture correct
       if (
         compoundData.angleData[compoundData.repsData.partName] <
