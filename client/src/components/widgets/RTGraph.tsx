@@ -1,6 +1,6 @@
 import { Box } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
-import { LineChart, Line, ResponsiveContainer } from "recharts";
+import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
 import { useApp } from "../../contexts/AppContext";
 
 const data = [
@@ -56,18 +56,17 @@ const RTGraph: FC = () => {
 	const setData = () => {
 		const compound = metaData?.compoundData;
 		const final = metaData?.finalData;
-
+		const getMin = compound!.repsData.range[0];
+		const getMax = compound!.repsData.range[1];
 		const currentAngle = compound?.angleData[compound.repsData.partName];
+		const percentage = ((currentAngle! - getMin) / (getMax - getMin)) * 100;
+		console.log(Math.round(percentage!));
+
 		const returnObj = {
-			amt: Math.abs(currentAngle!),
+			amt: Math.round(percentage!),
 		};
-		if (final?.repCount !== -1) {
-			if (final?.deviatingPart === "") {
-				setGraphData([...graphData, returnObj]);
-			} else {
-				setGraphData([...graphData, []]);
-			}
-		}
+
+		setGraphData([...graphData, returnObj]);
 		removeOldData();
 	};
 
@@ -80,7 +79,11 @@ const RTGraph: FC = () => {
 	};
 
 	useEffect(() => {
-		console.log(metaData?.finalData.deviatingPart);
+		console
+			.log
+			// 	metaData?.compoundData?.repsData.range[0],
+			// 	metaData?.compoundData?.repsData.range[1]
+			();
 
 		setData();
 	}, [metaData]);
@@ -110,7 +113,7 @@ const RTGraph: FC = () => {
 						}}
 					>
 						{/* <Tooltip /> */}
-						{/* <YAxis /> */}
+						<YAxis hide domain={[0, 100]} allowDataOverflow={true} />
 						<Line type="monotone" dataKey="amt" stroke="#82ca9d" />
 					</LineChart>
 				</ResponsiveContainer>
