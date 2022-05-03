@@ -62,12 +62,13 @@ const RTGraph: FC = () => {
 		const returnObj = {
 			amt: Math.abs(currentAngle!),
 		};
-		if (repFinal?.repCount === -1) {
-			if (repFinal?.repFlag === false) {
-				setGraphData([...graphData, returnObj]);
-			} else if (repFinal?.repFlag === true) {
-				setGraphData([...graphData, returnObj]);
-			}
+		if (repFinal?.repCount !== -1) {
+			// if (repFinal?.repFlag === false) {
+			// 	setGraphData([...graphData, returnObj]);
+			// } else if (repFinal?.repFlag === true) {
+			// 	setGraphData([...graphData, returnObj]);
+			// }
+			setGraphData([...graphData, returnObj]);
 		}
 		removeOldData();
 	};
