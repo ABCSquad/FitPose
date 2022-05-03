@@ -54,21 +54,19 @@ const RTGraph: FC = () => {
 	const [repMode, setRepMode] = useState(false);
 
 	const setData = () => {
-		const shortHand = metaData?.compoundData;
-		const repFinal = metaData?.finalData;
-		const getMin = shortHand?.repsData.range[0];
-		const getMax = shortHand?.repsData.range[1];
-		const currentAngle = shortHand?.angleData[shortHand.repsData.partName];
+		const compound = metaData?.compoundData;
+		const final = metaData?.finalData;
+
+		const currentAngle = compound?.angleData[compound.repsData.partName];
 		const returnObj = {
 			amt: Math.abs(currentAngle!),
 		};
-		if (repFinal?.repCount !== -1) {
-			// if (repFinal?.repFlag === false) {
-			// 	setGraphData([...graphData, returnObj]);
-			// } else if (repFinal?.repFlag === true) {
-			// 	setGraphData([...graphData, returnObj]);
-			// }
-			setGraphData([...graphData, returnObj]);
+		if (final?.repCount !== -1) {
+			if (final?.deviatingPart === "") {
+				setGraphData([...graphData, returnObj]);
+			} else {
+				setGraphData([...graphData, []]);
+			}
 		}
 		removeOldData();
 	};
@@ -82,7 +80,7 @@ const RTGraph: FC = () => {
 	};
 
 	useEffect(() => {
-		console.log(metaData?.finalData.repCount);
+		console.log(metaData?.finalData.deviatingPart);
 
 		setData();
 	}, [metaData]);
