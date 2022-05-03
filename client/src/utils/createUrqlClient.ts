@@ -1,13 +1,10 @@
 import { cacheExchange } from "@urql/exchange-graphcache";
 import { dedupExchange, fetchExchange } from "urql";
 import {
-  AddExerciseMutation,
   LoginMutation,
   LogoutMutation,
   MeDocument,
   MeQuery,
-  PlaylistDocument,
-  PlaylistQuery,
   RegisterMutation,
 } from "../generated/graphql";
 import betterUpdateQuery from "./betterUpdateQuery";
@@ -64,16 +61,16 @@ const createUrlqlClient = (ssrExchange: any, ctx: any) => {
                 }
               );
             },
-            // addExercise: (_result, _, cache, __) => {
-            //   betterUpdateQuery<AddExerciseMutation, PlaylistQuery>(
-            //     cache,
-            //     { query: PlaylistDocument },
-            //     _result,
-            //     (_result, query) => {
-            //       return query;
-            //     }
-            //   );
-            // },
+            addExercise: (_result, _, cache, __) => {
+              cache.invalidate("Query", "playlist", {
+                id: (_result.addExercise as any)._id,
+              });
+            },
+            removeExercise: (_result, _, cache, __) => {
+              cache.invalidate("Query", "playlist", {
+                id: (_result.addExercise as any)._id,
+              });
+            },
           },
         },
       }),

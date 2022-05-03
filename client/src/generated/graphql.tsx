@@ -133,7 +133,7 @@ export type AddExerciseMutationVariables = Exact<{
 }>;
 
 
-export type AddExerciseMutation = { __typename?: 'Mutation', addExercise: { __typename?: 'Playlist', name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
+export type AddExerciseMutation = { __typename?: 'Mutation', addExercise: { __typename?: 'Playlist', _id: string, name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
 
 export type CreatePlaylistMutationVariables = Exact<{
   name: Scalars['String'];
@@ -166,7 +166,7 @@ export type RemoveExerciseMutationVariables = Exact<{
 }>;
 
 
-export type RemoveExerciseMutation = { __typename?: 'Mutation', removeExercise: { __typename?: 'Playlist', name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
+export type RemoveExerciseMutation = { __typename?: 'Mutation', removeExercise: { __typename?: 'Playlist', _id: string, name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
 
 export type ExerciseQueryVariables = Exact<{
   name: Scalars['String'];
@@ -207,6 +207,7 @@ export const UserResponseFragmentDoc = gql`
 export const AddExerciseDocument = gql`
     mutation addExercise($input: AddExerciseInput!) {
   addExercise(input: $input) {
+    _id
     name
     user {
       _id
@@ -274,6 +275,7 @@ export function useRegisterMutation() {
 export const RemoveExerciseDocument = gql`
     mutation removeExercise($input: AddExerciseInput!) {
   removeExercise(input: $input) {
+    _id
     name
     user {
       _id

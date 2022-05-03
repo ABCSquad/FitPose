@@ -1,5 +1,6 @@
 mutation removeExercise($input: AddExerciseInput!) {
   removeExercise(input: $input) {
+    _id
     name
     user {
       _id
