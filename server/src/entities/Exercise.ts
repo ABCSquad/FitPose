@@ -21,6 +21,12 @@ export class ExerciseInput {
 
   @Field(() => [String])
   steps!: String[];
+
+  @Field(() => String)
+  gif1!: string;
+
+  @Field(() => String)
+  gif2!: string;
 }
 
 @ObjectType()

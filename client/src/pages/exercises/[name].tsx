@@ -98,8 +98,15 @@ const Exercise: FC = () => {
               />
             </GridItem>
           </Grid>
-          {data?.exercise.steps.map((step) => (
-            <HStack bg="white" rounded="lg" borderWidth={1} p={3} mb={3}>
+          {data?.exercise.steps.map((step, id) => (
+            <HStack
+              key={id}
+              bg="white"
+              rounded="lg"
+              borderWidth={1}
+              p={3}
+              mb={3}
+            >
               <Icon as={ArrowRightIcon} color="teal" boxSize={5} mx={1} />
               <Text fontSize="1.3rem">{step}</Text>
             </HStack>

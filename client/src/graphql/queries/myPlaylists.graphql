@@ -1,0 +1,6 @@
+query MyPlaylists {
+  myPlaylists {
+    _id
+    name
+  }
+}

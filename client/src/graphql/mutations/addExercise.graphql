@@ -1,0 +1,12 @@
+mutation addExercise($input: AddExerciseInput!) {
+  addExercise(input: $input) {
+    name
+    user {
+      _id
+    }
+    exercises {
+      _id
+      name
+    }
+  }
+}

@@ -15,6 +15,11 @@ export type Scalars = {
   Float: number;
 };
 
+export type AddExerciseInput = {
+  exerciseId: Scalars['String'];
+  playlistId: Scalars['String'];
+};
+
 export type Exercise = {
   __typename?: 'Exercise';
   _id: Scalars['String'];
@@ -28,6 +33,8 @@ export type Exercise = {
 
 export type ExerciseInput = {
   difficulty: Scalars['String'];
+  gif1: Scalars['String'];
+  gif2: Scalars['String'];
   name: Scalars['String'];
   steps: Array<Scalars['String']>;
   tags: Array<Scalars['String']>;
@@ -40,15 +47,28 @@ export type LoginInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  addExercise: Playlist;
   createExercise: Exercise;
+  createPlaylist: Playlist;
   login: User;
   logout: Scalars['Boolean'];
   register: User;
+  removeExercise: Playlist;
+};
+
+
+export type MutationAddExerciseArgs = {
+  input: AddExerciseInput;
 };
 
 
 export type MutationCreateExerciseArgs = {
   input: ExerciseInput;
+};
+
+
+export type MutationCreatePlaylistArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -61,16 +81,36 @@ export type MutationRegisterArgs = {
   input: RegisterInput;
 };
 
+
+export type MutationRemoveExerciseArgs = {
+  input: AddExerciseInput;
+};
+
+export type Playlist = {
+  __typename?: 'Playlist';
+  _id: Scalars['String'];
+  exercises: Array<Exercise>;
+  name: Scalars['String'];
+  user: User;
+};
+
 export type Query = {
   __typename?: 'Query';
   exercise: Exercise;
   exercises: Array<Exercise>;
   me?: Maybe<User>;
+  myPlaylists: Array<Playlist>;
+  playlist: Playlist;
 };
 
 
 export type QueryExerciseArgs = {
   name: Scalars['String'];
+};
+
+
+export type QueryPlaylistArgs = {
+  id: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -87,6 +127,20 @@ export type User = {
 };
 
 export type UserResponseFragment = { __typename?: 'User', _id: string, name: string, email: string };
+
+export type AddExerciseMutationVariables = Exact<{
+  input: AddExerciseInput;
+}>;
+
+
+export type AddExerciseMutation = { __typename?: 'Mutation', addExercise: { __typename?: 'Playlist', name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
+
+export type CreatePlaylistMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreatePlaylistMutation = { __typename?: 'Mutation', createPlaylist: { __typename?: 'Playlist', _id: string, name: string, user: { __typename?: 'User', name: string }, exercises: Array<{ __typename?: 'Exercise', name: string }> } };
 
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
@@ -107,6 +161,13 @@ export type RegisterMutationVariables = Exact<{
 
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, name: string, email: string } };
 
+export type RemoveExerciseMutationVariables = Exact<{
+  input: AddExerciseInput;
+}>;
+
+
+export type RemoveExerciseMutation = { __typename?: 'Mutation', removeExercise: { __typename?: 'Playlist', name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
+
 export type ExerciseQueryVariables = Exact<{
   name: Scalars['String'];
 }>;
@@ -124,6 +185,18 @@ export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', _id: string, name: string, email: string } | null | undefined };
 
+export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MyPlaylistsQuery = { __typename?: 'Query', myPlaylists: Array<{ __typename?: 'Playlist', _id: string, name: string }> };
+
+export type PlaylistQueryVariables = Exact<{
+  id: Scalars['String'];
+}>;
+
+
+export type PlaylistQuery = { __typename?: 'Query', playlist: { __typename?: 'Playlist', _id: string, name: string, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string, tags: Array<string> }>, user: { __typename?: 'User', _id: string } } };
+
 export const UserResponseFragmentDoc = gql`
     fragment UserResponse on User {
   _id
@@ -131,6 +204,42 @@ export const UserResponseFragmentDoc = gql`
   email
 }
     `;
+export const AddExerciseDocument = gql`
+    mutation addExercise($input: AddExerciseInput!) {
+  addExercise(input: $input) {
+    name
+    user {
+      _id
+    }
+    exercises {
+      _id
+      name
+    }
+  }
+}
+    `;
+
+export function useAddExerciseMutation() {
+  return Urql.useMutation<AddExerciseMutation, AddExerciseMutationVariables>(AddExerciseDocument);
+};
+export const CreatePlaylistDocument = gql`
+    mutation createPlaylist($name: String!) {
+  createPlaylist(name: $name) {
+    _id
+    name
+    user {
+      name
+    }
+    exercises {
+      name
+    }
+  }
+}
+    `;
+
+export function useCreatePlaylistMutation() {
+  return Urql.useMutation<CreatePlaylistMutation, CreatePlaylistMutationVariables>(CreatePlaylistDocument);
+};
 export const LoginDocument = gql`
     mutation login($input: LoginInput!) {
   login(input: $input) {
@@ -161,6 +270,24 @@ export const RegisterDocument = gql`
 
 export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
+};
+export const RemoveExerciseDocument = gql`
+    mutation removeExercise($input: AddExerciseInput!) {
+  removeExercise(input: $input) {
+    name
+    user {
+      _id
+    }
+    exercises {
+      _id
+      name
+    }
+  }
+}
+    `;
+
+export function useRemoveExerciseMutation() {
+  return Urql.useMutation<RemoveExerciseMutation, RemoveExerciseMutationVariables>(RemoveExerciseDocument);
 };
 export const ExerciseDocument = gql`
     query Exercise($name: String!) {
@@ -203,4 +330,36 @@ export const MeDocument = gql`
 
 export function useMeQuery(options?: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'>) {
   return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
+};
+export const MyPlaylistsDocument = gql`
+    query MyPlaylists {
+  myPlaylists {
+    _id
+    name
+  }
+}
+    `;
+
+export function useMyPlaylistsQuery(options?: Omit<Urql.UseQueryArgs<MyPlaylistsQueryVariables>, 'query'>) {
+  return Urql.useQuery<MyPlaylistsQuery>({ query: MyPlaylistsDocument, ...options });
+};
+export const PlaylistDocument = gql`
+    query Playlist($id: String!) {
+  playlist(id: $id) {
+    _id
+    name
+    exercises {
+      _id
+      name
+      tags
+    }
+    user {
+      _id
+    }
+  }
+}
+    `;
+
+export function usePlaylistQuery(options: Omit<Urql.UseQueryArgs<PlaylistQueryVariables>, 'query'>) {
+  return Urql.useQuery<PlaylistQuery>({ query: PlaylistDocument, ...options });
 };
