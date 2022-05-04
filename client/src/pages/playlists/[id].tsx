@@ -1,17 +1,27 @@
-import { Search2Icon } from "@chakra-ui/icons";
+import { DeleteIcon, EditIcon, Search2Icon } from "@chakra-ui/icons";
 import {
   Box,
   Divider,
   Heading,
+  IconButton,
   Input,
   InputGroup,
   InputLeftElement,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { ChangeEvent, FC, useEffect, useState } from "react";
+import { BiPlay } from "react-icons/bi";
+import { BsThreeDots } from "react-icons/bs";
+import DeleteDialog from "../../components/DeleteDialog";
 import ExerciseListItem from "../../components/ExerciseListItem";
+import InputDialog from "../../components/InputDialog";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
 import {
@@ -42,12 +52,14 @@ const Playlist: FC = () => {
   }, [router, meData, meFetching, plFetching]);
 
   const [{ data: exercisesData }] = useExercisesQuery();
-  // const [exercises, setExercises] = useState(exercisesData?.exercises);
 
   const [search, setSearch] = useState("");
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.currentTarget.value);
   };
+
+  const editModal = useDisclosure();
+  const deleteModal = useDisclosure();
 
   return (
     <>
@@ -55,19 +67,51 @@ const Playlist: FC = () => {
       <Box bg="brand.lightgrey" minH="92vh">
         <Box bg="brand.teal" pt={10} pb={20}>
           <Wrapper>
-            <Heading fontSize={18}>
+            <Heading fontSize={20}>
               {userName?.slice(-1) === "s" ? `${userName}'` : `${userName}'s`}
             </Heading>
-            <Heading fontSize={80} display="inline" cursor="pointer">
+            <Heading fontSize={80} display="inline">
               {playlistData?.playlist.name}
+              <IconButton
+                mt={-3}
+                ml={10}
+                borderRadius="50%"
+                pl={2}
+                h={20}
+                w={20}
+                colorScheme="teal"
+                aria-label="Start Playlist"
+                icon={<BiPlay size={60} />}
+                isDisabled={playlistData?.playlist.exercises.length === 0}
+              />
+              <Menu>
+                <MenuButton
+                  as={IconButton}
+                  aria-label="Options"
+                  icon={<BsThreeDots size={50} />}
+                  variant="ghost"
+                  mt={-3}
+                  ml={6}
+                  _hover={{ bg: "inherit" }}
+                  _active={{ bg: "inherit" }}
+                  _focus={{ border: "inherit" }}
+                />
+                <MenuList fontSize={16} >
+                  <MenuItem icon={<EditIcon />} onClick={editModal.onOpen}>
+                    Edit name
+                  </MenuItem>
+                  <MenuItem icon={<DeleteIcon />} onClick={deleteModal.onOpen}>
+                    Delete playlist
+                  </MenuItem>
+                </MenuList>
+              </Menu>
             </Heading>
-            <Heading fontSize={16} mt={1}>
+            <Heading fontSize={18} mt={1}>
               {`${
                 playlistData?.playlist.exercises.length === 1
                   ? `${playlistData?.playlist.exercises.length} exercise`
                   : `${playlistData?.playlist.exercises.length} exercises`
               }`}
-              {/* {userName} */}
             </Heading>
           </Wrapper>
         </Box>
@@ -130,6 +174,20 @@ const Playlist: FC = () => {
           </Box>
         </Wrapper>
       </Box>
+      {deleteModal.isOpen && (
+        <DeleteDialog
+          {...deleteModal}
+          playlistId={playlistId}
+          playlistName={playlistData?.playlist.name}
+        />
+      )}
+      {editModal.isOpen && (
+        <InputDialog
+          {...editModal}
+          playlistId={playlistId}
+          playlistName={playlistData?.playlist.name}
+        />
+      )}
     </>
   );
 };
