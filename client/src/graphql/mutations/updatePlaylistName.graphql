@@ -1,0 +1,6 @@
+mutation UpdatePlaylistName($playlistId: String!, $name: String!) {
+  updatePlaylistName(playlistId: $playlistId, name: $name) {
+    _id
+    name
+  }
+}

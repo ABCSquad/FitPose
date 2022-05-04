@@ -1,4 +1,4 @@
-mutation createPlaylist($name: String!) {
+mutation CreatePlaylist($name: String!) {
   createPlaylist(name: $name) {
     _id
     name

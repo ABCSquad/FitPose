@@ -22,7 +22,7 @@ export default class ExerciseResolver {
 
   @Mutation(() => Playlist)
   async createPlaylist(
-    @Arg("name") name: String,
+    @Arg("name") name: string,
     @Ctx() { req }: Context
   ): Promise<Playlist> {
     // Check if logged in
@@ -68,5 +68,33 @@ export default class ExerciseResolver {
       (x) => x._id.toString() !== exerciseId
     );
     return await playlist.save();
+  }
+
+  @Mutation(() => Playlist)
+  async updatePlaylistName(
+    @Arg("playlistId") playlistId: string,
+    @Arg("name") name: string,
+    @Ctx() { req }: Context
+  ): Promise<Playlist> {
+    const playlist = await PlaylistModel.findById(playlistId);
+    if (!playlist) throw new Error("Invalid playlist ID");
+    if (playlist.user && req.session.userId !== playlist.user.toString())
+      throw new Error("Invalid auth");
+    playlist.name = name;
+    return await playlist.save();
+  }
+
+  @Mutation(() => Playlist)
+  async deletePlaylist(
+    @Arg("playlistId") playlistId: string,
+    @Ctx() { req }: Context
+  ): Promise<Playlist> {
+    const playlist = await PlaylistModel.findById(playlistId);
+    if (!playlist) throw new Error("Invalid playlist ID");
+    await PlaylistModel.deleteOne({
+      _id: playlistId,
+      user: req.session.userId,
+    });
+    return playlist;
   }
 }

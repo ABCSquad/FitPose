@@ -45,10 +45,12 @@ export type Mutation = {
   addExercise: Playlist;
   createExercise: Exercise;
   createPlaylist: Playlist;
+  deletePlaylist: Playlist;
   login: User;
   logout: Scalars['Boolean'];
   register: User;
   removeExercise: Playlist;
+  updatePlaylistName: Playlist;
 };
 
 
@@ -67,6 +69,11 @@ export type MutationCreatePlaylistArgs = {
 };
 
 
+export type MutationDeletePlaylistArgs = {
+  playlistId: Scalars['String'];
+};
+
+
 export type MutationLoginArgs = {
   input: LoginInput;
 };
@@ -79,6 +86,12 @@ export type MutationRegisterArgs = {
 
 export type MutationRemoveExerciseArgs = {
   input: UpdatePlaylistInput;
+};
+
+
+export type MutationUpdatePlaylistNameArgs = {
+  name: Scalars['String'];
+  playlistId: Scalars['String'];
 };
 
 export type Playlist = {
@@ -142,6 +155,13 @@ export type CreatePlaylistMutationVariables = Exact<{
 
 export type CreatePlaylistMutation = { __typename?: 'Mutation', createPlaylist: { __typename?: 'Playlist', _id: string, name: string, user: { __typename?: 'User', name: string }, exercises: Array<{ __typename?: 'Exercise', name: string }> } };
 
+export type DeletePlaylistMutationVariables = Exact<{
+  playlistId: Scalars['String'];
+}>;
+
+
+export type DeletePlaylistMutation = { __typename?: 'Mutation', deletePlaylist: { __typename?: 'Playlist', _id: string } };
+
 export type LoginMutationVariables = Exact<{
   input: LoginInput;
 }>;
@@ -167,6 +187,14 @@ export type RemoveExerciseMutationVariables = Exact<{
 
 
 export type RemoveExerciseMutation = { __typename?: 'Mutation', removeExercise: { __typename?: 'Playlist', _id: string, name: string, user: { __typename?: 'User', _id: string }, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string }> } };
+
+export type UpdatePlaylistNameMutationVariables = Exact<{
+  playlistId: Scalars['String'];
+  name: Scalars['String'];
+}>;
+
+
+export type UpdatePlaylistNameMutation = { __typename?: 'Mutation', updatePlaylistName: { __typename?: 'Playlist', _id: string, name: string } };
 
 export type ExerciseQueryVariables = Exact<{
   name: Scalars['String'];
@@ -205,7 +233,7 @@ export const UserResponseFragmentDoc = gql`
 }
     `;
 export const AddExerciseDocument = gql`
-    mutation addExercise($input: UpdatePlaylistInput!) {
+    mutation AddExercise($input: UpdatePlaylistInput!) {
   addExercise(input: $input) {
     _id
     name
@@ -224,7 +252,7 @@ export function useAddExerciseMutation() {
   return Urql.useMutation<AddExerciseMutation, AddExerciseMutationVariables>(AddExerciseDocument);
 };
 export const CreatePlaylistDocument = gql`
-    mutation createPlaylist($name: String!) {
+    mutation CreatePlaylist($name: String!) {
   createPlaylist(name: $name) {
     _id
     name
@@ -241,8 +269,19 @@ export const CreatePlaylistDocument = gql`
 export function useCreatePlaylistMutation() {
   return Urql.useMutation<CreatePlaylistMutation, CreatePlaylistMutationVariables>(CreatePlaylistDocument);
 };
+export const DeletePlaylistDocument = gql`
+    mutation DeletePlaylist($playlistId: String!) {
+  deletePlaylist(playlistId: $playlistId) {
+    _id
+  }
+}
+    `;
+
+export function useDeletePlaylistMutation() {
+  return Urql.useMutation<DeletePlaylistMutation, DeletePlaylistMutationVariables>(DeletePlaylistDocument);
+};
 export const LoginDocument = gql`
-    mutation login($input: LoginInput!) {
+    mutation Login($input: LoginInput!) {
   login(input: $input) {
     ...UserResponse
   }
@@ -262,7 +301,7 @@ export function useLogoutMutation() {
   return Urql.useMutation<LogoutMutation, LogoutMutationVariables>(LogoutDocument);
 };
 export const RegisterDocument = gql`
-    mutation register($input: RegisterInput!) {
+    mutation Register($input: RegisterInput!) {
   register(input: $input) {
     ...UserResponse
   }
@@ -273,7 +312,7 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const RemoveExerciseDocument = gql`
-    mutation removeExercise($input: UpdatePlaylistInput!) {
+    mutation RemoveExercise($input: UpdatePlaylistInput!) {
   removeExercise(input: $input) {
     _id
     name
@@ -290,6 +329,18 @@ export const RemoveExerciseDocument = gql`
 
 export function useRemoveExerciseMutation() {
   return Urql.useMutation<RemoveExerciseMutation, RemoveExerciseMutationVariables>(RemoveExerciseDocument);
+};
+export const UpdatePlaylistNameDocument = gql`
+    mutation UpdatePlaylistName($playlistId: String!, $name: String!) {
+  updatePlaylistName(playlistId: $playlistId, name: $name) {
+    _id
+    name
+  }
+}
+    `;
+
+export function useUpdatePlaylistNameMutation() {
+  return Urql.useMutation<UpdatePlaylistNameMutation, UpdatePlaylistNameMutationVariables>(UpdatePlaylistNameDocument);
 };
 export const ExerciseDocument = gql`
     query Exercise($name: String!) {
