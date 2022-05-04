@@ -99,8 +99,8 @@ const Canvas: FC = () => {
 		if (coreInstance) {
 			setBlurState(coreInstance!.blur());
 			const getValue: any = coreInstance!.update(results.poseLandmarks);
-			if (getValue?.repsData != undefined)
-				setRepCounter(getValue.repsData.count);
+			if (getValue?.finalData.repCount != undefined)
+				setRepCounter(getValue?.finalData.repCount);
 			setMetaData(getValue);
 		}
 

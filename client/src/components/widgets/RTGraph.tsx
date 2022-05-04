@@ -1,6 +1,14 @@
 import { Box } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
-import { LineChart, Line, ResponsiveContainer, YAxis } from "recharts";
+import {
+	LineChart,
+	Line,
+	ResponsiveContainer,
+	YAxis,
+	Area,
+	Tooltip,
+	ComposedChart,
+} from "recharts";
 import { useApp } from "../../contexts/AppContext";
 
 const data = [
@@ -51,39 +59,57 @@ const data = [
 const RTGraph: FC = () => {
 	const { metaData } = useApp();
 	const [graphData, setGraphData] = useState<Array<object>>([]);
-	const [repMode, setRepMode] = useState(false);
+	const [graphMeta, setGraphMeta] = useState(false);
 
 	const setData = () => {
 		const compound = metaData?.compoundData;
 		const final = metaData?.finalData;
-		const getMin = compound!.repsData.range[0];
-		const getMax = compound!.repsData.range[1];
+		// const getMin = compound?.repsData.range[0];
+		// const getMax = compound?.repsData.range[1];
 		const currentAngle = compound?.angleData[compound.repsData.partName];
-		const percentage = ((currentAngle! - getMin) / (getMax - getMin)) * 100;
-		console.log(Math.round(percentage!));
 
-		const returnObj = {
-			amt: Math.round(percentage!),
-		};
+		// const returnObj = {
+		// 	amt: Math.round(currentAngle ? currentAngle : 0),
+		// };
+		if (final?.repCount !== -1) {
+			let deviation: number;
+			if (final?.deviatingPart === "") {
+				deviation = 0;
+			} else {
+				deviation = 0.7 * 360;
+			}
+			if (final?.repFlag === true) {
+				setGraphData([
+					...graphData,
+					{ amt: 360, dev: deviation, curr: currentAngle },
+				]);
+			} else {
+				setGraphData([
+					...graphData,
+					{ amt: 0, dev: deviation, curr: currentAngle },
+				]);
+			}
+		} else {
+			console.log("true");
 
-		setGraphData([...graphData, returnObj]);
+			setGraphMeta(true);
+		}
 		removeOldData();
 	};
 
 	const removeOldData = () => {
-		if (graphData.length >= 50) {
+		if (graphData.length > 150) {
 			const array = [...graphData];
-			array.shift();
+			for (let i = 0; i < 50; i++) {
+				array.shift();
+			}
+
 			setGraphData(array);
 		}
 	};
 
 	useEffect(() => {
-		console
-			.log
-			// 	metaData?.compoundData?.repsData.range[0],
-			// 	metaData?.compoundData?.repsData.range[1]
-			();
+		console.log(metaData?.finalData.repCount);
 
 		setData();
 	}, [metaData]);
@@ -103,7 +129,7 @@ const RTGraph: FC = () => {
 				style={{ width: "100%", height: "100%", padding: "10px" }}
 			>
 				<ResponsiveContainer>
-					<LineChart
+					<ComposedChart
 						data={graphData}
 						margin={{
 							top: 25,
@@ -113,9 +139,22 @@ const RTGraph: FC = () => {
 						}}
 					>
 						{/* <Tooltip /> */}
-						<YAxis hide domain={[0, 100]} allowDataOverflow={true} />
-						<Line type="monotone" dataKey="amt" stroke="#82ca9d" />
-					</LineChart>
+						<YAxis hide domain={[0, 1]} />
+						<Line
+							type="monotone"
+							dataKey="curr"
+							stroke="#8884d8"
+							strokeWidth={1}
+							opacity={0.4}
+						/>
+						<Line
+							type="monotone"
+							dataKey="amt"
+							stroke="#8884d8"
+							strokeWidth={2}
+						/>
+						<Line type="monotone" dataKey="dev" stroke="red" strokeWidth={2} />
+					</ComposedChart>
 				</ResponsiveContainer>
 			</div>
 		</Box>
