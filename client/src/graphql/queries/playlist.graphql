@@ -5,6 +5,7 @@ query Playlist($id: String!) {
     exercises {
       _id
       name
+      difficulty
       tags
     }
     user {

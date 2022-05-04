@@ -1,4 +1,4 @@
-mutation removeExercise($input: AddExerciseInput!) {
+mutation removeExercise($input: UpdatePlaylistInput!) {
   removeExercise(input: $input) {
     _id
     name

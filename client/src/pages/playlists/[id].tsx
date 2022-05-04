@@ -53,32 +53,43 @@ const Playlist: FC = () => {
     <>
       <NavBar bg="brand.teal" />
       <Box bg="brand.lightgrey" minH="92vh">
-        <Box bg="gray.100" py={20}>
+        <Box bg="brand.teal" pt={10} pb={20}>
           <Wrapper>
-            <Heading fontSize={16}>PLAYLIST</Heading>
+            <Heading fontSize={18}>
+              {userName?.slice(-1) === "s" ? `${userName}'` : `${userName}'s`}
+            </Heading>
             <Heading fontSize={80} display="inline" cursor="pointer">
               {playlistData?.playlist.name}
             </Heading>
-            <Heading fontSize={18} mt={1}>
-              {userName}
+            <Heading fontSize={16} mt={1}>
+              {`${
+                playlistData?.playlist.exercises.length === 1
+                  ? `${playlistData?.playlist.exercises.length} exercise`
+                  : `${playlistData?.playlist.exercises.length} exercises`
+              }`}
+              {/* {userName} */}
             </Heading>
           </Wrapper>
         </Box>
         <Wrapper>
           <Box py={8}>
+            <Text fontSize={30} mb={1}>
+              <b>Exercise queue</b>
+            </Text>
             {playlistData?.playlist.exercises.map((exercise, id) => (
               <ExerciseListItem
                 remove
                 key={id}
+                listId={id + 1}
                 playlistId={playlistId}
                 {...exercise}
               />
             ))}
           </Box>
           <Divider />
-          <Box py={8}>
-            <Text fontSize={25} mb={1}>
-              <b>Add some exercises to your playlist</b>
+          <Box py={8} minH={600}>
+            <Text fontSize={30} mb={1}>
+              <b>Add new exercises</b>
             </Text>
             <InputGroup mb={4}>
               <InputLeftElement
@@ -88,7 +99,6 @@ const Playlist: FC = () => {
               <Input
                 placeholder="Search for an exercise"
                 onChange={handleSearch}
-                w={800}
                 mr={4}
               ></Input>
             </InputGroup>
@@ -108,7 +118,7 @@ const Playlist: FC = () => {
                   .sort((a, b) =>
                     a.name > b.name ? 1 : b.name > a.name ? -1 : 0
                   )
-                  .slice(0, 5)
+                  .slice(0, 6)
                   .map((exercise, id) => (
                     <ExerciseListItem
                       key={id}

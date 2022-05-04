@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/user";
+// import { PlaylistModel } from "./entities/Playlist";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -73,7 +73,7 @@ const bootstrap = async () => {
     });
 
     await connect(process.env.DATABASE_URL as string);
-    // await UserModel.deleteMany({});
+    // await PlaylistModel.deleteMany({});
   } catch (err) {
     console.error(err);
   }

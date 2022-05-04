@@ -64,7 +64,6 @@ const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
           size={buttonSize}
           onClick={async () => {
             await logout();
-            // router.back();
           }}
         >
           Logout

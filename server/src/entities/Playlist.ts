@@ -10,7 +10,7 @@ import { Exercise } from "./Exercise";
 import { User } from "./User";
 
 @InputType()
-export class AddExerciseInput {
+export class UpdatePlaylistInput {
   @Field(() => String)
   playlistId!: string;
 

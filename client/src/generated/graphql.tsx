@@ -15,11 +15,6 @@ export type Scalars = {
   Float: number;
 };
 
-export type AddExerciseInput = {
-  exerciseId: Scalars['String'];
-  playlistId: Scalars['String'];
-};
-
 export type Exercise = {
   __typename?: 'Exercise';
   _id: Scalars['String'];
@@ -58,7 +53,7 @@ export type Mutation = {
 
 
 export type MutationAddExerciseArgs = {
-  input: AddExerciseInput;
+  input: UpdatePlaylistInput;
 };
 
 
@@ -83,7 +78,7 @@ export type MutationRegisterArgs = {
 
 
 export type MutationRemoveExerciseArgs = {
-  input: AddExerciseInput;
+  input: UpdatePlaylistInput;
 };
 
 export type Playlist = {
@@ -119,6 +114,11 @@ export type RegisterInput = {
   password: Scalars['String'];
 };
 
+export type UpdatePlaylistInput = {
+  exerciseId: Scalars['String'];
+  playlistId: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   _id: Scalars['String'];
@@ -129,7 +129,7 @@ export type User = {
 export type UserResponseFragment = { __typename?: 'User', _id: string, name: string, email: string };
 
 export type AddExerciseMutationVariables = Exact<{
-  input: AddExerciseInput;
+  input: UpdatePlaylistInput;
 }>;
 
 
@@ -162,7 +162,7 @@ export type RegisterMutationVariables = Exact<{
 export type RegisterMutation = { __typename?: 'Mutation', register: { __typename?: 'User', _id: string, name: string, email: string } };
 
 export type RemoveExerciseMutationVariables = Exact<{
-  input: AddExerciseInput;
+  input: UpdatePlaylistInput;
 }>;
 
 
@@ -195,7 +195,7 @@ export type PlaylistQueryVariables = Exact<{
 }>;
 
 
-export type PlaylistQuery = { __typename?: 'Query', playlist: { __typename?: 'Playlist', _id: string, name: string, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string, tags: Array<string> }>, user: { __typename?: 'User', _id: string } } };
+export type PlaylistQuery = { __typename?: 'Query', playlist: { __typename?: 'Playlist', _id: string, name: string, exercises: Array<{ __typename?: 'Exercise', _id: string, name: string, difficulty: string, tags: Array<string> }>, user: { __typename?: 'User', _id: string } } };
 
 export const UserResponseFragmentDoc = gql`
     fragment UserResponse on User {
@@ -205,7 +205,7 @@ export const UserResponseFragmentDoc = gql`
 }
     `;
 export const AddExerciseDocument = gql`
-    mutation addExercise($input: AddExerciseInput!) {
+    mutation addExercise($input: UpdatePlaylistInput!) {
   addExercise(input: $input) {
     _id
     name
@@ -273,7 +273,7 @@ export function useRegisterMutation() {
   return Urql.useMutation<RegisterMutation, RegisterMutationVariables>(RegisterDocument);
 };
 export const RemoveExerciseDocument = gql`
-    mutation removeExercise($input: AddExerciseInput!) {
+    mutation removeExercise($input: UpdatePlaylistInput!) {
   removeExercise(input: $input) {
     _id
     name
@@ -353,6 +353,7 @@ export const PlaylistDocument = gql`
     exercises {
       _id
       name
+      difficulty
       tags
     }
     user {

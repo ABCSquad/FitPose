@@ -1,9 +1,9 @@
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { ExerciseModel } from "../entities/Exercise";
 import {
-  AddExerciseInput,
   Playlist,
   PlaylistModel,
+  UpdatePlaylistInput,
 } from "../entities/Playlist";
 import { UserModel } from "../entities/User";
 import { Context } from "../types";
@@ -36,7 +36,7 @@ export default class ExerciseResolver {
 
   @Mutation(() => Playlist)
   async addExercise(
-    @Arg("input") { playlistId, exerciseId }: AddExerciseInput,
+    @Arg("input") { playlistId, exerciseId }: UpdatePlaylistInput,
     @Ctx() { req }: Context
   ): Promise<Playlist> {
     const playlist = await PlaylistModel.findById(playlistId);
@@ -45,7 +45,7 @@ export default class ExerciseResolver {
       throw new Error("Invalid auth");
     const exercise = await ExerciseModel.findById(exerciseId);
     if (!exercise) throw new Error("Invalid exercise ID");
-    if (playlist.exercises.some((x) => x._id.toString() === exerciseId))
+    if (playlist.exercises.some((x) => x.name === exercise.name))
       throw new Error("Exercise already present");
     playlist.exercises.push(exercise);
     return await playlist.save();
@@ -53,7 +53,7 @@ export default class ExerciseResolver {
 
   @Mutation(() => Playlist)
   async removeExercise(
-    @Arg("input") { playlistId, exerciseId }: AddExerciseInput,
+    @Arg("input") { playlistId, exerciseId }: UpdatePlaylistInput,
     @Ctx() { req }: Context
   ): Promise<Playlist> {
     const playlist = await PlaylistModel.findById(playlistId);
