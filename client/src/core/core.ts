@@ -41,6 +41,7 @@ export default class Core {
     if (meta.compoundData) {
       this.repCount = meta.finalData.repCount;
     }
+    console.log(meta.finalData);
     return meta;
   }
 

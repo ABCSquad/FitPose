@@ -32,6 +32,9 @@ export default class Exercise {
       case "ohp":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
         break;
+      case "lateral":
+        compoundData = exerciseFunc.lateral(keypoints, initFlag);
+        break;
       default:
         compoundData = undefined;
     }

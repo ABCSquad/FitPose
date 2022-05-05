@@ -8,8 +8,6 @@ export type Keypoint = {
 export type ExerciseDataObj = {
   partName: string;
   deviation: number;
-  keypoints: number[];
-  range: number[];
   maxDeviation: number;
 };
 
