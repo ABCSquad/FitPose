@@ -1,5 +1,5 @@
 import { IoAdd } from "react-icons/io5";
-import { Box, Button, Grid, Heading } from "@chakra-ui/react";
+import { Box, Button, Grid, Heading, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { FC, useEffect } from "react";
@@ -37,6 +37,10 @@ const Playlists: FC = ({}) => {
     }
   };
 
+  useEffect(() => {
+    import("@lottiefiles/lottie-player");
+  }, []);
+
   return (
     <>
       <NavBar bg="brand.teal" />
@@ -64,7 +68,18 @@ const Playlists: FC = ({}) => {
               ))}
             </Grid>
           ) : (
-            <h1>HelloWorld</h1>
+            <Box pt={50}>
+              <lottie-player
+                autoplay
+                loop
+                mode="normal"
+                src="./lotties/empty.json"
+                style={{ height: "500px" }}
+              ></lottie-player>
+              <Text fontSize={30} align="center">
+                You have no playlists currently.
+              </Text>
+            </Box>
           )}
         </Wrapper>
       </Box>
