@@ -158,7 +158,7 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [{ name: "lateral", reps: 50 }];
+    const exerciseArray = [{ name: "curl", reps: 500000 }];
     console.log("New instance");
     coreInstance = new Core(exerciseArray);
     const pose = new Pose({

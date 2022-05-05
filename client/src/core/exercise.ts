@@ -5,6 +5,7 @@ import Timer from "easytimer.js";
 let timer = new Timer();
 let compoundData: CompoundData;
 let finalData: FinalData = {
+  currentExercise: "",
   deviatingPart: "",
   message: "",
   deviationTimeObj: {},
@@ -12,13 +13,16 @@ let finalData: FinalData = {
   repCount: -1,
   repTimeObj: {},
 };
+let repInitFlag = true;
 
 export default class Exercise {
   start(currentExercise: ExerciseObj, keypoints: object, initFlag: boolean) {
     if (initFlag) {
       timer.reset();
+      repInitFlag = true;
       compoundData = undefined;
       finalData = {
+        currentExercise: currentExercise.name,
         deviatingPart: "",
         message: "",
         deviationTimeObj: {},
@@ -28,6 +32,7 @@ export default class Exercise {
       };
     }
 
+    finalData.currentExercise = currentExercise.name;
     switch (currentExercise.name) {
       case "ohp":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
@@ -35,8 +40,21 @@ export default class Exercise {
       case "lateral":
         compoundData = exerciseFunc.lateral(keypoints, initFlag);
         break;
+      case "curl":
+        compoundData = exerciseFunc.curl(keypoints, initFlag);
+        break;
       default:
         compoundData = undefined;
+    }
+    //Flipping the up/down flag if the range is flipped
+    if (
+      compoundData &&
+      compoundData.repsData[currentExercise.name].range[0] >
+        compoundData.repsData[currentExercise.name].range[1] &&
+      repInitFlag
+    ) {
+      finalData.repFlag = !finalData.repFlag;
+      repInitFlag = false;
     }
     if (
       compoundData?.exerciseData[currentExercise.name].every(
@@ -46,22 +64,29 @@ export default class Exercise {
       timer.reset();
       finalData.message = "";
       finalData.deviatingPart = "";
-      //Check reps as posture correct
+      console.log(
+        compoundData.angleData[currentExercise.name][
+          compoundData.repsData[currentExercise.name].partName
+        ],
+        finalData.repFlag
+      );
+
       if (
         compoundData.angleData[currentExercise.name][
           compoundData.repsData[currentExercise.name].partName
-        ] < compoundData.repsData[currentExercise.name].range[0] &&
+        ] < Math.min(...compoundData.repsData[currentExercise.name].range) &&
         !finalData.repFlag
       ) {
-        finalData.repFlag = true;
+        //Check reps as posture correct
+        finalData.repFlag = !finalData.repFlag;
         finalData.repCount += 1;
       } else if (
         compoundData.angleData[currentExercise.name][
           compoundData.repsData[currentExercise.name].partName
-        ] > compoundData.repsData[currentExercise.name].range[1] &&
+        ] > Math.max(...compoundData.repsData[currentExercise.name].range) &&
         finalData.repFlag
       ) {
-        finalData.repFlag = false;
+        finalData.repFlag = !finalData.repFlag;
       }
     } else {
       timer.start();

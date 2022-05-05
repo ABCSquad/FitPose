@@ -52,6 +52,7 @@ export type CompoundData =
   | undefined;
 
 export type FinalData = {
+  currentExercise: string;
   deviatingPart: string;
   message: string;
   deviationTimeObj: { [key: number]: string } | {};
@@ -62,7 +63,6 @@ export type FinalData = {
 
 export type ExerciseObj = {
   name: string;
-  // keypoints: Array<number>;
   reps: number;
 };
 

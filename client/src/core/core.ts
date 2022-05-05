@@ -40,8 +40,13 @@ export default class Core {
     );
     if (meta.compoundData) {
       this.repCount = meta.finalData.repCount;
+      // if (
+      //   meta.compoundData.repsData[this.currentExercise.name].range[0] >
+      //   meta.compoundData.repsData[this.currentExercise.name].range[1]
+      // )
+      //   meta.finalData.repFlag = !meta.finalData.repFlag;
     }
-    console.log(meta.finalData);
+
     return meta;
   }
 

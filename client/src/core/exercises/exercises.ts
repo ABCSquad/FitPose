@@ -1,4 +1,4 @@
-import { angle } from "../utils";
+import { angle, sideChecker, angleNormalized } from "../utils";
 import {
   RepsDataParent,
   MessageDataParent,
@@ -37,7 +37,7 @@ messageData.ohp = {
 
 repsData.ohp = {
   partName: "leftElbow",
-  range: [35, 170], //Degrees of motion for a rep
+  range: [35, 170], //Degrees of motion for a rep, [1] would be initial position
 };
 
 angleData.ohp = {
@@ -142,6 +142,56 @@ export const lateral = (keypoints: any, initFlag: boolean) => {
 
   exerciseData.lateral[1].deviation = Math.abs(
     angleData.lateral.rightElbow - (360 - angleData.lateral.leftElbow)
+  );
+
+  return { exerciseData, repsData, messageData, angleData };
+};
+
+exerciseData.curl = [
+  {
+    partName: "shoulder",
+    deviation: 0,
+    maxDeviation: 5,
+  },
+];
+
+messageData.curl = {
+  shoulder: "Shoulder not parallel to torso",
+};
+
+repsData.curl = {
+  partName: "elbow",
+  range: [160, 30],
+};
+
+angleData.curl = {
+  shoulder: 0,
+  elbow: 0,
+};
+
+export const curl = (keypoints: any, initFlag: boolean) => {
+  let side = sideChecker(keypoints[13].z, keypoints[14].z);
+  if (initFlag) {
+    exerciseData.curl = exerciseData.curl.map((e) => {
+      return { ...e, deviation: (e.deviation = 1) };
+    });
+    angleData.curl = {
+      shoulder: 0,
+      elbow: 0,
+    };
+  }
+
+  angleData.curl = {
+    shoulder: side
+      ? 360 - angle(keypoints[23], keypoints[11], keypoints[13])
+      : angle(keypoints[24], keypoints[12], keypoints[14]),
+    elbow: side
+      ? angle(keypoints[15], keypoints[13], keypoints[11])
+      : 360 - angle(keypoints[16], keypoints[14], keypoints[12]),
+  };
+
+  exerciseData.curl[0].deviation = Math.abs(
+    angleNormalized(angleData.curl.shoulder)
   );
 
   return { exerciseData, repsData, messageData, angleData };
