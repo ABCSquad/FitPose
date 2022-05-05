@@ -66,7 +66,8 @@ const RTGraph: FC = () => {
 		const final = metaData?.finalData;
 		// const getMin = compound?.repsData.range[0];
 		// const getMax = compound?.repsData.range[1];
-		const currentAngle = compound?.angleData[compound.repsData.partName];
+		const currentAngle =
+			compound?.angleData["ohp"][compound.repsData["ohp"].partName];
 
 		// const returnObj = {
 		// 	amt: Math.round(currentAngle ? currentAngle : 0),
@@ -76,7 +77,7 @@ const RTGraph: FC = () => {
 			if (final?.deviatingPart === "") {
 				deviation = 0;
 			} else {
-				deviation = 0.7 * 360;
+				deviation = 0.5 * 360;
 			}
 			if (final?.repFlag === true) {
 				setGraphData([
@@ -90,7 +91,7 @@ const RTGraph: FC = () => {
 				]);
 			}
 		} else {
-			console.log("true");
+			// console.log("true");
 
 			setGraphMeta(true);
 		}
@@ -109,7 +110,7 @@ const RTGraph: FC = () => {
 	};
 
 	useEffect(() => {
-		console.log(metaData?.finalData.repCount);
+		// console.log(metaData);
 
 		setData();
 	}, [metaData]);
