@@ -28,12 +28,28 @@ export interface AngleData {
   [key: string]: number;
 }
 
+export interface ExerciseDataParent {
+  [key: string]: ExerciseData;
+}
+
+export interface MessageDataParent {
+  [key: string]: MessageData;
+}
+
+export interface RepsDataParent {
+  [key: string]: RepsData;
+}
+
+export interface AngleDataParent {
+  [key: string]: AngleData;
+}
+
 export type CompoundData =
   | {
-      exerciseData: ExerciseData;
-      repsData: RepsData;
-      messageData: MessageData;
-      angleData: AngleData;
+      exerciseData: ExerciseDataParent;
+      repsData: RepsDataParent;
+      messageData: MessageDataParent;
+      angleData: AngleDataParent;
     }
   | undefined;
 

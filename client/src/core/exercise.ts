@@ -36,7 +36,7 @@ export default class Exercise {
         compoundData = undefined;
     }
     if (
-      compoundData?.exerciseData.every(
+      compoundData?.exerciseData[currentExercise.name].every(
         (ele) => ele.deviation < ele.maxDeviation
       )
     ) {
@@ -45,15 +45,17 @@ export default class Exercise {
       finalData.deviatingPart = "";
       //Check reps as posture correct
       if (
-        compoundData.angleData[compoundData.repsData.partName] <
-          compoundData.repsData.range[0] &&
+        compoundData.angleData[currentExercise.name][
+          compoundData.repsData[currentExercise.name].partName
+        ] < compoundData.repsData[currentExercise.name].range[0] &&
         !finalData.repFlag
       ) {
         finalData.repFlag = true;
         finalData.repCount += 1;
       } else if (
-        compoundData.angleData[compoundData.repsData.partName] >
-          compoundData.repsData.range[1] &&
+        compoundData.angleData[currentExercise.name][
+          compoundData.repsData[currentExercise.name].partName
+        ] > compoundData.repsData[currentExercise.name].range[1] &&
         finalData.repFlag
       ) {
         finalData.repFlag = false;
@@ -61,13 +63,16 @@ export default class Exercise {
     } else {
       timer.start();
       if (timer.getTimeValues().seconds > 2) {
-        let deviatingPartArray = compoundData?.exerciseData.filter(
-          (ele) => ele.deviation > ele.maxDeviation
-        );
+        let deviatingPartArray = compoundData?.exerciseData[
+          currentExercise.name
+        ].filter((ele) => ele.deviation > ele.maxDeviation);
         if (deviatingPartArray)
           finalData.deviatingPart =
             deviatingPartArray[deviatingPartArray.length - 1].partName;
-        finalData.message = compoundData?.messageData[finalData.deviatingPart]!;
+        finalData.message =
+          compoundData?.messageData[currentExercise.name][
+            finalData.deviatingPart
+          ]!;
       } else {
         finalData.message = "";
       }
