@@ -8,19 +8,12 @@ import {
 } from "@mediapipe/pose";
 import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
-import {
-  AspectRatio,
-  Badge,
-  HStack,
-  Text,
-  VisuallyHidden,
-} from "@chakra-ui/react";
+import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
-import { LandmarkGrid } from "@mediapipe/control_utils_3d";
 
 const Canvas: FC = () => {
-  const { blurState, FPS, setBlurState, setMetaData, setRepCounter, setFPS } =
+  const { setLandmarks, setBlurState, setMetaData, setRepCounter, setFPS } =
     useApp();
 
   const videoRef = useRef<Webcam | null>(null);
@@ -50,47 +43,10 @@ const Canvas: FC = () => {
   let canvasCtx: CanvasRenderingContext2D | null;
   let lastFrameTime: number = performance.now();
 
-  // const grid = new LandmarkGrid(landmarkRef.current!, {
-  //   connectionColor: 0xcccccc,
-  //   definedColors: [
-  //     { name: "LEFT", value: 0xffa500 },
-  //     { name: "RIGHT", value: 0x00ffff },
-  //   ],
-  //   range: 2,
-  //   fitToGrid: true,
-  //   labelSuffix: "m",
-  //   landmarkSize: 2,
-  //   numCellsPerAxis: 4,
-  //   showHidden: false,
-  //   centered: true,
-  // });
-
   const videoConstraints = {
     width: 1280,
     height: 720,
   };
-
-  /* Scale to fill with aspect ratio */
-  // const scaleToFill = (ctx: CanvasRenderingContext2D) => {
-  // 	let canvasDim = {
-  // 		w: canvasRef.current!.width,
-  // 		h: canvasRef.current!.height,
-  // 	};
-  // 	// getting the scale
-  // 	scale = Math.max(
-  // 		window.innerWidth / canvasDim.w,
-  // 		window.innerHeight / canvasDim.h
-  // 	);
-  // 	// get top left pos of window
-  // 	let x = window.innerWidth / 2 - (canvasDim.w / 2) * scale;
-  // 	let y = window.innerHeight / 2 - (canvasDim.h / 2) * scale;
-
-  // 	ctx.setTransform(scale, 0, 0, scale, x, y);
-  // };
-
-  // useEffect(() => {
-  //   console.log(blurState);
-  // }, [blurState]);
 
   const onResults = (results: any) => {
     setFPS(1 / ((performance.now() - lastFrameTime) / 1000));
@@ -99,6 +55,8 @@ const Canvas: FC = () => {
     if (coreInstance) {
       setBlurState(coreInstance!.blur());
       const getValue: any = coreInstance!.update(results.poseLandmarks);
+      setLandmarks(results.poseLandmarks);
+
       if (getValue?.finalData.repCount != undefined)
         setRepCounter(getValue?.finalData.repCount);
       setMetaData(getValue);
@@ -145,20 +103,16 @@ const Canvas: FC = () => {
           }),
           { visibilityMin: 0.65, color: "white", fillColor: "rgb(0,217,231)" }
         );
-        // drawLandmarks(
-        //   canvasCtx,
-        //   Object.values(POSE_LANDMARKS_NEUTRAL).map(
-        //     (index) => results.poseLandmarks[index]
-        //   ),
-        //   { visibilityMin: 0.65, color: "white", fillColor: "white" }
-        // );
       }
       canvasCtx.restore();
     }
   };
 
   useEffect(() => {
-    const exerciseArray = [{ name: "curl", reps: 500000 }];
+    const exerciseArray = [
+      { name: "lateral", reps: 5 },
+      { name: "ohp", reps: 5 },
+    ];
     console.log("New instance");
     coreInstance = new Core(exerciseArray);
     const pose = new Pose({

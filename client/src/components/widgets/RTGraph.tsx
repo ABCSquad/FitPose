@@ -67,8 +67,9 @@ const RTGraph: FC = () => {
     // const getMin = compound?.repsData.range[0];
     // const getMax = compound?.repsData.range[1];
     const currentAngle =
-      compound?.angleData[
-        compound.repsData[metaData?.finalData.currentExercise!].partName
+      metaData?.compoundData?.angleData[metaData.finalData.currentExercise][
+        metaData.compoundData.repsData[metaData.finalData.currentExercise]
+          .partName
       ];
 
     // const returnObj = {
@@ -79,7 +80,7 @@ const RTGraph: FC = () => {
       if (final?.deviatingPart === "") {
         deviation = 0;
       } else {
-        deviation = 0.7 * 360;
+        deviation = 0.5 * 360;
       }
       if (final?.repFlag === true) {
         setGraphData([
@@ -93,6 +94,7 @@ const RTGraph: FC = () => {
         ]);
       }
     } else {
+      // console.log("true");
       setGraphMeta(true);
     }
     removeOldData();
@@ -110,6 +112,12 @@ const RTGraph: FC = () => {
   };
 
   useEffect(() => {
+    setData();
+  }, [metaData]);
+
+  useEffect(() => {
+    // console.log(metaData);
+
     setData();
   }, [metaData]);
 

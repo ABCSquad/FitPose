@@ -1,3 +1,4 @@
+import { NormalizedLandmark } from "@mediapipe/pose";
 import { createContext, useContext, useState } from "react";
 import { CompoundData, FinalData } from "../core/types";
 
@@ -22,6 +23,8 @@ type AppContextValueType = {
 	setMetaData: React.Dispatch<React.SetStateAction<MetaDataType | null>>;
 	FPS: number;
 	setFPS: React.Dispatch<React.SetStateAction<number>>;
+	landmarks: Array<NormalizedLandmark>;
+	setLandmarks: React.Dispatch<React.SetStateAction<Array<NormalizedLandmark>>>;
 };
 
 /* Creating the context and export to useApp hook. */
@@ -40,6 +43,7 @@ export default function AppContextProvider({
 	const [repCounter, setRepCounter] = useState<number>(0);
 	const [metaData, setMetaData] = useState<MetaDataType | null>(null);
 	const [FPS, setFPS] = useState<number>(0);
+	const [landmarks, setLandmarks] = useState<Array<NormalizedLandmark>>([]);
 
 	/* Value object to pass into the Provider. */
 	const value = {
@@ -53,6 +57,8 @@ export default function AppContextProvider({
 		setMetaData,
 		FPS,
 		setFPS,
+		landmarks,
+		setLandmarks,
 	};
 
 	return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

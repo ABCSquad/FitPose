@@ -106,7 +106,7 @@ messageData.lateral = {
 
 repsData.lateral = {
   partName: "leftShoulder",
-  range: [20, 100], //Degrees of motion for a rep
+  range: [20, 90], //Degrees of motion for a rep
 };
 
 angleData.lateral = {
@@ -151,7 +151,7 @@ exerciseData.curl = [
   {
     partName: "shoulder",
     deviation: 0,
-    maxDeviation: 5,
+    maxDeviation: 10,
   },
 ];
 
