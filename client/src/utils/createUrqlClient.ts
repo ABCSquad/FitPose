@@ -71,6 +71,9 @@ const createUrlqlClient = (ssrExchange: any, ctx: any) => {
                 id: (_result.removeExercise as any)._id,
               });
             },
+            deletePlaylist: (_result, _, cache, __) => {
+              cache.invalidate("Query", "myPlaylists");
+            },
           },
         },
       }),

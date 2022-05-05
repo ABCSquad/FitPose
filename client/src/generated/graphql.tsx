@@ -216,7 +216,7 @@ export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', _id: s
 export type MyPlaylistsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyPlaylistsQuery = { __typename?: 'Query', myPlaylists: Array<{ __typename?: 'Playlist', _id: string, name: string }> };
+export type MyPlaylistsQuery = { __typename?: 'Query', myPlaylists: Array<{ __typename?: 'Playlist', _id: string, name: string, exercises: Array<{ __typename?: 'Exercise', name: string }> }> };
 
 export type PlaylistQueryVariables = Exact<{
   id: Scalars['String'];
@@ -389,6 +389,9 @@ export const MyPlaylistsDocument = gql`
   myPlaylists {
     _id
     name
+    exercises {
+      name
+    }
   }
 }
     `;

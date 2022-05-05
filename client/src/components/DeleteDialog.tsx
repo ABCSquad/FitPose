@@ -30,6 +30,7 @@ const DeleteDialog: FC<Props> = ({
   const [, _deletePlaylist] = useDeletePlaylistMutation();
   const deletePlaylist = async () => {
     playlistId && (await _deletePlaylist({ playlistId }));
+    onClose();
     router.replace("/playlists");
   };
   return (

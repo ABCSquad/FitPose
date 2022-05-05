@@ -14,7 +14,7 @@ import { useMeQuery } from "../generated/graphql";
 const SignUp: FC = ({}) => {
   const router = useRouter();
   const [{ data, fetching }] = useMeQuery();
-  if (data?.me) router.back();
+  if (data?.me) router.replace("/");
 
   const [, register] = useRegisterMutation();
 

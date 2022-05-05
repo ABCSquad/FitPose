@@ -2,5 +2,8 @@ query MyPlaylists {
   myPlaylists {
     _id
     name
+    exercises {
+      name
+    }
   }
 }
