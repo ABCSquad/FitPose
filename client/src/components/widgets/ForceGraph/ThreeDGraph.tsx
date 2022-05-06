@@ -47,7 +47,6 @@ const ThreeDGraph: FC = () => {
         };
       });
       setForceData(forceMadeArray);
-      console.log(forceData);
     }
   }, [landmarks]);
 

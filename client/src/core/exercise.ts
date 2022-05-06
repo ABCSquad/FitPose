@@ -33,7 +33,6 @@ export default class Exercise {
     }
 
     finalData.currentExercise = currentExercise.name;
-    console.log(currentExercise.name.toLowerCase());
     switch (currentExercise.name.toLowerCase()) {
       case "seated dumbbell shoulder press":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
