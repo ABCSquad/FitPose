@@ -32,7 +32,8 @@ export type MetaDataType =
       screenState: ScreenState;
       exerciseName?: string;
       insertionData?: InsertionData;
-    };
+    }
+  | undefined;
 
 type AppContextValueType = {
   exercises: Array<ExerciseObj>;

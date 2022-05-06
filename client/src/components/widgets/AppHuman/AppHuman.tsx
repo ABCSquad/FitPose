@@ -80,7 +80,7 @@ const AppHuman: FC = () => {
       PARTS
     );
     let tempCustomMap = Object.assign({}, CUSTOM_PART_MAP);
-    if (isIdeal(metaData)) {
+    if (metaData && isIdeal(metaData)) {
       let tempMetaData = [...metaData.finalData.deviatingPartArray];
       tempMetaData.forEach((e: DeviatingPart) => {
         tempCustomMap[e.partName].forEach((e) => {

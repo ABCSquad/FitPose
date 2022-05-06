@@ -28,6 +28,9 @@ export default class Core {
   }
 
   update(keypoints: object | undefined): MetaDataType {
+    if (this.exerciseArray.length === 0) {
+      return undefined;
+    }
     if (this.screenState === 4) {
       let endSessionData = {
         screenState: this.screenState,
