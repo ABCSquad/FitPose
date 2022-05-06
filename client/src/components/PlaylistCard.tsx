@@ -14,9 +14,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
+import { useRouter } from "next/router";
 import { FC } from "react";
 import { BiPlay } from "react-icons/bi";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useApp } from "../contexts/AppContext";
 import DeleteDialog from "./DeleteDialog";
 import InputDialog from "./InputDialog";
 
@@ -29,6 +31,18 @@ type Props = {
 const PlaylistCard: FC<Props> = ({ _id, name, exercises }) => {
   const editModal = useDisclosure();
   const deleteModal = useDisclosure();
+
+  const router = useRouter();
+
+  const { setExercises } = useApp();
+  const startApp = () => {
+    const mapped = exercises.map((x) => {
+      return { name: x.name, reps: 100 };
+    });
+    mapped && setExercises(mapped);
+    router.push("/app");
+  };
+
   return (
     <GridItem colSpan={1} rowSpan={1}>
       <NextLink href={"/playlists/[_id]"} as={`/playlists/${_id}`}>
@@ -55,6 +69,7 @@ const PlaylistCard: FC<Props> = ({ _id, name, exercises }) => {
               isDisabled={exercises.length === 0}
               onClick={(e) => {
                 e.stopPropagation();
+                startApp();
               }}
             />
             <Menu>

@@ -27,11 +27,14 @@ import { useRouter } from "next/router";
 import { FC, useState } from "react";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
+import { useApp } from "../../contexts/AppContext";
 import { useExerciseQuery } from "../../generated/graphql";
 import createUrqlClient from "../../utils/createUrqlClient";
 
 const Exercise: FC = () => {
   const router = useRouter();
+
+  const { setExercises } = useApp();
 
   //Getting exercise from url
   const exerciseName =
@@ -51,6 +54,11 @@ const Exercise: FC = () => {
   const handleReps = (newReps: string) => {
     const newRepsNum = parseInt(newReps);
     if (!isNaN(newRepsNum)) setReps(newRepsNum);
+  };
+
+  const startApp = () => {
+    data && setExercises([{ name: data?.exercise.name, reps }]);
+    router.push("/app");
   };
 
   return (
@@ -98,54 +106,42 @@ const Exercise: FC = () => {
               />
             </GridItem>
           </Grid>
-          {data?.exercise.steps.map((step, id) => (
-            <HStack
-              key={id}
-              bg="white"
-              rounded="lg"
-              borderWidth={1}
-              p={3}
-              mb={3}
-            >
+          {data?.exercise.steps.map((step) => (
+            <HStack bg="white" rounded="lg" borderWidth={1} p={3} mb={3}>
               <Icon as={ArrowRightIcon} color="teal" boxSize={5} mx={1} />
               <Text fontSize="1.3rem">{step}</Text>
             </HStack>
           ))}
         </Wrapper>
+        <Modal onClose={onClose} isOpen={isOpen} isCentered>
+          <ModalOverlay />
+          <ModalContent bg="brand.lightgrey">
+            <ModalHeader>Enter Maximum Reps</ModalHeader>
+            <ModalBody>
+              <NumberInput
+                defaultValue={10}
+                min={1}
+                max={100}
+                onChange={handleReps}
+              >
+                <NumberInputField />
+                <NumberInputStepper>
+                  <NumberIncrementStepper />
+                  <NumberDecrementStepper />
+                </NumberInputStepper>
+              </NumberInput>
+            </ModalBody>
+            <ModalFooter>
+              <Button variant="outline" mr={3} onClick={onClose}>
+                Close
+              </Button>
+              <Button colorScheme="teal" onClick={startApp}>
+                I'm Ready
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </Box>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered>
-        <ModalOverlay />
-        <ModalContent bg="brand.lightgrey">
-          <ModalHeader>Enter Maximum Reps</ModalHeader>
-          <ModalBody>
-            <NumberInput
-              defaultValue={10}
-              min={1}
-              max={100}
-              onChange={handleReps}
-            >
-              <NumberInputField />
-              <NumberInputStepper>
-                <NumberIncrementStepper />
-                <NumberDecrementStepper />
-              </NumberInputStepper>
-            </NumberInput>
-          </ModalBody>
-          <ModalFooter>
-            <Button variant="outline" mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button
-              colorScheme="teal"
-              onClick={() => {
-                console.log(reps);
-              }}
-            >
-              I'm Ready
-            </Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </>
   );
 };

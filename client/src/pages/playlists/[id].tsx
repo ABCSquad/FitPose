@@ -24,6 +24,7 @@ import ExerciseListItem from "../../components/ExerciseListItem";
 import InputDialog from "../../components/InputDialog";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
+import { useApp } from "../../contexts/AppContext";
 import {
   useExercisesQuery,
   useMeQuery,
@@ -61,6 +62,15 @@ const Playlist: FC = () => {
   const editModal = useDisclosure();
   const deleteModal = useDisclosure();
 
+  const { setExercises } = useApp();
+  const startApp = () => {
+    const mapped = exercisesData?.exercises.map((x) => {
+      return { name: x.name, reps: 100 };
+    });
+    mapped && setExercises(mapped);
+    router.push("/app");
+  };
+
   return (
     <>
       <NavBar bg="brand.teal" />
@@ -83,6 +93,7 @@ const Playlist: FC = () => {
                 aria-label="Start Playlist"
                 icon={<BiPlay size={60} />}
                 isDisabled={playlistData?.playlist.exercises.length === 0}
+                onClick={startApp}
               />
               <Menu>
                 <MenuButton
@@ -96,7 +107,7 @@ const Playlist: FC = () => {
                   _active={{ bg: "inherit" }}
                   _focus={{ border: "inherit" }}
                 />
-                <MenuList fontSize={16} >
+                <MenuList fontSize={16}>
                   <MenuItem icon={<EditIcon />} onClick={editModal.onOpen}>
                     Edit name
                   </MenuItem>
