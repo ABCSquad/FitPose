@@ -1,0 +1,13 @@
+mutation AddExercise($input: UpdatePlaylistInput!) {
+  addExercise(input: $input) {
+    _id
+    name
+    user {
+      _id
+    }
+    exercises {
+      _id
+      name
+    }
+  }
+}
