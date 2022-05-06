@@ -16,7 +16,6 @@ export default class Core {
   screenState: ScreenState;
 
   constructor(exerciseArray: Array<ExerciseObj>) {
-    // DefinitFlagions
     this.repCount = -1;
     this.exerciseArray = exerciseArray;
     this.totalExerciseIndices = exerciseArray.length - 1;
@@ -28,7 +27,16 @@ export default class Core {
     this.screenState = 0;
   }
 
-  update(keypoints: object) {
+  update(keypoints: object | undefined): MetaDataType {
+    if (this.screenState === 4) {
+      let endSessionData = {
+        screenState: this.screenState,
+        exerciseName: this.currentExercise.name,
+        insertionData: this.insertionData,
+      };
+      this.exerciseInstance = null;
+      return endSessionData;
+    }
     this.keypoints = keypoints;
     this.blur();
     if (this.screenState === 0) {
@@ -61,27 +69,24 @@ export default class Core {
 
   next() {
     let currentExerciseIndex = this.exerciseArray.indexOf(this.currentExercise);
+    this.insertionData.repsData[this.currentExercise.name] = this.repDataObj;
+    this.insertionData.deviationData[this.currentExercise.name] =
+      this.deviationDataObj;
+    console.log(this.insertionData);
     if (currentExerciseIndex < this.totalExerciseIndices) {
-      this.insertionData.repsData[this.currentExercise.name] = this.repDataObj;
-      this.insertionData.deviationData[this.currentExercise.name] =
-        this.deviationDataObj;
       this.currentExercise = this.exerciseArray[currentExerciseIndex + 1];
+
       console.log(`Next exercise ${this.currentExercise}`);
       return this.start(true);
     } else {
       console.log("End session");
       this.screenState = 4;
-      let endSessionData = {
-        screenState: this.screenState,
-        exerciseName: this.currentExercise.name,
-        insertionData: this.insertionData,
-      };
-      return endSessionData;
+      return this.update(this.keypoints);
     }
   }
 
   blur() {
-    if (this.keypoints === undefined) {
+    if (this.keypoints === undefined && this.screenState !== 4) {
       this.screenState = 1;
     } else {
       this.screenState = 0;
