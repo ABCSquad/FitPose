@@ -60,33 +60,44 @@ const ThreeDGraph: FC = () => {
 			borderRadius="30px"
 			borderColor="InactiveBorder"
 			bg="white"
+			p={2}
 		>
-			<Center>
+			{landmarks && (
 				<Plot
+					style={{
+						height: "100%",
+						width: "100%",
+					}}
+					useResizeHandler={true}
 					config={{
+						responsive: true,
 						displayModeBar: false,
 					}}
 					layout={{
-						width: 420,
-						height: 420,
+						height: undefined,
+						width: undefined,
+						autosize: true,
 						title: `Pose Landmarks`,
 
 						showlegend: false,
 						scene: {
 							aspectmode: "cube",
 							xaxis: { mirror: true, range: [0, 1], zeroline: false },
-							zaxis: { autorange: "reversed", zeroline: false, range: [0, 1] },
-							yaxis: {
+							zaxis: {
 								autorange: "reversed",
+								zeroline: false,
+								range: [-10, 10],
+							},
+							yaxis: {
 								mirror: true,
-								range: [0, 1],
+								range: [-5, 5],
 								zeroline: false,
 							},
 						},
 					}}
 					data={forceData}
 				/>
-			</Center>
+			)}
 		</Box>
 	);
 };
