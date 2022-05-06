@@ -1,15 +1,42 @@
-import { prop, getModelForClass } from "@typegoose/typegoose";
-import { ObjectType, Field, InputType } from "type-graphql";
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  Severity,
+} from "@typegoose/typegoose";
+import { Field, InputType, ObjectType } from "type-graphql";
 
 type ExerciseDifficulty = "Beginner" | "Intermediate" | "Advanced";
 
+@InputType()
+export class ExerciseInput {
+  @Field(() => String)
+  name!: string;
+
+  @Field(() => String)
+  difficulty!: ExerciseDifficulty;
+
+  @Field(() => [String])
+  tags!: String[];
+
+  @Field(() => [String])
+  steps!: String[];
+
+  @Field(() => String)
+  gif1!: string;
+
+  @Field(() => String)
+  gif2!: string;
+}
+
 @ObjectType()
+@modelOptions({ options: { allowMixed: Severity.ALLOW } })
 export class Exercise {
   @Field(() => String)
   readonly _id: string;
 
   @Field(() => String)
-  @prop({ required: true, unique: true })
+  @prop({ required: true })
   name!: string;
 
   @Field(() => String)
@@ -34,18 +61,3 @@ export class Exercise {
 }
 
 export const ExerciseModel = getModelForClass(Exercise);
-
-@InputType()
-export class ExerciseInput {
-  @Field(() => String)
-  name!: string;
-
-  @Field(() => String)
-  difficulty!: ExerciseDifficulty;
-
-  @Field(() => [String])
-  tags!: String[];
-
-  @Field(() => [String])
-  steps!: String[];
-}

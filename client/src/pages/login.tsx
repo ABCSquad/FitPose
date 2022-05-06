@@ -31,7 +31,7 @@ const Login: FC = ({}) => {
             if (response.error) {
               const errorMessage = getErrorMessage(response.error);
               if (errorMessage) setErrors(errorMessage);
-            } else if (response.data?.login._id) router.push("/");
+            } else if (response.data?.login._id) router.replace("/");
           }}
         >
           {({ isSubmitting }) => (

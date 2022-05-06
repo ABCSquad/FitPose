@@ -1,0 +1,13 @@
+mutation RemoveExercise($input: UpdatePlaylistInput!) {
+  removeExercise(input: $input) {
+    _id
+    name
+    user {
+      _id
+    }
+    exercises {
+      _id
+      name
+    }
+  }
+}

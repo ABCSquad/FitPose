@@ -1,0 +1,12 @@
+mutation CreatePlaylist($name: String!) {
+  createPlaylist(name: $name) {
+    _id
+    name
+    user {
+      name
+    }
+    exercises {
+      name
+    }
+  }
+}

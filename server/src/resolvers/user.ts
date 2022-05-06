@@ -14,25 +14,29 @@ export default class UserResolver {
 
   @Mutation(() => User)
   async register(
-    @Arg("input") input: RegisterInput,
+    @Arg("input") { email, name, password }: RegisterInput,
     @Ctx() { req }: Context
   ): Promise<User> {
-    const existingUser = await UserModel.findOne({ email: input.email });
+    const existingUser = await UserModel.findOne({ email });
     if (existingUser) throw new ApolloError("Account already exists");
-    const hashedPassword = await argon2.hash(input.password);
-    const user = await UserModel.create({ ...input, password: hashedPassword });
+    const hashedPassword = await argon2.hash(password);
+    const user = await UserModel.create({
+      email,
+      name,
+      password: hashedPassword,
+    });
     req.session.userId = user._id.toString();
     return user;
   }
 
   @Mutation(() => User)
   async login(
-    @Arg("input") input: LoginInput,
+    @Arg("input") { email, password }: LoginInput,
     @Ctx() { req }: Context
   ): Promise<User> {
-    const user = await UserModel.findOne({ email: input.email });
+    const user = await UserModel.findOne({ email });
     if (!user) throw new ApolloError("Account does not exist");
-    const authenticated = await argon2.verify(user.password, input.password);
+    const authenticated = await argon2.verify(user.password, password);
     if (!authenticated) throw new ApolloError("Incorrect password");
     req.session.userId = user._id.toString();
     return user;
