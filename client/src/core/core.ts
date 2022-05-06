@@ -1,3 +1,4 @@
+import { MetaDataType, ScreenState } from "../contexts/AppContext";
 import Exercise from "./exercise";
 import { ExerciseObj } from "./types";
 
@@ -8,7 +9,7 @@ export default class Core {
   currentExercise: ExerciseObj;
   exerciseInstance: Exercise | null;
   repCount: number;
-  // exercise: object;
+  screenState: ScreenState;
 
   constructor(exerciseArray: Array<ExerciseObj>) {
     // DefinitFlagions
@@ -17,18 +18,24 @@ export default class Core {
     this.totalExerciseIndices = exerciseArray.length - 1;
     this.currentExercise = this.exerciseArray[0];
     this.exerciseInstance = new Exercise();
+    this.screenState = 0;
   }
 
   update(keypoints: object) {
     this.keypoints = keypoints;
-    if (!this.blur()) {
+    this.blur();
+    if (this.screenState === 0) {
       if (this.repCount > 0 && this.repCount === this.currentExercise.reps) {
         this.repCount = 0;
         return this.next();
       }
       return this.start(false);
     }
-    return undefined;
+    let screenStateChange = {
+      screenState: this.screenState,
+      exerciseName: this.currentExercise.name,
+    };
+    return screenStateChange;
   }
 
   start(initFlag: boolean) {
@@ -39,11 +46,6 @@ export default class Core {
     );
     if (meta.compoundData) {
       this.repCount = meta.finalData.repCount;
-      // if (
-      //   meta.compoundData.repsData[this.currentExercise.name].range[0] >
-      //   meta.compoundData.repsData[this.currentExercise.name].range[1]
-      // )
-      //   meta.finalData.repFlag = !meta.finalData.repFlag;
     }
 
     return meta;
@@ -63,26 +65,20 @@ export default class Core {
     } else {
       console.log("End session");
       this.exerciseInstance = null;
-      return {
-        deviationObj: {
-          shoulder: 0,
-          rightElbow: 0,
-          leftElbow: 0,
-        },
-        repObj: {
-          count: 0,
-          flag: 1,
-        },
-        message: "Ending session...",
-      };
+      return undefined;
     }
+  }
+
+  stop() {
+    this.endExercise();
+    return undefined;
   }
 
   blur() {
     if (this.keypoints === undefined) {
-      return true;
+      this.screenState = 1;
     } else {
-      return false;
+      this.screenState = 0;
     }
   }
 }

@@ -10,17 +10,17 @@ import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
-import { useApp } from "../contexts/AppContext";
+import { IdealMetaData, MetaDataType, useApp } from "../contexts/AppContext";
 
 const Canvas: FC = () => {
   const {
     setLandmarks,
-    setBlurState,
     setMetaData,
     setRepCounter,
     setFPS,
     setCoreInstance,
     exercises,
+    isIdeal,
   } = useApp();
 
   const videoRef = useRef<Webcam | null>(null);
@@ -60,13 +60,17 @@ const Canvas: FC = () => {
     lastFrameTime = performance.now();
     canvasCtx = canvasRef.current!.getContext("2d");
     if (coreInstance) {
-      setBlurState(coreInstance!.blur());
-      const getValue: any = coreInstance!.update(results.poseLandmarks);
+      const getValue: MetaDataType = coreInstance!.update(
+        results.poseLandmarks
+      );
       setLandmarks(results.poseLandmarks);
 
-      if (getValue?.finalData.repCount != undefined)
-        setRepCounter(getValue?.finalData.repCount);
+      if (isIdeal(getValue)) {
+        if (getValue?.finalData.repCount != undefined)
+          setRepCounter(getValue?.finalData.repCount);
+      }
       setMetaData(getValue);
+      console.log(getValue);
     }
 
     if (canvasCtx && canvasRef.current) {
