@@ -1,5 +1,5 @@
-import { Box, Center } from "@chakra-ui/react";
-import React, { FC, useEffect, useRef, useState } from "react";
+import { Box } from "@chakra-ui/react";
+import React, { FC, useEffect, useState } from "react";
 import { useApp } from "../../../contexts/AppContext";
 import Plot from "react-plotly.js";
 
@@ -12,7 +12,6 @@ const ThreeDGraph: FC = () => {
 		[24, 23],
 	];
 	const { landmarks } = useApp();
-	const landmarkRef = useRef<HTMLDivElement | null>(null);
 	const [forceData, setForceData] = useState<any>({});
 
 	useEffect(() => {
@@ -29,26 +28,26 @@ const ThreeDGraph: FC = () => {
 				});
 			});
 
-      let forceMadeArray = [0, 1, 2, 3, 4].map((e) => {
-        return {
-          x: Object.values(xNode)[e],
-          y: Object.values(yNode)[e],
-          z: Object.values(zNode)[e],
-          mode: "lines",
-          marker: {
-            size: 12,
-            line: {
-              color: "rgba(217, 217, 217, 0.14)",
-              width: 0.5,
-            },
-            opacity: 0.8,
-          },
-          type: "scatter3d",
-        };
-      });
-      setForceData(forceMadeArray);
-    }
-  }, [landmarks]);
+			let forceMadeArray = [0, 1, 2, 3, 4].map((e) => {
+				return {
+					x: Object.values(xNode)[e],
+					y: Object.values(yNode)[e],
+					z: Object.values(zNode)[e],
+					mode: "lines",
+					marker: {
+						size: 12,
+						line: {
+							color: "rgba(217, 217, 217, 0.14)",
+							width: 0.5,
+						},
+						opacity: 0.8,
+					},
+					type: "scatter3d",
+				};
+			});
+			setForceData(forceMadeArray);
+		}
+	}, [landmarks]);
 
 	return (
 		<Box
