@@ -21,7 +21,7 @@ const WidgetBar = () => {
           p={3}
         >
           <RTGraph />
-          {/* <ThreeDGraph /> */}
+          <ThreeDGraph />
         </Flex>
       </div>
     </div>

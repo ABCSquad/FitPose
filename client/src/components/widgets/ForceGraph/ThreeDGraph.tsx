@@ -1,174 +1,54 @@
 import { Box, Center } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
 import { useApp } from "../../../contexts/AppContext";
-import { ForceGraph3D } from "react-force-graph";
 import Plot from "react-plotly.js";
-import { ForceData } from "../../../core/types";
 
 const ThreeDGraph: FC = () => {
   const LINKS = [
-    {
-      source: 0,
-      target: 1,
-    },
-    {
-      source: 1,
-      target: 2,
-    },
-    {
-      source: 2,
-      target: 3,
-    },
-    {
-      source: 3,
-      target: 7,
-    },
-    {
-      source: 0,
-      target: 4,
-    },
-    {
-      source: 4,
-      target: 5,
-    },
-    {
-      source: 5,
-      target: 6,
-    },
-    {
-      source: 6,
-      target: 8,
-    },
-    {
-      source: 9,
-      target: 10,
-    },
-    {
-      source: 11,
-      target: 12,
-    },
-    {
-      source: 11,
-      target: 13,
-    },
-    {
-      source: 13,
-      target: 15,
-    },
-    {
-      source: 15,
-      target: 17,
-    },
-    {
-      source: 15,
-      target: 19,
-    },
-    {
-      source: 15,
-      target: 21,
-    },
-    {
-      source: 17,
-      target: 19,
-    },
-    {
-      source: 12,
-      target: 14,
-    },
-    {
-      source: 14,
-      target: 16,
-    },
-    {
-      source: 16,
-      target: 18,
-    },
-    {
-      source: 16,
-      target: 20,
-    },
-    {
-      source: 16,
-      target: 22,
-    },
-    {
-      source: 18,
-      target: 20,
-    },
-    {
-      source: 11,
-      target: 23,
-    },
-    {
-      source: 12,
-      target: 24,
-    },
-    {
-      source: 23,
-      target: 24,
-    },
-    {
-      source: 23,
-      target: 25,
-    },
-    {
-      source: 24,
-      target: 26,
-    },
-    {
-      source: 25,
-      target: 27,
-    },
-    {
-      source: 26,
-      target: 28,
-    },
-    {
-      source: 27,
-      target: 29,
-    },
-    {
-      source: 28,
-      target: 30,
-    },
-    {
-      source: 29,
-      target: 31,
-    },
-    {
-      source: 30,
-      target: 32,
-    },
-    {
-      source: 27,
-      target: 31,
-    },
-    {
-      source: 28,
-      target: 32,
-    },
+    [8, 6, 5, 4, 0, 1, 2, 3, 7],
+    [16, 14, 12, 11, 13, 15],
+    [28, 26, 24, 12],
+    [27, 25, 23, 11],
+    [24, 23],
   ];
-
-  const tempData = [{ x: [0, 0], y: [0, 0] }];
-
   const { landmarks } = useApp();
   const landmarkRef = useRef<HTMLDivElement | null>(null);
-  const [forceData, setForceData] = useState<ForceData>({
-    nodes: [],
-    links: [],
-  });
+  const [forceData, setForceData] = useState<any>({});
 
   useEffect(() => {
-    let tempLandmarks: any = [...landmarks];
-    tempLandmarks.forEach((ele: any, index: number) => {
-      delete ele.visibility;
-      ele.id = index;
-    });
+    if (landmarks) {
+      let xNode: any = { 0: [], 1: [], 2: [], 3: [], 4: [] };
+      let yNode: any = { 0: [], 1: [], 2: [], 3: [], 4: [] };
+      let zNode: any = { 0: [], 1: [], 2: [], 3: [], 4: [] };
 
-    setForceData({
-      nodes: tempLandmarks,
-      links: LINKS,
-    });
+      LINKS.forEach((e: any, i: number) => {
+        e.forEach((e: any) => {
+          xNode[i].push(landmarks[e].x.toString());
+          yNode[i].push(landmarks[e].z.toString());
+          zNode[i].push(landmarks[e].y.toString());
+        });
+      });
+
+      let forceMadeArray = [0, 1, 2, 3, 4].map((e) => {
+        return {
+          x: Object.values(xNode)[e],
+          y: Object.values(yNode)[e],
+          z: Object.values(zNode)[e],
+          mode: "lines",
+          marker: {
+            size: 12,
+            line: {
+              color: "rgba(217, 217, 217, 0.14)",
+              width: 0.5,
+            },
+            opacity: 0.8,
+          },
+          type: "scatter3d",
+        };
+      });
+      setForceData(forceMadeArray);
+      console.log(forceData);
+    }
   }, [landmarks]);
 
   return (
@@ -182,11 +62,26 @@ const ThreeDGraph: FC = () => {
       bg="white"
     >
       <Center>
-        <ForceGraph3D
-          backgroundColor={"rgba(0,0,0,0)"}
-          nodeColor={() => "red"}
-          linkColor={() => "blue"}
-          graphData={forceData}
+        <Plot
+          layout={{
+            width: 500,
+            height: 500,
+            title: `Pose Landmarks`,
+
+            showlegend: false,
+            scene: {
+              aspectmode: "cube",
+              xaxis: { mirror: true, range: [0, 1], zeroline: false },
+              zaxis: { autorange: "reversed", zeroline: false, range: [0, 1] },
+              yaxis: {
+                autorange: "reversed",
+                mirror: true,
+                range: [0, 1],
+                zeroline: false,
+              },
+            },
+          }}
+          data={forceData}
         />
       </Center>
     </Box>
