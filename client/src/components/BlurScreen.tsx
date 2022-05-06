@@ -20,7 +20,6 @@ type BlurProps = {
 
 const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
   const { metaData } = useApp();
-  // console.log(metaData?.finalData);
 
   return (
     <div
