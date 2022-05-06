@@ -1,14 +1,6 @@
-import { Box, Center, Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
-import {
-	LineChart,
-	Line,
-	ResponsiveContainer,
-	YAxis,
-	Area,
-	Tooltip,
-	ComposedChart,
-} from "recharts";
+import { Line, ResponsiveContainer, YAxis, ComposedChart } from "recharts";
 import { useApp } from "../../contexts/AppContext";
 
 const RTGraph: FC = () => {
