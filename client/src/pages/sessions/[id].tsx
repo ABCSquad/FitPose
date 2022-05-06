@@ -1,10 +1,9 @@
 import { TimeIcon } from "@chakra-ui/icons";
-import { BiDumbbell } from "react-icons/bi";
-import { Icon } from "@chakra-ui/react";
 import {
   Box,
   Heading,
   HStack,
+  Icon,
   Tab,
   TabList,
   TabPanel,
@@ -14,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { FC } from "react";
+import { BiDumbbell } from "react-icons/bi";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
 import createUrqlClient from "../../utils/createUrqlClient";
@@ -58,31 +58,33 @@ const Session: FC = () => {
                   <b>Visualization</b>
                 </Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels px={40} py={6}>
                 <TabPanel>
-                  <Box mb={3}>
-                    <Heading fontSize={20}>Bicep Curl</Heading>
+                  <Box mb={4}>
+                    <Heading ontSize={30} mb={1}>
+                      Bicep Curl
+                    </Heading>
                     <HStack>
-                      <Text mr="auto">
+                      <Text fontSize={22} mr="auto">
                         <b>Set 1</b>
                       </Text>
-                      <Text>10 reps</Text>
+                      <Text fontSize={22}>10 reps</Text>
                     </HStack>
                     <HStack>
-                      <Text mr="auto">
-                        <b>Set 2</b>
+                      <Text fontSize={22} mr="auto">
+                        <b>Set 1</b>
                       </Text>
-                      <Text>10 reps</Text>
+                      <Text fontSize={22}>10 reps</Text>
                     </HStack>
                     <HStack>
-                      <Text mr="auto">
-                        <b>Set 3</b>
+                      <Text fontSize={22} mr="auto">
+                        <b>Set 1</b>
                       </Text>
-                      <Text>10 reps</Text>
+                      <Text fontSize={22}>10 reps</Text>
                     </HStack>
                   </Box>
                 </TabPanel>
-                <TabPanel>
+                <TabPanel py={4}>
                   <p>two!</p>
                 </TabPanel>
               </TabPanels>
