@@ -55,10 +55,15 @@ export type FinalData = {
   currentExercise: string;
   deviatingPart: string;
   message: string;
-  deviationTimeObj: { [key: number]: string } | {};
+  deviationDataObj: Record<number, number>;
   repFlag: boolean;
   repCount: number;
-  repTimeObj: { [key: number]: string } | {};
+  repDataObj: Record<number, number>;
+};
+
+export type InsertionData = {
+  repsData: Record<string, FinalData["repDataObj"]>;
+  deviationData: Record<string, FinalData["deviationDataObj"]>;
 };
 
 //Array given by playlist/exercise to Canvas

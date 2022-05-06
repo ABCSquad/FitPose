@@ -1,5 +1,5 @@
 import Exercise from "./exercise";
-import { ExerciseObj } from "./types";
+import { ExerciseObj, FinalData, InsertionData } from "./types";
 
 export default class Core {
   keypoints: object | undefined;
@@ -8,6 +8,9 @@ export default class Core {
   currentExercise: ExerciseObj;
   exerciseInstance: Exercise | null;
   repCount: number;
+  repDataObj: FinalData["repDataObj"];
+  deviationDataObj: FinalData["deviationDataObj"];
+  insertionData: InsertionData;
   // exercise: object;
 
   constructor(exerciseArray: Array<ExerciseObj>) {
@@ -16,6 +19,9 @@ export default class Core {
     this.exerciseArray = exerciseArray;
     this.totalExerciseIndices = exerciseArray.length - 1;
     this.currentExercise = this.exerciseArray[0];
+    this.repDataObj = {};
+    this.deviationDataObj = {};
+    this.insertionData = { repsData: {}, deviationData: {} };
     this.exerciseInstance = new Exercise();
   }
 
@@ -39,30 +45,29 @@ export default class Core {
     );
     if (meta.compoundData) {
       this.repCount = meta.finalData.repCount;
-      // if (
-      //   meta.compoundData.repsData[this.currentExercise.name].range[0] >
-      //   meta.compoundData.repsData[this.currentExercise.name].range[1]
-      // )
-      //   meta.finalData.repFlag = !meta.finalData.repFlag;
     }
-
+    this.repDataObj = meta.finalData.repDataObj;
+    this.deviationDataObj = meta.finalData.deviationDataObj;
     return meta;
   }
 
-  endExercise() {
-    console.log("Data insertion");
+  endSession() {
+    console.log(this.insertionData);
   }
 
   next() {
-    this.endExercise();
     let currentExerciseIndex = this.exerciseArray.indexOf(this.currentExercise);
     if (currentExerciseIndex < this.totalExerciseIndices) {
+      this.insertionData.repsData[this.currentExercise.name] = this.repDataObj;
+      this.insertionData.deviationData[this.currentExercise.name] =
+        this.deviationDataObj;
       this.currentExercise = this.exerciseArray[currentExerciseIndex + 1];
       console.log(`Next exercise ${this.currentExercise}`);
       return this.start(true);
     } else {
       console.log("End session");
       this.exerciseInstance = null;
+      this.endSession();
       return undefined;
     }
   }

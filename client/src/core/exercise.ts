@@ -8,10 +8,10 @@ let finalData: FinalData = {
   currentExercise: "",
   deviatingPart: "",
   message: "",
-  deviationTimeObj: {},
+  deviationDataObj: {},
   repFlag: false,
   repCount: -1,
-  repTimeObj: {},
+  repDataObj: {},
 };
 let repInitFlag = true;
 
@@ -25,10 +25,10 @@ export default class Exercise {
         currentExercise: currentExercise.name,
         deviatingPart: "",
         message: "",
-        deviationTimeObj: {},
+        deviationDataObj: {},
         repFlag: false,
         repCount: -1,
-        repTimeObj: {},
+        repDataObj: {},
       };
     }
 
@@ -74,6 +74,7 @@ export default class Exercise {
       ) {
         //Check reps as posture correct
         finalData.repFlag = !finalData.repFlag;
+        finalData.repDataObj[finalData.repCount] = Date.now();
         finalData.repCount += 1;
       } else if (
         compoundData.angleData[currentExercise.name][
@@ -86,6 +87,7 @@ export default class Exercise {
     } else {
       timer.start();
       if (timer.getTimeValues().seconds > 2) {
+        finalData.deviationDataObj[finalData.repCount] = Date.now() - 2000;
         let deviatingPartArray = compoundData?.exerciseData[
           currentExercise.name
         ].filter((ele) => ele.deviation > ele.maxDeviation);
