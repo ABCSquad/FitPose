@@ -1,6 +1,11 @@
 import { NormalizedLandmark } from "@mediapipe/pose";
 import { createContext, useContext, useState } from "react";
-import { CompoundData, ExerciseObj, FinalData } from "../core/types";
+import {
+  CompoundData,
+  ExerciseObj,
+  FinalData,
+  InsertionData,
+} from "../core/types";
 import Core from "../core/core";
 
 /* Setting the types */
@@ -13,6 +18,7 @@ export enum ScreenState {
   "noKeypoints" = 1,
   "pause" = 2,
   "start" = 3,
+  "end" = 4,
 }
 
 export type IdealMetaData = {
@@ -22,8 +28,11 @@ export type IdealMetaData = {
 
 export type MetaDataType =
   | IdealMetaData
-  | { screenState: ScreenState; exerciseName: string }
-  | undefined;
+  | {
+      screenState: ScreenState;
+      exerciseName?: string;
+      insertionData?: InsertionData;
+    };
 
 type AppContextValueType = {
   exercises: Array<ExerciseObj>;
@@ -38,6 +47,8 @@ type AppContextValueType = {
   setLandmarks: React.Dispatch<React.SetStateAction<Array<NormalizedLandmark>>>;
   coreInstance: Core | undefined;
   setCoreInstance: React.Dispatch<React.SetStateAction<Core | undefined>>;
+  insertionData: InsertionData;
+  setInsertionData: React.Dispatch<React.SetStateAction<InsertionData>>;
   isIdeal: (obj: any) => obj is IdealMetaData;
   appNavigationStop: () => void;
   appNavigationNext: () => any;
@@ -60,6 +71,10 @@ export default function AppContextProvider({
   const [FPS, setFPS] = useState<number>(0);
   const [landmarks, setLandmarks] = useState<Array<NormalizedLandmark>>([]);
   const [coreInstance, setCoreInstance] = useState<Core | undefined>(undefined);
+  const [insertionData, setInsertionData] = useState<InsertionData>({
+    repsData: {},
+    deviationData: {},
+  });
 
   function isIdeal(obj: any): obj is IdealMetaData {
     return obj.compoundData !== undefined;
@@ -84,6 +99,8 @@ export default function AppContextProvider({
     setLandmarks,
     coreInstance,
     setCoreInstance,
+    insertionData,
+    setInsertionData,
     isIdeal,
     appNavigationStop,
     appNavigationNext,
