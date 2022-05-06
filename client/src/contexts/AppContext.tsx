@@ -8,16 +8,26 @@ type AppContextProviderProps = {
   children: React.ReactNode;
 };
 
-interface MetaDataType {
+export enum ScreenState {
+  "none" = 0,
+  "noKeypoints" = 1,
+  "pause" = 2,
+  "start" = 3,
+}
+
+export type IdealMetaData = {
   compoundData: CompoundData;
   finalData: FinalData;
-}
+};
+
+export type MetaDataType =
+  | IdealMetaData
+  | { screenState: ScreenState; exerciseName: string }
+  | undefined;
 
 type AppContextValueType = {
   exercises: Array<ExerciseObj>;
   setExercises: React.Dispatch<React.SetStateAction<Array<ExerciseObj>>>;
-  blurState: Boolean;
-  setBlurState: React.Dispatch<React.SetStateAction<Boolean>>;
   repCounter: number;
   setRepCounter: React.Dispatch<React.SetStateAction<number>>;
   metaData: MetaDataType | null;
@@ -28,6 +38,7 @@ type AppContextValueType = {
   setLandmarks: React.Dispatch<React.SetStateAction<Array<NormalizedLandmark>>>;
   coreInstance: Core | undefined;
   setCoreInstance: React.Dispatch<React.SetStateAction<Core | undefined>>;
+  isIdeal: (obj: any) => obj is IdealMetaData;
   appNavigationStop: () => void;
   appNavigationNext: () => any;
 };
@@ -44,13 +55,15 @@ export default function AppContextProvider({
 }: AppContextProviderProps) {
   /* Context Internal States. */
   const [exercises, setExercises] = useState<Array<ExerciseObj>>([]);
-  const [blurState, setBlurState] = useState<Boolean>(true);
   const [repCounter, setRepCounter] = useState<number>(0);
   const [metaData, setMetaData] = useState<MetaDataType | null>(null);
   const [FPS, setFPS] = useState<number>(0);
   const [landmarks, setLandmarks] = useState<Array<NormalizedLandmark>>([]);
   const [coreInstance, setCoreInstance] = useState<Core | undefined>(undefined);
 
+  function isIdeal(obj: any): obj is IdealMetaData {
+    return obj.compoundData !== undefined;
+  }
   const appNavigationStop = () => {
     coreInstance?.endExercise();
   };
@@ -63,8 +76,6 @@ export default function AppContextProvider({
   const value = {
     exercises,
     setExercises,
-    blurState,
-    setBlurState,
     repCounter,
     setRepCounter,
     metaData,
@@ -75,6 +86,7 @@ export default function AppContextProvider({
     setLandmarks,
     coreInstance,
     setCoreInstance,
+    isIdeal,
     appNavigationStop,
     appNavigationNext,
   };

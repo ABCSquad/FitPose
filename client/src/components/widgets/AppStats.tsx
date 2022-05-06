@@ -1,10 +1,19 @@
-import { Box, Grid, GridItem, HStack, Stack, Text } from "@chakra-ui/react";
+import {
+	Box,
+	Flex,
+	Grid,
+	GridItem,
+	HStack,
+	Stack,
+	Text,
+} from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useApp } from "../../contexts/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
 
 const AppStats: FC = () => {
-	const { FPS, repCounter } = useApp();
+	const { FPS, repCounter, metaData, isIdeal } = useApp();
+	console.log("meta", isIdeal(metaData));
 
 	const BoxStyles = {
 		w: "100%",
@@ -52,31 +61,55 @@ const AppStats: FC = () => {
 						</Stack>
 					</Box>
 				</GridItem>
-				{/* MORE STATS */}
+				{/* REPS */}
 				<GridItem rowSpan={{ sm: 4, lg: 6 }} colSpan={{ sm: 12, lg: 6 }}>
-					<Box {...BoxStyles}></Box>
+					<Box {...BoxStyles}>
+						<Stack
+							direction={{ sm: "row", lg: "column" }}
+							justifyContent="space-evenly"
+							alignItems="center"
+							p={5}
+							h="100%"
+						>
+							<Text fontSize="6xl" fontWeight="extrabold" fontFamily="mono">
+								<AnimatePresence>
+									<motion.div
+										key={repCounter ? repCounter : 0}
+										initial={{ fontSize: "65px", opacity: 1 }}
+										animate={{ fontSize: "65px" }}
+										exit={{ fontSize: "0px", opacity: 0 }}
+										transition={{ type: "spring", bounce: 0.2, duration: 0.2 }}
+									>
+										{repCounter ? (repCounter === -1 ? "-" : repCounter) : 0}
+									</motion.div>
+								</AnimatePresence>
+							</Text>
+							<Text>Repetition(s)</Text>
+						</Stack>
+					</Box>
 				</GridItem>
 				{/*  */}
 				<GridItem rowSpan={6} colSpan={12}>
 					<Box {...BoxStyles} bgGradient="linear(to-l, #7928CA, #FF0080)">
-						<HStack justifyContent="space-evenly" alignItems="center" h="100%">
-							<Text fontSize="5xl" fontWeight="extrabold" fontFamily="mono">
-								REPS
+						<Stack
+							direction={{ sm: "row", lg: "column" }}
+							justifyContent="center"
+							alignItems="center"
+							p={5}
+							h="100%"
+						>
+							<Text
+								textAlign="center"
+								fontSize="3xl"
+								fontWeight="extrabold"
+								fontFamily="mono"
+							>
+								{isIdeal(metaData)
+									? metaData.finalData.currentExercise
+									: metaData?.exerciseName}
 							</Text>
-							<Text fontWeight="extrabold" fontFamily="mono">
-								<AnimatePresence>
-									<motion.div
-										key={repCounter ? repCounter : 0}
-										initial={{ fontSize: "80px", opacity: 1 }}
-										animate={{ fontSize: "80px" }}
-										exit={{ fontSize: "0px", opacity: 0 }}
-										transition={{ type: "spring", bounce: 0.2, duration: 0.2 }}
-									>
-										{repCounter ? repCounter : 0}
-									</motion.div>
-								</AnimatePresence>
-							</Text>
-						</HStack>
+							<Text>Current Exercise</Text>
+						</Stack>
 					</Box>
 				</GridItem>
 			</Grid>

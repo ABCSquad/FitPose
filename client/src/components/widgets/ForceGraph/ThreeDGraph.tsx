@@ -1,5 +1,5 @@
-import { Box, Center } from "@chakra-ui/react";
-import React, { FC, useEffect, useRef, useState } from "react";
+import { Box } from "@chakra-ui/react";
+import React, { FC, useEffect, useState } from "react";
 import { useApp } from "../../../contexts/AppContext";
 import Plot from "react-plotly.js";
 
@@ -12,7 +12,6 @@ const ThreeDGraph: FC = () => {
 		[24, 23],
 	];
 	const { landmarks } = useApp();
-	const landmarkRef = useRef<HTMLDivElement | null>(null);
 	const [forceData, setForceData] = useState<any>({});
 
 	useEffect(() => {
@@ -47,7 +46,6 @@ const ThreeDGraph: FC = () => {
 				};
 			});
 			setForceData(forceMadeArray);
-			console.log(forceData);
 		}
 	}, [landmarks]);
 

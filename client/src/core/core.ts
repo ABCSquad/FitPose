@@ -1,3 +1,4 @@
+import { MetaDataType, ScreenState } from "../contexts/AppContext";
 import Exercise from "./exercise";
 import { ExerciseObj, FinalData, InsertionData } from "./types";
 
@@ -12,6 +13,7 @@ export default class Core {
   deviationDataObj: FinalData["deviationDataObj"];
   insertionData: InsertionData;
   // exercise: object;
+  screenState: ScreenState;
 
   constructor(exerciseArray: Array<ExerciseObj>) {
     // DefinitFlagions
@@ -23,18 +25,24 @@ export default class Core {
     this.deviationDataObj = {};
     this.insertionData = { repsData: {}, deviationData: {} };
     this.exerciseInstance = new Exercise();
+    this.screenState = 0;
   }
 
   update(keypoints: object) {
     this.keypoints = keypoints;
-    if (!this.blur()) {
+    this.blur();
+    if (this.screenState === 0) {
       if (this.repCount > 0 && this.repCount === this.currentExercise.reps) {
         this.repCount = 0;
         return this.next();
       }
       return this.start(false);
     }
-    return undefined;
+    let screenStateChange = {
+      screenState: this.screenState,
+      exerciseName: this.currentExercise.name,
+    };
+    return screenStateChange;
   }
 
   start(initFlag: boolean) {
@@ -74,9 +82,9 @@ export default class Core {
 
   blur() {
     if (this.keypoints === undefined) {
-      return true;
+      this.screenState = 1;
     } else {
-      return false;
+      this.screenState = 0;
     }
   }
 }

@@ -20,6 +20,7 @@ type BlurProps = {
 
 const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
   const { metaData } = useApp();
+  // console.log(metaData?.finalData);
 
   return (
     <div
@@ -47,7 +48,7 @@ const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
               fontSize="8xl"
             >
               Exercise Name
-              {metaData ? metaData.finalData.currentExercise : ""}
+              {/* {metaData ? metaData.finalData.currentExercise : ""} */}
             </Text>
           </Flex>
         </GridItem>

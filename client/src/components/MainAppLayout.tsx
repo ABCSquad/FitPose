@@ -11,7 +11,7 @@ import BlurScreen from "./BlurScreen";
 import { useApp } from "../contexts/AppContext";
 
 export const MainAppLayout: FC = () => {
-	const { blurState } = useApp();
+	// const { blurState } = useApp();
 	const [openWidget, setOpenWidget] = useState<boolean>(false);
 	const [openInfo, setOpenInfo] = useState<boolean>(false);
 
@@ -123,7 +123,7 @@ export const MainAppLayout: FC = () => {
 			>
 				<AppNavigation />
 			</div>
-			{blurState && <BlurScreen noKeypoints />}
+			{/* {blurState && <BlurScreen noKeypoints />} */}
 		</div>
 	);
 };

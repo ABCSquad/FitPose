@@ -95,8 +95,3 @@ export interface PoseDataLinks {
   source: number;
   target: number;
 }
-
-export type ForceData = {
-  nodes: Array<PoseDataNodes>;
-  links: Array<PoseDataLinks>;
-};
