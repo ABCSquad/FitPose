@@ -63,18 +63,7 @@ export default class Core {
     } else {
       console.log("End session");
       this.exerciseInstance = null;
-      return {
-        deviationObj: {
-          shoulder: 0,
-          rightElbow: 0,
-          leftElbow: 0,
-        },
-        repObj: {
-          count: 0,
-          flag: 1,
-        },
-        message: "Ending session...",
-      };
+      return undefined;
     }
   }
 
