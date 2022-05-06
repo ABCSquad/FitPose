@@ -18,6 +18,7 @@ export enum ScreenState {
   "noKeypoints" = 1,
   "pause" = 2,
   "start" = 3,
+  "end" = 4,
 }
 
 export type IdealMetaData = {
@@ -27,8 +28,11 @@ export type IdealMetaData = {
 
 export type MetaDataType =
   | IdealMetaData
-  | { screenState: ScreenState; exerciseName: string }
-  | undefined;
+  | {
+      screenState: ScreenState;
+      exerciseName?: string;
+      insertionData?: InsertionData;
+    };
 
 type AppContextValueType = {
   exercises: Array<ExerciseObj>;

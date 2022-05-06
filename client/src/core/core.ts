@@ -59,10 +59,6 @@ export default class Core {
     return meta;
   }
 
-  endSession() {
-    // console.log(this.insertionData);
-  }
-
   next() {
     let currentExerciseIndex = this.exerciseArray.indexOf(this.currentExercise);
     if (currentExerciseIndex < this.totalExerciseIndices) {
@@ -74,9 +70,13 @@ export default class Core {
       return this.start(true);
     } else {
       console.log("End session");
-      this.exerciseInstance = null;
-      this.endSession();
-      return undefined;
+      this.screenState = 4;
+      let endSessionData = {
+        screenState: this.screenState,
+        exerciseName: this.currentExercise.name,
+        insertionData: this.insertionData,
+      };
+      return endSessionData;
     }
   }
 
