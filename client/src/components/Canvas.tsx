@@ -11,6 +11,7 @@ import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
 import { IdealMetaData, MetaDataType, useApp } from "../contexts/AppContext";
+import { useRouter } from "next/router";
 
 const Canvas: FC = () => {
   const {
@@ -25,6 +26,7 @@ const Canvas: FC = () => {
 
   const videoRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const router = useRouter();
   let camera: Camera;
 
   const excludedLandmarkSet = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -70,6 +72,11 @@ const Canvas: FC = () => {
           setRepCounter(getValue?.finalData.repCount);
       }
       setMetaData(getValue);
+      if (!isIdeal(getValue) && getValue.screenState === 4) {
+        console.log(getValue);
+        coreInstance = null;
+        router.push("/sessions/1");
+      }
     }
 
     if (canvasCtx && canvasRef.current) {

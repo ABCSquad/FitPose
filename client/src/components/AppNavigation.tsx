@@ -14,7 +14,6 @@ const AppNavigation: FC = () => {
   };
 
   const handleNext = () => {
-    console.log("NextExercise");
     appNavigationNext();
   };
 
