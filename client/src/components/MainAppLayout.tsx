@@ -114,7 +114,7 @@ export const MainAppLayout: FC = () => {
 			</div>
 			<div
 				style={{
-					zIndex: 3,
+					zIndex: 30000,
 					position: "fixed",
 					left: "50%",
 					bottom: 0,

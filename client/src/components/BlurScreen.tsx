@@ -15,10 +15,10 @@ import { useApp } from "../contexts/AppContext";
 type BlurProps = {
 	noKeypoints?: boolean;
 	isPause?: boolean;
-	isNext?: boolean;
+	isStart?: boolean;
 };
 
-const BlurScreen = ({ noKeypoints, isPause, isNext }: BlurProps) => {
+const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
 	const { metaData } = useApp();
 	console.log(metaData?.finalData);
 
