@@ -123,7 +123,7 @@ export const MainAppLayout: FC = () => {
 			>
 				<AppNavigation />
 			</div>
-			{blurState && <BlurScreen />}
+			{blurState && <BlurScreen noKeypoints />}
 		</div>
 	);
 };

@@ -12,7 +12,13 @@ import {
 import React from "react";
 import { useApp } from "../contexts/AppContext";
 
-const BlurScreen = () => {
+type BlurProps = {
+	noKeypoints?: boolean;
+	isPause?: boolean;
+	isNext?: boolean;
+};
+
+const BlurScreen = ({ noKeypoints, isPause, isNext }: BlurProps) => {
 	const { metaData } = useApp();
 	console.log(metaData?.finalData);
 
@@ -46,7 +52,7 @@ const BlurScreen = () => {
 						</Text>
 					</Flex>
 				</GridItem>
-				{true && (
+				{noKeypoints && (
 					<GridItem rowSpan={6} colSpan={12}>
 						<Flex
 							direction="column"
