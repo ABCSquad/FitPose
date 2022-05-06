@@ -1,6 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
-import AppHuman from "./widgets/AppHuman";
+import AppHuman from "./widgets/AppHuman/AppHuman";
 import AppStats from "./widgets/AppStats";
 
 const InfoBar = () => {

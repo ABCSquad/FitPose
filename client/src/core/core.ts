@@ -1,35 +1,48 @@
+import { MetaDataType, ScreenState } from "../contexts/AppContext";
 import Exercise from "./exercise";
-import { ExerciseObj } from "./types";
+import { ExerciseObj, FinalData, InsertionData } from "./types";
 
 export default class Core {
   keypoints: object | undefined;
   exerciseArray: Array<ExerciseObj>;
-  totalExercises: number;
+  totalExerciseIndices: number;
   currentExercise: ExerciseObj;
   exerciseInstance: Exercise | null;
-  getValue: object | undefined;
   repCount: number;
+  repDataObj: FinalData["repDataObj"];
+  deviationDataObj: FinalData["deviationDataObj"];
+  insertionData: InsertionData;
   // exercise: object;
+  screenState: ScreenState;
 
   constructor(exerciseArray: Array<ExerciseObj>) {
     // DefinitFlagions
     this.repCount = -1;
     this.exerciseArray = exerciseArray;
-    this.totalExercises = exerciseArray.length - 1;
+    this.totalExerciseIndices = exerciseArray.length - 1;
     this.currentExercise = this.exerciseArray[0];
+    this.repDataObj = {};
+    this.deviationDataObj = {};
+    this.insertionData = { repsData: {}, deviationData: {} };
     this.exerciseInstance = new Exercise();
+    this.screenState = 0;
   }
 
   update(keypoints: object) {
     this.keypoints = keypoints;
-    if (!this.blur()) {
+    this.blur();
+    if (this.screenState === 0) {
       if (this.repCount > 0 && this.repCount === this.currentExercise.reps) {
         this.repCount = 0;
         return this.next();
       }
       return this.start(false);
     }
-    return undefined;
+    let screenStateChange = {
+      screenState: this.screenState,
+      exerciseName: this.currentExercise.name,
+    };
+    return screenStateChange;
   }
 
   start(initFlag: boolean) {
@@ -40,50 +53,38 @@ export default class Core {
     );
     if (meta.compoundData) {
       this.repCount = meta.finalData.repCount;
-      // if (
-      //   meta.compoundData.repsData[this.currentExercise.name].range[0] >
-      //   meta.compoundData.repsData[this.currentExercise.name].range[1]
-      // )
-      //   meta.finalData.repFlag = !meta.finalData.repFlag;
     }
-
+    this.repDataObj = meta.finalData.repDataObj;
+    this.deviationDataObj = meta.finalData.deviationDataObj;
     return meta;
   }
 
-  stop() {
-    console.log("Data insertion");
+  endSession() {
+    // console.log(this.insertionData);
   }
 
   next() {
-    this.stop();
     let currentExerciseIndex = this.exerciseArray.indexOf(this.currentExercise);
-    if (currentExerciseIndex < this.totalExercises) {
+    if (currentExerciseIndex < this.totalExerciseIndices) {
+      this.insertionData.repsData[this.currentExercise.name] = this.repDataObj;
+      this.insertionData.deviationData[this.currentExercise.name] =
+        this.deviationDataObj;
       this.currentExercise = this.exerciseArray[currentExerciseIndex + 1];
       console.log(`Next exercise ${this.currentExercise}`);
       return this.start(true);
     } else {
       console.log("End session");
       this.exerciseInstance = null;
-      return {
-        deviationObj: {
-          shoulder: 0,
-          rightElbow: 0,
-          leftElbow: 0,
-        },
-        repObj: {
-          count: 0,
-          flag: 1,
-        },
-        message: "Ending session...",
-      };
+      this.endSession();
+      return undefined;
     }
   }
 
   blur() {
     if (this.keypoints === undefined) {
-      return true;
+      this.screenState = 1;
     } else {
-      return false;
+      this.screenState = 0;
     }
   }
 }

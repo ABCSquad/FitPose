@@ -1,9 +1,9 @@
 import { angle, sideChecker, angleNormalized } from "../utils";
 import {
-  RepsDataParent,
-  MessageDataParent,
-  ExerciseDataParent,
-  AngleDataParent,
+	RepsDataParent,
+	MessageDataParent,
+	ExerciseDataParent,
+	AngleDataParent,
 } from "../types";
 
 let exerciseData: ExerciseDataParent = {};
@@ -11,188 +11,199 @@ let messageData: MessageDataParent = {};
 let angleData: AngleDataParent = {};
 let repsData: RepsDataParent = {};
 
-exerciseData.ohp = [
-  {
-    partName: "shoulders",
-    deviation: 0,
-    maxDeviation: 10,
-  },
-  {
-    partName: "rightElbow",
-    deviation: 0,
-    maxDeviation: 10,
-  },
-  {
-    partName: "leftElbow",
-    deviation: 0,
-    maxDeviation: 10,
-  },
+exerciseData["Seated Dumbbell Shoulder Press"] = [
+	{
+		partName: "shoulders",
+		deviation: 0,
+		maxDeviation: 10,
+	},
+	{
+		partName: "rightElbow",
+		deviation: 0,
+		maxDeviation: 10,
+	},
+	{
+		partName: "leftElbow",
+		deviation: 0,
+		maxDeviation: 10,
+	},
 ];
 
-messageData.ohp = {
-  shoulders: "Shoulders not at equal angles",
-  leftElbow: "Left arm deviation detected",
-  rightElbow: "Right arm deviation detected",
+messageData["Seated Dumbbell Shoulder Press"] = {
+	shoulders: "Shoulders not at equal angles",
+	leftElbow: "Left arm deviation detected",
+	rightElbow: "Right arm deviation detected",
 };
 
-repsData.ohp = {
-  partName: "leftElbow",
-  range: [35, 170], //Degrees of motion for a rep, [1] would be initial position
+repsData["Seated Dumbbell Shoulder Press"] = {
+	partName: "leftElbow",
+	range: [35, 170], //Degrees of motion for a rep, [1] would be initial position
 };
 
-angleData.ohp = {
-  rightShoulder: 0,
-  leftShoulder: 0,
-  rightElbow: 0,
-  leftElbow: 0,
+angleData["Seated Dumbbell Shoulder Press"] = {
+	rightShoulder: 0,
+	leftShoulder: 0,
+	rightElbow: 0,
+	leftElbow: 0,
 };
 
 export const ohp = (keypoints: any, initFlag: boolean) => {
-  //Initializing variables
-  if (initFlag) {
-    exerciseData.ohp = exerciseData.ohp.map((e) => {
-      return { ...e, deviation: (e.deviation = 1) };
-    });
-    angleData.ohp = {
-      rightShoulder: 0,
-      leftShoulder: 0,
-      rightElbow: 0,
-      leftElbow: 0,
-    };
-  }
+	//Initializing variables
+	if (initFlag) {
+		exerciseData["Seated Dumbbell Shoulder Press"] = exerciseData[
+			"Seated Dumbbell Shoulder Press"
+		].map((e) => {
+			return { ...e, deviation: (e.deviation = 1) };
+		});
+		angleData["Seated Dumbbell Shoulder Press"] = {
+			rightShoulder: 0,
+			leftShoulder: 0,
+			rightElbow: 0,
+			leftElbow: 0,
+		};
+	}
 
-  //Angles - AntiClockwise - 0 to 360 degrees
-  angleData.ohp = {
-    rightShoulder: angle(keypoints[23], keypoints[11], keypoints[13]),
-    leftShoulder: angle(keypoints[24], keypoints[12], keypoints[14]),
-    rightElbow: angle(keypoints[15], keypoints[13], keypoints[11]),
-    leftElbow: angle(keypoints[16], keypoints[14], keypoints[12]),
-  };
+	//Angles - AntiClockwise - 0 to 360 degrees
+	angleData["Seated Dumbbell Shoulder Press"] = {
+		rightShoulder: angle(keypoints[23], keypoints[11], keypoints[13]),
+		leftShoulder: angle(keypoints[24], keypoints[12], keypoints[14]),
+		rightElbow: angle(keypoints[15], keypoints[13], keypoints[11]),
+		leftElbow: angle(keypoints[16], keypoints[14], keypoints[12]),
+	};
 
-  //Deviations
-  // Shoulder - (360 - x) because clockwise takes outer angle otherwise
-  exerciseData.ohp[0].deviation = Math.abs(
-    360 - angleData.ohp.rightShoulder - angleData.ohp.leftShoulder
-  );
-  // Elbow (R)
-  exerciseData.ohp[1].deviation = Math.abs(
-    angleData.ohp.rightElbow - angleData.ohp.rightShoulder
-  );
-  // Elbow (L)
-  exerciseData.ohp[2].deviation = Math.abs(
-    angleData.ohp.leftElbow - angleData.ohp.leftShoulder
-  );
+	//Deviations
+	// Shoulder - (360 - x) because clockwise takes outer angle otherwise
+	exerciseData["Seated Dumbbell Shoulder Press"][0].deviation = Math.abs(
+		360 -
+			angleData["Seated Dumbbell Shoulder Press"].rightShoulder -
+			angleData["Seated Dumbbell Shoulder Press"].leftShoulder
+	);
+	// Elbow (R)
+	exerciseData["Seated Dumbbell Shoulder Press"][1].deviation = Math.abs(
+		angleData["Seated Dumbbell Shoulder Press"].rightElbow -
+			angleData["Seated Dumbbell Shoulder Press"].rightShoulder
+	);
+	// Elbow (L)
+	exerciseData["Seated Dumbbell Shoulder Press"][2].deviation = Math.abs(
+		angleData["Seated Dumbbell Shoulder Press"].leftElbow -
+			angleData["Seated Dumbbell Shoulder Press"].leftShoulder
+	);
 
-  return { exerciseData, repsData, messageData, angleData };
+	return { exerciseData, repsData, messageData, angleData };
 };
 
-exerciseData.lateral = [
-  {
-    partName: "shoulders",
-    deviation: 0,
-    maxDeviation: 5,
-  },
-  {
-    partName: "elbows",
-    deviation: 0,
-    maxDeviation: 10,
-  },
+exerciseData["Side Lateral Raises"] = [
+	{
+		partName: "shoulders",
+		deviation: 0,
+		maxDeviation: 5,
+	},
+	{
+		partName: "elbows",
+		deviation: 0,
+		maxDeviation: 10,
+	},
 ];
 
-messageData.lateral = {
-  shoulders: "Shoulders not at equal angles",
-  elbows: "Elbows are not at equal angles",
+messageData["Side Lateral Raises"] = {
+	shoulders: "Shoulders not at equal angles",
+	elbows: "Elbows are not at equal angles",
 };
 
-repsData.lateral = {
-  partName: "leftShoulder",
-  range: [20, 90], //Degrees of motion for a rep
+repsData["Side Lateral Raises"] = {
+	partName: "leftShoulder",
+	range: [20, 90], //Degrees of motion for a rep
 };
 
-angleData.lateral = {
-  rightShoulder: 0,
-  leftShoulder: 0,
-  rightElbow: 0,
-  leftElbow: 0,
+angleData["Side Lateral Raises"] = {
+	rightShoulder: 0,
+	leftShoulder: 0,
+	rightElbow: 0,
+	leftElbow: 0,
 };
 
 export const lateral = (keypoints: any, initFlag: boolean) => {
-  if (initFlag) {
-    exerciseData.lateral = exerciseData.lateral.map((e) => {
-      return { ...e, deviation: (e.deviation = 1) };
-    });
-    angleData.lateral = {
-      rightShoulder: 0,
-      leftShoulder: 0,
-      rightElbow: 0,
-      leftElbow: 0,
-    };
-  }
+	if (initFlag) {
+		exerciseData["Side Lateral Raises"] = exerciseData[
+			"Side Lateral Raises"
+		].map((e) => {
+			return { ...e, deviation: (e.deviation = 1) };
+		});
+		angleData["Side Lateral Raises"] = {
+			rightShoulder: 0,
+			leftShoulder: 0,
+			rightElbow: 0,
+			leftElbow: 0,
+		};
+	}
 
-  angleData.lateral = {
-    rightShoulder: angle(keypoints[23], keypoints[11], keypoints[13]),
-    leftShoulder: angle(keypoints[24], keypoints[12], keypoints[14]),
-    rightElbow: angle(keypoints[15], keypoints[13], keypoints[11]),
-    leftElbow: angle(keypoints[16], keypoints[14], keypoints[12]),
-  };
+	angleData["Side Lateral Raises"] = {
+		rightShoulder: angle(keypoints[23], keypoints[11], keypoints[13]),
+		leftShoulder: angle(keypoints[24], keypoints[12], keypoints[14]),
+		rightElbow: angle(keypoints[15], keypoints[13], keypoints[11]),
+		leftElbow: angle(keypoints[16], keypoints[14], keypoints[12]),
+	};
 
-  exerciseData.lateral[0].deviation = Math.abs(
-    360 - angleData.lateral.rightShoulder - angleData.lateral.leftShoulder
-  );
+	exerciseData["Side Lateral Raises"][0].deviation = Math.abs(
+		360 -
+			angleData["Side Lateral Raises"].rightShoulder -
+			angleData["Side Lateral Raises"].leftShoulder
+	);
 
-  exerciseData.lateral[1].deviation = Math.abs(
-    angleData.lateral.rightElbow - (360 - angleData.lateral.leftElbow)
-  );
+	exerciseData["Side Lateral Raises"][1].deviation = Math.abs(
+		angleData["Side Lateral Raises"].rightElbow -
+			(360 - angleData["Side Lateral Raises"].leftElbow)
+	);
 
-  return { exerciseData, repsData, messageData, angleData };
+	return { exerciseData, repsData, messageData, angleData };
 };
 
-exerciseData.curl = [
-  {
-    partName: "shoulder",
-    deviation: 0,
-    maxDeviation: 10,
-  },
+exerciseData["Dumbbell Curl"] = [
+	{
+		partName: "shoulder",
+		deviation: 0,
+		maxDeviation: 5,
+	},
 ];
 
-messageData.curl = {
-  shoulder: "Shoulder not parallel to torso",
+messageData["Dumbbell Curl"] = {
+	shoulder: "Shoulder not parallel to torso",
 };
 
-repsData.curl = {
-  partName: "elbow",
-  range: [160, 30],
+repsData["Dumbbell Curl"] = {
+	partName: "elbow",
+	range: [160, 30],
 };
 
-angleData.curl = {
-  shoulder: 0,
-  elbow: 0,
+angleData["Dumbbell Curl"] = {
+	shoulder: 0,
+	elbow: 0,
 };
 
 export const curl = (keypoints: any, initFlag: boolean) => {
-  let side = sideChecker(keypoints[13].z, keypoints[14].z);
-  if (initFlag) {
-    exerciseData.curl = exerciseData.curl.map((e) => {
-      return { ...e, deviation: (e.deviation = 1) };
-    });
-    angleData.curl = {
-      shoulder: 0,
-      elbow: 0,
-    };
-  }
+	let side = sideChecker(keypoints[13].z, keypoints[14].z);
+	if (initFlag) {
+		exerciseData["Dumbbell Curl"] = exerciseData["Dumbbell Curl"].map((e) => {
+			return { ...e, deviation: (e.deviation = 1) };
+		});
+		angleData["Dumbbell Curl"] = {
+			shoulder: 0,
+			elbow: 0,
+		};
+	}
 
-  angleData.curl = {
-    shoulder: side
-      ? 360 - angle(keypoints[23], keypoints[11], keypoints[13])
-      : angle(keypoints[24], keypoints[12], keypoints[14]),
-    elbow: side
-      ? angle(keypoints[15], keypoints[13], keypoints[11])
-      : 360 - angle(keypoints[16], keypoints[14], keypoints[12]),
-  };
+	angleData["Dumbbell Curl"] = {
+		shoulder: side
+			? 360 - angle(keypoints[23], keypoints[11], keypoints[13])
+			: angle(keypoints[24], keypoints[12], keypoints[14]),
+		elbow: side
+			? angle(keypoints[15], keypoints[13], keypoints[11])
+			: 360 - angle(keypoints[16], keypoints[14], keypoints[12]),
+	};
 
-  exerciseData.curl[0].deviation = Math.abs(
-    angleNormalized(angleData.curl.shoulder)
-  );
+	exerciseData["Dumbbell Curl"][0].deviation = Math.abs(
+		angleNormalized(angleData["Dumbbell Curl"].shoulder)
+	);
 
-  return { exerciseData, repsData, messageData, angleData };
+	return { exerciseData, repsData, messageData, angleData };
 };

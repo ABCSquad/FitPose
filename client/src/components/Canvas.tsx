@@ -10,11 +10,18 @@ import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
-import { useApp } from "../contexts/AppContext";
+import { IdealMetaData, MetaDataType, useApp } from "../contexts/AppContext";
 
 const Canvas: FC = () => {
-  const { setLandmarks, setBlurState, setMetaData, setRepCounter, setFPS } =
-    useApp();
+  const {
+    setLandmarks,
+    setMetaData,
+    setRepCounter,
+    setFPS,
+    setCoreInstance,
+    exercises,
+    isIdeal,
+  } = useApp();
 
   const videoRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -53,12 +60,15 @@ const Canvas: FC = () => {
     lastFrameTime = performance.now();
     canvasCtx = canvasRef.current!.getContext("2d");
     if (coreInstance) {
-      setBlurState(coreInstance!.blur());
-      const getValue: any = coreInstance!.update(results.poseLandmarks);
+      const getValue: MetaDataType = coreInstance!.update(
+        results.poseLandmarks
+      );
       setLandmarks(results.poseLandmarks);
 
-      if (getValue?.finalData.repCount != undefined)
-        setRepCounter(getValue?.finalData.repCount);
+      if (isIdeal(getValue)) {
+        if (getValue?.finalData.repCount != undefined)
+          setRepCounter(getValue?.finalData.repCount);
+      }
       setMetaData(getValue);
     }
 
@@ -109,12 +119,9 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [
-      { name: "lateral", reps: 5 },
-      { name: "ohp", reps: 5 },
-    ];
     console.log("New instance");
-    coreInstance = new Core(exerciseArray);
+    coreInstance = new Core(exercises);
+    setCoreInstance(coreInstance);
     const pose = new Pose({
       locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;

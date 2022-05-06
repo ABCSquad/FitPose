@@ -51,16 +51,28 @@ export type CompoundData =
     }
   | undefined;
 
-export type FinalData = {
-  currentExercise: string;
-  deviatingPart: string;
-  message: string;
-  deviationTimeObj: { [key: number]: string } | {};
-  repFlag: boolean;
-  repCount: number;
-  repTimeObj: { [key: number]: string } | {};
+export type DeviatingPart = {
+  partName: string;
+  deviation: number;
 };
 
+export type FinalData = {
+  currentExercise: string;
+  deviatingPartArray: Array<DeviatingPart>;
+  deviatingPart: string;
+  message: string;
+  deviationDataObj: Record<number, number>;
+  repFlag: boolean;
+  repCount: number;
+  repDataObj: Record<number, number>;
+};
+
+export type InsertionData = {
+  repsData: Record<string, FinalData["repDataObj"]>;
+  deviationData: Record<string, FinalData["deviationDataObj"]>;
+};
+
+//Array given by playlist/exercise to Canvas
 export type ExerciseObj = {
   name: string;
   reps: number;
@@ -77,3 +89,15 @@ export type PoseResult = {
   poseLandmarks: Array<Keypoint>;
   poseWorldLandmarks: Array<Keypoint>;
 };
+
+export interface PoseDataNodes {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface PoseDataLinks {
+  source: number;
+  target: number;
+}

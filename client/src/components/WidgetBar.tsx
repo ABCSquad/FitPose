@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import RTGraph from "./widgets/RTGraph";
-import ThreeDGraph from "./widgets/ThreeDGraph";
+import ThreeDGraph from "./widgets/ForceGraph/ThreeDGraph";
 
 const WidgetBar = () => {
   return (
@@ -21,7 +21,7 @@ const WidgetBar = () => {
           p={3}
         >
           <RTGraph />
-          {/* <ThreeDGraph /> */}
+          <ThreeDGraph />
         </Flex>
       </div>
     </div>

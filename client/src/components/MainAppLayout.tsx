@@ -1,4 +1,4 @@
-import { Flex, IconButton, Text } from "@chakra-ui/react";
+import { Flex, IconButton } from "@chakra-ui/react";
 import React, { FC, useEffect, useState } from "react";
 import Canvas from "./Canvas";
 import { FiArrowRight } from "react-icons/fi";
@@ -6,8 +6,12 @@ import { FiArrowLeft } from "react-icons/fi";
 import InfoBar from "./InfoBar";
 import WidgetBar from "./WidgetBar";
 import { AnimatePresence, motion } from "framer-motion";
+import AppNavigation from "./AppNavigation";
+import BlurScreen from "./BlurScreen";
+import { useApp } from "../contexts/AppContext";
 
 export const MainAppLayout: FC = () => {
+	// const { blurState } = useApp();
 	const [openWidget, setOpenWidget] = useState<boolean>(false);
 	const [openInfo, setOpenInfo] = useState<boolean>(false);
 
@@ -108,6 +112,18 @@ export const MainAppLayout: FC = () => {
 					</Flex>
 				</Flex>
 			</div>
+			<div
+				style={{
+					zIndex: 30000,
+					position: "fixed",
+					left: "50%",
+					bottom: 0,
+					transform: " translate(-50%, -20%)",
+				}}
+			>
+				<AppNavigation />
+			</div>
+			{/* {blurState && <BlurScreen noKeypoints />} */}
 		</div>
 	);
 };

@@ -6,12 +6,13 @@ let timer = new Timer();
 let compoundData: CompoundData;
 let finalData: FinalData = {
   currentExercise: "",
+  deviatingPartArray: [],
   deviatingPart: "",
   message: "",
-  deviationTimeObj: {},
+  deviationDataObj: {},
   repFlag: false,
   repCount: -1,
-  repTimeObj: {},
+  repDataObj: {},
 };
 let repInitFlag = true;
 
@@ -23,24 +24,25 @@ export default class Exercise {
       compoundData = undefined;
       finalData = {
         currentExercise: currentExercise.name,
+        deviatingPartArray: [],
         deviatingPart: "",
         message: "",
-        deviationTimeObj: {},
+        deviationDataObj: {},
         repFlag: false,
         repCount: -1,
-        repTimeObj: {},
+        repDataObj: {},
       };
     }
 
     finalData.currentExercise = currentExercise.name;
-    switch (currentExercise.name) {
-      case "ohp":
+    switch (currentExercise.name.toLowerCase()) {
+      case "seated dumbbell shoulder press":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
         break;
-      case "lateral":
+      case "side lateral raises":
         compoundData = exerciseFunc.lateral(keypoints, initFlag);
         break;
-      case "curl":
+      case "dumbbell curl":
         compoundData = exerciseFunc.curl(keypoints, initFlag);
         break;
       default:
@@ -64,12 +66,7 @@ export default class Exercise {
       timer.reset();
       finalData.message = "";
       finalData.deviatingPart = "";
-      console.log(
-        compoundData.angleData[currentExercise.name][
-          compoundData.repsData[currentExercise.name].partName
-        ],
-        finalData.repFlag
-      );
+      finalData.deviatingPartArray = [];
 
       if (
         compoundData.angleData[currentExercise.name][
@@ -79,6 +76,7 @@ export default class Exercise {
       ) {
         //Check reps as posture correct
         finalData.repFlag = !finalData.repFlag;
+        finalData.repDataObj[finalData.repCount] = Date.now();
         finalData.repCount += 1;
       } else if (
         compoundData.angleData[currentExercise.name][
@@ -91,9 +89,12 @@ export default class Exercise {
     } else {
       timer.start();
       if (timer.getTimeValues().seconds > 2) {
+        finalData.deviationDataObj[finalData.repCount] = Date.now() - 2000;
         let deviatingPartArray = compoundData?.exerciseData[
           currentExercise.name
         ].filter((ele) => ele.deviation > ele.maxDeviation);
+        if (deviatingPartArray)
+          finalData.deviatingPartArray = deviatingPartArray;
         if (deviatingPartArray)
           finalData.deviatingPart =
             deviatingPartArray[deviatingPartArray.length - 1].partName;
