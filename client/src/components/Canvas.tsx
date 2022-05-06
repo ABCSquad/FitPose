@@ -20,6 +20,7 @@ const Canvas: FC = () => {
     setRepCounter,
     setFPS,
     setCoreInstance,
+    exercises,
   } = useApp();
 
   const videoRef = useRef<Webcam | null>(null);
@@ -115,12 +116,8 @@ const Canvas: FC = () => {
   };
 
   useEffect(() => {
-    const exerciseArray = [
-      { name: "curl", reps: 5 },
-      { name: "ohp", reps: 5 },
-    ];
     console.log("New instance");
-    coreInstance = new Core(exerciseArray);
+    coreInstance = new Core(exercises);
     setCoreInstance(coreInstance);
     const pose = new Pose({
       locateFile: (file) => {

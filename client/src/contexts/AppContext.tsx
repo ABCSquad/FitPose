@@ -1,6 +1,6 @@
 import { NormalizedLandmark } from "@mediapipe/pose";
 import { createContext, useContext, useState } from "react";
-import { CompoundData, FinalData } from "../core/types";
+import { CompoundData, ExerciseObj, FinalData } from "../core/types";
 import Core from "../core/core";
 
 /* Setting the types */
@@ -14,8 +14,8 @@ interface MetaDataType {
 }
 
 type AppContextValueType = {
-  exercises: Array<Object | undefined>;
-  setExercises: React.Dispatch<React.SetStateAction<Array<Object | undefined>>>;
+  exercises: Array<ExerciseObj>;
+  setExercises: React.Dispatch<React.SetStateAction<Array<ExerciseObj>>>;
   blurState: Boolean;
   setBlurState: React.Dispatch<React.SetStateAction<Boolean>>;
   repCounter: number;
@@ -43,7 +43,7 @@ export default function AppContextProvider({
   children,
 }: AppContextProviderProps) {
   /* Context Internal States. */
-  const [exercises, setExercises] = useState<Array<Object | undefined>>([]);
+  const [exercises, setExercises] = useState<Array<ExerciseObj>>([]);
   const [blurState, setBlurState] = useState<Boolean>(true);
   const [repCounter, setRepCounter] = useState<number>(0);
   const [metaData, setMetaData] = useState<MetaDataType | null>(null);

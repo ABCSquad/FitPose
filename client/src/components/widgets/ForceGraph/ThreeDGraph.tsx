@@ -1,16 +1,11 @@
 import { Box, Center } from "@chakra-ui/react";
 import React, { FC, useEffect, useRef, useState } from "react";
-import { useApp } from "../../contexts/AppContext";
+import { useApp } from "../../../contexts/AppContext";
 import { ForceGraph3D } from "react-force-graph";
-import { ForceData } from "../../core/types";
-import { POSE_CONNECTIONS } from "@mediapipe/pose";
+import Plot from "react-plotly.js";
+import { ForceData } from "../../../core/types";
 
 const ThreeDGraph: FC = () => {
-  //   let poseConnections: Array<any> = POSE_CONNECTIONS;
-  //   let newArr = poseConnections.map((ele) => {
-  //     return { source: ele[0], target: ele[1] };
-  //   });
-  //   console.log(newArr);
   const LINKS = [
     {
       source: 0,
@@ -154,6 +149,8 @@ const ThreeDGraph: FC = () => {
     },
   ];
 
+  const tempData = [{ x: [0, 0], y: [0, 0] }];
+
   const { landmarks } = useApp();
   const landmarkRef = useRef<HTMLDivElement | null>(null);
   const [forceData, setForceData] = useState<ForceData>({
@@ -185,7 +182,12 @@ const ThreeDGraph: FC = () => {
       bg="white"
     >
       <Center>
-        <ForceGraph3D graphData={forceData} />
+        <ForceGraph3D
+          backgroundColor={"rgba(0,0,0,0)"}
+          nodeColor={() => "red"}
+          linkColor={() => "blue"}
+          graphData={forceData}
+        />
       </Center>
     </Box>
   );

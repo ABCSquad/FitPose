@@ -38,13 +38,11 @@ export default class Exercise {
       case "seated dumbbell shoulder press":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
         break;
-      case "lateral":
+      case "side lateral raises":
         compoundData = exerciseFunc.lateral(keypoints, initFlag);
         break;
-      case "hammer curl":
+      case "dumbbell curl":
         compoundData = exerciseFunc.curl(keypoints, initFlag);
-        console.log("gg");
-
         break;
       default:
         compoundData = undefined;
