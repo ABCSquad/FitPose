@@ -75,7 +75,7 @@ const Canvas: FC = () => {
       if (!isIdeal(getValue) && getValue.screenState === 4) {
         console.log(getValue);
         coreInstance = null;
-        // router.push("/sessions/1");
+        router.push("/sessions/1");
       }
     }
 
