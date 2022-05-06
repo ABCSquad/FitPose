@@ -13,8 +13,14 @@ import Core from "../core/core";
 import { useApp } from "../contexts/AppContext";
 
 const Canvas: FC = () => {
-  const { setLandmarks, setBlurState, setMetaData, setRepCounter, setFPS } =
-    useApp();
+  const {
+    setLandmarks,
+    setBlurState,
+    setMetaData,
+    setRepCounter,
+    setFPS,
+    setCoreInstance,
+  } = useApp();
 
   const videoRef = useRef<Webcam | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -110,11 +116,12 @@ const Canvas: FC = () => {
 
   useEffect(() => {
     const exerciseArray = [
-      { name: "lateral", reps: 5 },
+      { name: "curl", reps: 5 },
       { name: "ohp", reps: 5 },
     ];
     console.log("New instance");
     coreInstance = new Core(exerciseArray);
+    setCoreInstance(coreInstance);
     const pose = new Pose({
       locateFile: (file) => {
         return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;

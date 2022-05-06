@@ -4,10 +4,9 @@ import { ExerciseObj } from "./types";
 export default class Core {
   keypoints: object | undefined;
   exerciseArray: Array<ExerciseObj>;
-  totalExercises: number;
+  totalExerciseIndices: number;
   currentExercise: ExerciseObj;
   exerciseInstance: Exercise | null;
-  getValue: object | undefined;
   repCount: number;
   // exercise: object;
 
@@ -15,7 +14,7 @@ export default class Core {
     // DefinitFlagions
     this.repCount = -1;
     this.exerciseArray = exerciseArray;
-    this.totalExercises = exerciseArray.length - 1;
+    this.totalExerciseIndices = exerciseArray.length - 1;
     this.currentExercise = this.exerciseArray[0];
     this.exerciseInstance = new Exercise();
   }
@@ -50,14 +49,14 @@ export default class Core {
     return meta;
   }
 
-  stop() {
+  endExercise() {
     console.log("Data insertion");
   }
 
   next() {
-    this.stop();
+    this.endExercise();
     let currentExerciseIndex = this.exerciseArray.indexOf(this.currentExercise);
-    if (currentExerciseIndex < this.totalExercises) {
+    if (currentExerciseIndex < this.totalExerciseIndices) {
       this.currentExercise = this.exerciseArray[currentExerciseIndex + 1];
       console.log(`Next exercise ${this.currentExercise}`);
       return this.start(true);
