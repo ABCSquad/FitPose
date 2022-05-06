@@ -61,6 +61,7 @@ export type FinalData = {
   repTimeObj: { [key: number]: string } | {};
 };
 
+//Array given by playlist/exercise to Canvas
 export type ExerciseObj = {
   name: string;
   reps: number;
@@ -76,4 +77,21 @@ export type PoseResult = {
   image: any;
   poseLandmarks: Array<Keypoint>;
   poseWorldLandmarks: Array<Keypoint>;
+};
+
+export interface PoseDataNodes {
+  id: number;
+  x: number;
+  y: number;
+  z: number;
+}
+
+export interface PoseDataLinks {
+  source: number;
+  target: number;
+}
+
+export type ForceData = {
+  nodes: Array<PoseDataNodes>;
+  links: Array<PoseDataLinks>;
 };

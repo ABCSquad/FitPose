@@ -27,7 +27,7 @@ const Index = () => {
 
   useEffect(() => {
     import("@lottiefiles/lottie-player");
-  });
+  }, []);
 
   const headingFont = {
     fontSize: { base: "4rem", md: "6.3rem" },

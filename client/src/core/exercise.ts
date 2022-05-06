@@ -33,14 +33,15 @@ export default class Exercise {
     }
 
     finalData.currentExercise = currentExercise.name;
-    switch (currentExercise.name) {
-      case "ohp":
+    console.log(currentExercise.name.toLowerCase());
+    switch (currentExercise.name.toLowerCase()) {
+      case "seated dumbbell shoulder press":
         compoundData = exerciseFunc.ohp(keypoints, initFlag);
         break;
-      case "lateral":
+      case "side lateral raises":
         compoundData = exerciseFunc.lateral(keypoints, initFlag);
         break;
-      case "curl":
+      case "dumbbell curl":
         compoundData = exerciseFunc.curl(keypoints, initFlag);
         break;
       default:
@@ -64,12 +65,6 @@ export default class Exercise {
       timer.reset();
       finalData.message = "";
       finalData.deviatingPart = "";
-      console.log(
-        compoundData.angleData[currentExercise.name][
-          compoundData.repsData[currentExercise.name].partName
-        ],
-        finalData.repFlag
-      );
 
       if (
         compoundData.angleData[currentExercise.name][

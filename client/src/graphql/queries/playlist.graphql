@@ -1,0 +1,15 @@
+query Playlist($id: String!) {
+  playlist(id: $id) {
+    _id
+    name
+    exercises {
+      _id
+      name
+      difficulty
+      tags
+    }
+    user {
+      _id
+    }
+  }
+}
