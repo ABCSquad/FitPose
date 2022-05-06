@@ -13,7 +13,6 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const AppStats: FC = () => {
 	const { FPS, repCounter, metaData, isIdeal } = useApp();
-	console.log("meta", isIdeal(metaData));
 
 	const BoxStyles = {
 		w: "100%",

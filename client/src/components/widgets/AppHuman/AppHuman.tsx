@@ -1,8 +1,11 @@
 import { Box, Button } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { HumanBody } from "./HumanBody";
+import { useApp } from "../../../contexts/AppContext";
 
 const AppHuman: FC = () => {
+	const { metaData, isIdeal } = useApp();
+
 	const [bodyState, setBodyState] = useState({
 		head: {
 			show: true,
@@ -58,6 +61,24 @@ const AppHuman: FC = () => {
 		},
 	});
 
+	const selectBodyPart = () => {
+		setBodyState((prev) => ({
+			...prev,
+			left_foot: {
+				show: true,
+				selected: false,
+			},
+		}));
+	};
+
+	useEffect(() => {
+		console.log(
+			isIdeal(metaData) ? metaData.finalData.deviatingPartArray : null
+		);
+
+		selectBodyPart();
+	}, [metaData]);
+
 	return (
 		<Box
 			mb={3}
@@ -69,19 +90,6 @@ const AppHuman: FC = () => {
 			bg="white"
 		>
 			<HumanBody partsInput={bodyState} />
-			<Button
-				onClick={() =>
-					setBodyState((prev) => ({
-						...prev,
-						right_foot: {
-							show: true,
-							selected: !false,
-						},
-					}))
-				}
-			>
-				Hello
-			</Button>
 		</Box>
 	);
 };
