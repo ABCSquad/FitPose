@@ -51,8 +51,14 @@ export type CompoundData =
     }
   | undefined;
 
+export type DeviatingPart = {
+  partName: string;
+  deviation: number;
+};
+
 export type FinalData = {
   currentExercise: string;
+  deviatingPartArray: Array<DeviatingPart> | undefined;
   deviatingPart: string;
   message: string;
   deviationDataObj: Record<number, number>;

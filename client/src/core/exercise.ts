@@ -6,6 +6,7 @@ let timer = new Timer();
 let compoundData: CompoundData;
 let finalData: FinalData = {
   currentExercise: "",
+  deviatingPartArray: [],
   deviatingPart: "",
   message: "",
   deviationDataObj: {},
@@ -23,6 +24,7 @@ export default class Exercise {
       compoundData = undefined;
       finalData = {
         currentExercise: currentExercise.name,
+        deviatingPartArray: [],
         deviatingPart: "",
         message: "",
         deviationDataObj: {},
@@ -90,6 +92,7 @@ export default class Exercise {
         let deviatingPartArray = compoundData?.exerciseData[
           currentExercise.name
         ].filter((ele) => ele.deviation > ele.maxDeviation);
+        finalData.deviatingPartArray = deviatingPartArray;
         if (deviatingPartArray)
           finalData.deviatingPart =
             deviatingPartArray[deviatingPartArray.length - 1].partName;

@@ -60,7 +60,7 @@ export default class Core {
   }
 
   endSession() {
-    console.log(this.insertionData);
+    // console.log(this.insertionData);
   }
 
   next() {

@@ -70,7 +70,6 @@ const Canvas: FC = () => {
           setRepCounter(getValue?.finalData.repCount);
       }
       setMetaData(getValue);
-      console.log(getValue);
     }
 
     if (canvasCtx && canvasRef.current) {
