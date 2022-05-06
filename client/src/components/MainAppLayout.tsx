@@ -6,6 +6,7 @@ import { FiArrowLeft } from "react-icons/fi";
 import InfoBar from "./InfoBar";
 import WidgetBar from "./WidgetBar";
 import { AnimatePresence, motion } from "framer-motion";
+import AppNavigation from "./AppNavigation";
 
 export const MainAppLayout: FC = () => {
 	const [openWidget, setOpenWidget] = useState<boolean>(false);
@@ -107,6 +108,17 @@ export const MainAppLayout: FC = () => {
 						</AnimatePresence>
 					</Flex>
 				</Flex>
+			</div>
+			<div
+				style={{
+					zIndex: 3,
+					position: "fixed",
+					left: "50%",
+					bottom: 0,
+					transform: " translate(-50%, -20%)",
+				}}
+			>
+				<AppNavigation />
 			</div>
 		</div>
 	);
