@@ -58,7 +58,7 @@ export type DeviatingPart = {
 
 export type FinalData = {
   currentExercise: string;
-  deviatingPartArray: Array<DeviatingPart> | undefined;
+  deviatingPartArray: Array<DeviatingPart>;
   deviatingPart: string;
   message: string;
   deviationDataObj: Record<number, number>;

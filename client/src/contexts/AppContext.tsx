@@ -64,9 +64,7 @@ export default function AppContextProvider({
   function isIdeal(obj: any): obj is IdealMetaData {
     return obj.compoundData !== undefined;
   }
-  const appNavigationStop = () => {
-    coreInstance?.endExercise();
-  };
+  const appNavigationStop = () => {};
 
   const appNavigationNext = () => {
     coreInstance?.next();

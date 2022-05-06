@@ -57,7 +57,7 @@ const Exercise: FC = () => {
   };
 
   const startApp = () => {
-    setExercises([{ name: data?.exercise.name, reps }]);
+    data && setExercises([{ name: data?.exercise.name, reps }]);
     router.push("/app");
   };
 
