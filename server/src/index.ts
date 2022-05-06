@@ -1,4 +1,4 @@
-// import { UserModel } from "./entities/user";
+// import { PlaylistModel } from "./entities/Playlist";
 import dotenv from "dotenv";
 import "reflect-metadata";
 import express from "express";
@@ -17,6 +17,7 @@ import connectRedis from "connect-redis";
 import Redis from "ioredis";
 import cors from "cors";
 import ExerciseResolver from "./resolvers/exercise";
+import PlaylistResolver from "./resolvers/playlist";
 
 dotenv.config();
 
@@ -51,7 +52,7 @@ const bootstrap = async () => {
     app.set("trust proxy", 1);
 
     const schema = await buildSchema({
-      resolvers: [UserResolver, ExerciseResolver],
+      resolvers: [UserResolver, ExerciseResolver, PlaylistResolver],
     });
     const context = ({ req, res }: Context) => ({ req, res });
     const plugins = [
@@ -72,7 +73,7 @@ const bootstrap = async () => {
     });
 
     await connect(process.env.DATABASE_URL as string);
-    // await UserModel.deleteMany({});
+    // await PlaylistModel.deleteMany({});
   } catch (err) {
     console.error(err);
   }

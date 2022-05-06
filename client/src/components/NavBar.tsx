@@ -13,11 +13,11 @@ import {
 import { FC } from "react";
 import Wrapper from "./Wrapper";
 import { useLogoutMutation, useMeQuery } from "../generated/graphql";
-import { IoLogOutOutline } from "react-icons/io5";
-import { useRouter } from "next/router";
+import { BiLogIn, BiLogOut } from "react-icons/bi";
+// import { useRouter } from "next/router";
 
 const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
-  const router = useRouter();
+  // const router = useRouter();
   const [{ data }] = useMeQuery();
   const [{ fetching }, logout] = useLogoutMutation();
 
@@ -31,7 +31,14 @@ const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
         </Link>
       </NextLink>
       <NextLink href="/signup">
-        <Button colorScheme="teal" ml={3} size={buttonSize}>
+        <Button
+          colorScheme="teal"
+          variant="ghost"
+          aria-label="Signup"
+          rightIcon={<BiLogIn size={20} />}
+          ml={3}
+          size={buttonSize}
+        >
           Sign Up
         </Button>
       </NextLink>
@@ -51,13 +58,12 @@ const NavBar: FC<BoxProps> = ({ ...boxProps }) => {
           colorScheme="teal"
           variant="ghost"
           aria-label="Logout"
-          rightIcon={<IoLogOutOutline />}
+          rightIcon={<BiLogOut size={20} />}
           ml={3}
           isLoading={fetching}
           size={buttonSize}
           onClick={async () => {
             await logout();
-            router.push("/");
           }}
         >
           Logout

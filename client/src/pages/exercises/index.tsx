@@ -46,7 +46,7 @@ const Exercises: FC = ({}) => {
   //For menu items
   const pushMuscles = ["Chest", "Shoulders", "Triceps"];
   const pullMuscles = ["Lats", "Traps", "Lower back", "Biceps"];
-  const legsMuscles = ["Quads", "Hamstrings", "Glutes"];
+  const legsMuscles = ["Quads", "Hamstrings", "Glutes", "Calves"];
   const difficulties = ["Beginner", "Intermediate", "Advanced"];
 
   return (
@@ -141,7 +141,6 @@ const Exercises: FC = ({}) => {
                 <Button
                   rightIcon={<ArrowForwardIcon />}
                   colorScheme="teal"
-                  variant="outline"
                   ml="auto"
                 >
                   Go to Playlists

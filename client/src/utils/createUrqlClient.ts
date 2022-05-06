@@ -1,6 +1,5 @@
-import { dedupExchange, fetchExchange } from "urql";
 import { cacheExchange } from "@urql/exchange-graphcache";
-import isServer from "./isServer";
+import { dedupExchange, fetchExchange } from "urql";
 import {
   LoginMutation,
   LogoutMutation,
@@ -9,6 +8,7 @@ import {
   RegisterMutation,
 } from "../generated/graphql";
 import betterUpdateQuery from "./betterUpdateQuery";
+import isServer from "./isServer";
 
 const createUrlqlClient = (ssrExchange: any, ctx: any) => {
   let cookie = "";
@@ -60,6 +60,19 @@ const createUrlqlClient = (ssrExchange: any, ctx: any) => {
                   }
                 }
               );
+            },
+            addExercise: (_result, _, cache, __) => {
+              cache.invalidate("Query", "playlist", {
+                id: (_result.addExercise as any)._id,
+              });
+            },
+            removeExercise: (_result, _, cache, __) => {
+              cache.invalidate("Query", "playlist", {
+                id: (_result.removeExercise as any)._id,
+              });
+            },
+            deletePlaylist: (_result, _, cache, __) => {
+              cache.invalidate("Query", "myPlaylists");
             },
           },
         },
