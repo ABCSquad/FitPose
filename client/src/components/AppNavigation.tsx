@@ -2,12 +2,15 @@ import { Box, Button, Flex, IconButton } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { VscDebugStart } from "react-icons/vsc";
 import { VscDebugPause } from "react-icons/vsc";
+import { useApp } from "../contexts/AppContext";
 
 const AppNavigation: FC = () => {
+	const { setBlurState } = useApp();
 	const [isPause, setIsPause] = useState(false);
 
 	const handleStop = () => {
 		console.log("isStopped");
+		// setBlurState(true);
 	};
 
 	const handleNext = () => {
@@ -22,7 +25,7 @@ const AppNavigation: FC = () => {
 			borderWidth="0px"
 			borderRadius="10px"
 			borderColor="InactiveBorder"
-			bg="whiteAlpha.200"
+			bg="whiteAlpha.500"
 		>
 			<Flex direction="row" justifyContent="center" alignItems="center">
 				<Button
