@@ -10,7 +10,7 @@ import { drawConnectors, drawLandmarks } from "@mediapipe/drawing_utils";
 import { Camera } from "@mediapipe/camera_utils";
 import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
-import { IdealMetaData, MetaDataType, useApp } from "../contexts/AppContext";
+import { MetaDataType, useApp } from "../contexts/AppContext";
 import { useRouter } from "next/router";
 
 const Canvas: FC = () => {
@@ -66,16 +66,22 @@ const Canvas: FC = () => {
         results.poseLandmarks
       );
       setLandmarks(results.poseLandmarks);
-
-      if (isIdeal(getValue)) {
-        if (getValue?.finalData.repCount != undefined)
-          setRepCounter(getValue?.finalData.repCount);
-      }
-      setMetaData(getValue);
-      if (!isIdeal(getValue) && getValue.screenState === 4) {
-        console.log(getValue);
-        coreInstance = null;
-        // router.push("/sessions/1");
+      if (getValue === undefined) router.push("/exercises");
+      if (getValue) {
+        if (!isIdeal(getValue) && getValue.screenState === 4) {
+          if (getValue.insertionData!.length > 2) {
+            console.log(getValue.insertionData![0].sets);
+            console.log(getValue.insertionData![1].sets);
+            console.log(getValue.insertionData![2].sets);
+          }
+          coreInstance = null;
+          router.push("/sessions/1");
+        }
+        if (isIdeal(getValue)) {
+          if (getValue?.finalData.repCount != undefined)
+            setRepCounter(getValue?.finalData.repCount);
+        }
+        setMetaData(getValue);
       }
     }
 

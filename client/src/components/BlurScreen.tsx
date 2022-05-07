@@ -2,11 +2,9 @@ import {
   Alert,
   AlertDescription,
   AlertIcon,
-  AlertTitle,
   Flex,
   Grid,
   GridItem,
-  Stack,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
@@ -18,8 +16,8 @@ type BlurProps = {
   isStart?: boolean;
 };
 
-const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
-  const { metaData } = useApp();
+const BlurScreen = ({ noKeypoints }: BlurProps) => {
+  const { metaData, isIdeal } = useApp();
 
   return (
     <div
@@ -46,8 +44,7 @@ const BlurScreen = ({ noKeypoints, isPause, isStart }: BlurProps) => {
               fontWeight="bold"
               fontSize="8xl"
             >
-              Exercise Name
-              {/* {metaData ? metaData.finalData.currentExercise : ""} */}
+              {metaData && !isIdeal(metaData) ? metaData.exerciseName : ""}
             </Text>
           </Flex>
         </GridItem>

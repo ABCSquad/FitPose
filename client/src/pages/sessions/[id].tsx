@@ -16,9 +16,11 @@ import { FC } from "react";
 import { BiDumbbell } from "react-icons/bi";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
+import { useApp } from "../../contexts/AppContext";
 import createUrqlClient from "../../utils/createUrqlClient";
 
 const Session: FC = () => {
+  const { insertionData } = useApp();
   return (
     <>
       <NavBar bg="brand.teal" />
@@ -33,7 +35,7 @@ const Session: FC = () => {
           <HStack mb={8}>
             <Icon as={BiDumbbell} boxSize={6} />
             <Text fontSize={20}>
-              <b>5 exercises</b>
+              <b>{insertionData.length}</b>
             </Text>
             <TimeIcon boxSize={5} />
             <Text fontSize={20}>
@@ -60,29 +62,19 @@ const Session: FC = () => {
               </TabList>
               <TabPanels px={40} py={6}>
                 <TabPanel>
-                  <Box mb={4}>
-                    <Heading ontSize={30} mb={1}>
-                      Bicep Curl
-                    </Heading>
-                    <HStack>
-                      <Text fontSize={22} mr="auto">
-                        <b>Set 1</b>
-                      </Text>
-                      <Text fontSize={22}>10 reps</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontSize={22} mr="auto">
-                        <b>Set 1</b>
-                      </Text>
-                      <Text fontSize={22}>10 reps</Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontSize={22} mr="auto">
-                        <b>Set 1</b>
-                      </Text>
-                      <Text fontSize={22}>10 reps</Text>
-                    </HStack>
-                  </Box>
+                  {insertionData.map((x) => {
+                    <Box mb={4}>
+                      <Heading ontSize={30} mb={1}>
+                        {x.name}
+                      </Heading>
+                      <HStack>
+                        <Text fontSize={22} mr="auto">
+                          <b>Set 1</b>
+                        </Text>
+                        <Text fontSize={22}>{x.sets.length - 1}</Text>
+                      </HStack>
+                    </Box>;
+                  })}
                 </TabPanel>
                 <TabPanel py={4}>
                   <p>two!</p>

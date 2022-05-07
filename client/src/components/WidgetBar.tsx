@@ -1,7 +1,12 @@
 import { Flex } from "@chakra-ui/react";
 import React from "react";
 import RTGraph from "./widgets/RTGraph";
-import ThreeDGraph from "./widgets/ForceGraph/ThreeDGraph";
+// import ThreeDGraph from "./widgets/ForceGraph/ThreeDGraph";
+import dynamic from "next/dynamic";
+
+const ThreeDGraph = dynamic(() => import("./widgets/ForceGraph/ThreeDGraph"), {
+  ssr: false,
+});
 
 const WidgetBar = () => {
   return (

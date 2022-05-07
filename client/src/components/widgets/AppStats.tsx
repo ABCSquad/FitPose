@@ -1,12 +1,4 @@
-import {
-	Box,
-	Flex,
-	Grid,
-	GridItem,
-	HStack,
-	Stack,
-	Text,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, Stack, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useApp } from "../../contexts/AppContext";
 import { AnimatePresence, motion } from "framer-motion";
@@ -103,7 +95,7 @@ const AppStats: FC = () => {
 								fontWeight="extrabold"
 								fontFamily="mono"
 							>
-								{isIdeal(metaData)
+								{metaData && isIdeal(metaData)
 									? metaData.finalData.currentExercise
 									: metaData?.exerciseName}
 							</Text>

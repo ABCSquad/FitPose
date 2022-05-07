@@ -32,7 +32,8 @@ export type MetaDataType =
       screenState: ScreenState;
       exerciseName?: string;
       insertionData?: InsertionData;
-    };
+    }
+  | undefined;
 
 type AppContextValueType = {
   exercises: Array<ExerciseObj>;
@@ -71,10 +72,7 @@ export default function AppContextProvider({
   const [FPS, setFPS] = useState<number>(0);
   const [landmarks, setLandmarks] = useState<Array<NormalizedLandmark>>([]);
   const [coreInstance, setCoreInstance] = useState<Core | undefined>(undefined);
-  const [insertionData, setInsertionData] = useState<InsertionData>({
-    repsData: {},
-    deviationData: {},
-  });
+  const [insertionData, setInsertionData] = useState<InsertionData>([]);
 
   function isIdeal(obj: any): obj is IdealMetaData {
     return obj.compoundData !== undefined;

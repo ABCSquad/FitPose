@@ -61,16 +61,18 @@ export type FinalData = {
   deviatingPartArray: Array<DeviatingPart>;
   deviatingPart: string;
   message: string;
-  deviationDataObj: Record<number, number>;
+  deviationDataObj: { startTime: number; endTime: number };
   repFlag: boolean;
   repCount: number;
-  repDataObj: Record<number, number>;
+  repDataArr: RepInsertionArray;
 };
 
-export type InsertionData = {
-  repsData: Record<string, FinalData["repDataObj"]>;
-  deviationData: Record<string, FinalData["deviationDataObj"]>;
-};
+export type RepInsertionArray = Array<{
+  endTime: number;
+  wrongForm: FinalData["deviationDataObj"];
+}>;
+
+export type InsertionData = Array<{ name: string; sets: RepInsertionArray }>;
 
 //Array given by playlist/exercise to Canvas
 export type ExerciseObj = {

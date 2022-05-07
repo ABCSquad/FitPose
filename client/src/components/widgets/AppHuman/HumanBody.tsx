@@ -6,7 +6,7 @@ const Wrapper = styled.div`
     width: 207px;
     position: relative;
     padding-top: 20px;
-    height: 500px;
+    height: 100px;
     display: block;
     margin: 40px auto;
   }

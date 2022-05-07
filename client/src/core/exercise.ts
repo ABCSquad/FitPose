@@ -9,10 +9,10 @@ let finalData: FinalData = {
   deviatingPartArray: [],
   deviatingPart: "",
   message: "",
-  deviationDataObj: {},
+  deviationDataObj: { startTime: -1, endTime: -1 },
   repFlag: false,
   repCount: -1,
-  repDataObj: {},
+  repDataArr: [],
 };
 let repInitFlag = true;
 
@@ -27,10 +27,10 @@ export default class Exercise {
         deviatingPartArray: [],
         deviatingPart: "",
         message: "",
-        deviationDataObj: {},
+        deviationDataObj: { startTime: -1, endTime: -1 },
         repFlag: false,
         repCount: -1,
-        repDataObj: {},
+        repDataArr: [],
       };
     }
 
@@ -67,7 +67,11 @@ export default class Exercise {
       finalData.message = "";
       finalData.deviatingPart = "";
       finalData.deviatingPartArray = [];
-
+      if (
+        finalData.deviationDataObj.startTime > 0 &&
+        finalData.deviationDataObj.endTime > -1
+      )
+        finalData.deviationDataObj.endTime = Date.now();
       if (
         compoundData.angleData[currentExercise.name][
           compoundData.repsData[currentExercise.name].partName
@@ -76,7 +80,10 @@ export default class Exercise {
       ) {
         //Check reps as posture correct
         finalData.repFlag = !finalData.repFlag;
-        finalData.repDataObj[finalData.repCount] = Date.now();
+        finalData.repDataArr.push({
+          endTime: Date.now(),
+          wrongForm: finalData.deviationDataObj,
+        });
         finalData.repCount += 1;
       } else if (
         compoundData.angleData[currentExercise.name][
@@ -89,7 +96,7 @@ export default class Exercise {
     } else {
       timer.start();
       if (timer.getTimeValues().seconds > 2) {
-        finalData.deviationDataObj[finalData.repCount] = Date.now() - 2000;
+        finalData.deviationDataObj.startTime = Date.now() - 2000;
         let deviatingPartArray = compoundData?.exerciseData[
           currentExercise.name
         ].filter((ele) => ele.deviation > ele.maxDeviation);
