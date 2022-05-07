@@ -30,8 +30,7 @@ const Session: FC = () => {
       metaData.insertionData &&
       metaData.insertionData.length > 0
     )
-      setExercises({ ...metaData.insertionData });
-    console.log(exercises);
+      setExercises(metaData.insertionData);
   }, [metaData]);
 
   return (
@@ -73,18 +72,18 @@ const Session: FC = () => {
                   <b>Visualization</b>
                 </Tab>
               </TabList>
-              <TabPanels px={40} py={6}>
+              <TabPanels px={40} py={4}>
                 <TabPanel>
                   {exercises.map((x) => {
-                    <Box mb={4}>
-                      <Heading ontSize={30} mb={1}>
-                        {x.name}
-                      </Heading>
+                    <Box mb={6}>
+                      <Heading mb={1}>{`${x.name} exercises`}</Heading>
                       <HStack>
-                        <Text fontSize={22} mr="auto">
+                        <Text fontSize={24} color="gray" mr="auto">
                           <b>Set 1</b>
                         </Text>
-                        <Text fontSize={22}>{x.sets.length - 1}</Text>
+                        <Text fontSize={24} color="gray">
+                          {`${x.sets.length - 1} reps`}
+                        </Text>
                       </HStack>
                     </Box>;
                   })}
