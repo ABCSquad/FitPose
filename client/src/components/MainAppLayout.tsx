@@ -132,9 +132,7 @@ export const MainAppLayout: FC = () => {
         metaData.screenState === 1 ? (
           <BlurScreen noKeypoints />
         ) : null
-      ) : (
-        0
-      )}
+      ) : null}
     </div>
   );
 };

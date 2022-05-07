@@ -98,8 +98,7 @@ const AppHuman: FC = () => {
 
   return (
     <Box
-      mb={3}
-      h="60%"
+      h="100%"
       w="100%"
       borderWidth="2px"
       borderRadius="30px"

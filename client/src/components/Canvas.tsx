@@ -69,7 +69,11 @@ const Canvas: FC = () => {
       if (getValue === undefined) router.push("/exercises");
       if (getValue) {
         if (!isIdeal(getValue) && getValue.screenState === 4) {
-          console.log(getValue);
+          if (getValue.insertionData!.length > 2) {
+            console.log(getValue.insertionData![0].sets);
+            console.log(getValue.insertionData![1].sets);
+            console.log(getValue.insertionData![2].sets);
+          }
           coreInstance = null;
           router.push("/sessions/1");
         }
