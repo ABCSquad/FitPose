@@ -74,7 +74,7 @@ const Session: FC = () => {
               </TabList>
               <TabPanels px={40} py={4}>
                 <TabPanel>
-                  {exercises.map((x) => {
+                  {exercises.map((x) => (
                     <Box mb={6}>
                       <Heading mb={1}>{`${x.name} exercises`}</Heading>
                       <HStack>
@@ -85,8 +85,8 @@ const Session: FC = () => {
                           {`${x.sets.length - 1} reps`}
                         </Text>
                       </HStack>
-                    </Box>;
-                  })}
+                    </Box>
+                  ))}
                 </TabPanel>
                 <TabPanel py={4}>
                   <p>two!</p>
