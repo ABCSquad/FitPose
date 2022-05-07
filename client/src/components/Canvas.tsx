@@ -12,7 +12,6 @@ import { VisuallyHidden } from "@chakra-ui/react";
 import Core from "../core/core";
 import { MetaDataType, useApp } from "../contexts/AppContext";
 import { useRouter } from "next/router";
-import { performance } from "perf_hooks";
 
 const Canvas: FC = () => {
   const {
