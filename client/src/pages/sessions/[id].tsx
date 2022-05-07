@@ -12,15 +12,28 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import { BiDumbbell } from "react-icons/bi";
 import NavBar from "../../components/NavBar";
 import Wrapper from "../../components/Wrapper";
 import { useApp } from "../../contexts/AppContext";
+import { InsertionData } from "../../core/types";
 import createUrqlClient from "../../utils/createUrqlClient";
 
 const Session: FC = () => {
-  const { insertionData } = useApp();
+  const { metaData, isIdeal } = useApp();
+  const [exercises, setExercises] = useState<InsertionData>([]);
+  useEffect(() => {
+    if (
+      metaData &&
+      !isIdeal(metaData) &&
+      metaData.insertionData &&
+      metaData.insertionData.length > 0
+    )
+      setExercises({ ...metaData.insertionData });
+    console.log(exercises);
+  }, [metaData]);
+
   return (
     <>
       <NavBar bg="brand.teal" />
@@ -35,7 +48,7 @@ const Session: FC = () => {
           <HStack mb={8}>
             <Icon as={BiDumbbell} boxSize={6} />
             <Text fontSize={20}>
-              <b>{insertionData.length}</b>
+              <b>{`${exercises.length} exercises`}</b>
             </Text>
             <TimeIcon boxSize={5} />
             <Text fontSize={20}>
@@ -62,7 +75,7 @@ const Session: FC = () => {
               </TabList>
               <TabPanels px={40} py={6}>
                 <TabPanel>
-                  {insertionData.map((x) => {
+                  {exercises.map((x) => {
                     <Box mb={4}>
                       <Heading ontSize={30} mb={1}>
                         {x.name}
