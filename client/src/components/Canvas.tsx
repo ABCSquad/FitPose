@@ -66,22 +66,16 @@ const Canvas: FC = () => {
         results.poseLandmarks
       );
       setLandmarks(results.poseLandmarks);
-      if (getValue === undefined) router.push("/exercises");
-      if (getValue) {
-        if (!isIdeal(getValue) && getValue.screenState === 4) {
-          if (getValue.insertionData!.length > 2) {
-            console.log(getValue.insertionData![0].sets);
-            console.log(getValue.insertionData![1].sets);
-            console.log(getValue.insertionData![2].sets);
-          }
-          coreInstance = null;
-          router.push("/sessions/1");
-        }
-        if (isIdeal(getValue)) {
-          if (getValue?.finalData.repCount != undefined)
-            setRepCounter(getValue?.finalData.repCount);
-        }
-        setMetaData(getValue);
+
+      if (isIdeal(getValue)) {
+        if (getValue?.finalData.repCount != undefined)
+          setRepCounter(getValue?.finalData.repCount);
+      }
+      setMetaData(getValue);
+      if (!isIdeal(getValue) && getValue && getValue.screenState === 4) {
+        console.log(getValue);
+        coreInstance = null;
+        router.push("/sessions/1");
       }
     }
 

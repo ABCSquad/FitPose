@@ -64,7 +64,7 @@ const Playlist: FC = () => {
 
   const { setExercises } = useApp();
   const startApp = () => {
-    const mapped = exercisesData?.exercises.map((x) => {
+    const mapped = playlistData?.playlist.exercises.map((x) => {
       return { name: x.name, reps: 100 };
     });
     mapped && setExercises(mapped);
